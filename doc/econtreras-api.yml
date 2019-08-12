@@ -1,0 +1,830 @@
+swagger: "2.0"
+paths:
+  /payments:
+    post:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      summary: Crea un nuevo pago
+      description: Crea un nuevo pago
+    get:
+      tags:
+        - Módulo de ventas
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una colección de pagos
+      description: Retorna una colección de pagos
+      consumes:
+        - application/json
+      produces:
+        - application/json
+  "/payments/{payment_id}":
+    get:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: payment_id
+          in: path
+          required: true
+          type: number
+          description: Id de pago
+      responses:
+        "200":
+          description: ""
+      summary: Retorna un pago por su numero de id
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Retorna un pago por su numero de id
+  /payments/methods:
+    get:
+      tags:
+        - Módulo de ventas
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una colección de métodos de pagos
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      description: Retorna una colección de métodos de pagos
+    post:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Inserta un nuevo medio de pago
+      description: Inserta un nuevo medio de pago
+      produces:
+        - application/json
+      consumes:
+        - application/json
+  "/payments/methods/{method_id}":
+    get:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: method_id
+          in: path
+          required: true
+          type: number
+          description: Id de método de pago
+      responses:
+        "200":
+          description: ""
+      summary: Retorna un medio de pago por su ID
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Retorna un medio de pago por su ID
+  /budgets:
+    get:
+      tags:
+        - Módulo de compras
+      responses:
+        "200":
+          description: ""
+      summary: Devuelve una colección de presupuesto
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Devuelve una colección de presupuesto
+    post:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Crea un nuevo presupuesto
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Crea un nuevo presupuesto
+    put:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Actualiza un presupuesto existente
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Actualiza un presupuesto existente
+  "/budgets/{budget_id}":
+    get:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: budget_id
+          in: path
+          required: true
+          type: number
+          description: Id de presupuesto
+      responses:
+        "200":
+          description: ""
+      summary: Retorna un presupuesto por su id
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Retorna un presupuesto por su id
+    delete:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: budget_id
+          in: path
+          required: true
+          type: number
+          description: Id de presupuesto
+      responses:
+        "200":
+          description: ""
+      summary: Borra una solicitud por su id
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Borra una solicitud por su id
+  /budget_solicitations:
+    get:
+      tags:
+        - Módulo de compras
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una colección de solicitudes de presupuesto
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      description: Retorna una colección de solicitudes de presupuesto
+    post:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Crea una nueva solicitud presupuesto
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Crea una nueva solicitud presupuesto
+    put:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Actualiza una solicitud de presupuesto existente
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Actualiza una solicitud de presupuesto existente
+  "/budget_solicitations/{budget_solicitation_id}":
+    get:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: budget_solicitation_id
+          in: path
+          required: true
+          type: number
+          description: Id de solicitud de presupuesto
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una solicitud de presupuesto por su id
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Retorna una solicitud de presupuesto por su id
+    delete:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: budget_solicitation_id
+          in: path
+          required: true
+          type: number
+          description: Id de solicitud
+      responses:
+        "200":
+          description: ""
+      summary: Borra una solicitud de presupuesto por su id
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      description: Borra una solicitud de presupuesto por su id
+  /clients:
+    get:
+      tags:
+        - Módulo de ventas
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una colección de clientes
+    post:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Crea un nuevo cliente
+    put:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Actualiza un cliente existente
+  "/clients/{client_id}":
+    get:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: client_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Retorna un cliente por su id
+    delete:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: client_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Borra un cliente por su id
+  /providers:
+    get:
+      tags:
+        - Módulo de compras
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una colección de proveedores
+    post:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Crea un proveedor
+    put:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Actualiza un proveedor
+  "/providers/{provider_id}":
+    get:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Retorna un proveedor por su id
+    delete:
+      tags:
+        - Módulo de compras
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Borra un proveedor por su id
+  /products:
+    get:
+      tags:
+        - Módulo de ventas
+      responses:
+        "200":
+          description: ""
+      summary: Retorna un alista de productos
+    post:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Crea un nuevo producto
+    put:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Actualiza un producto
+  "/products/{product_id}":
+    get:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Retorna un producto por su ID
+    delete:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Borra un producto por su id
+  /cards:
+    get:
+      tags:
+        - Módulo de ventas
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una colección de tarjetas
+    post:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Crea una nueva tarjeta
+    put:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Actualiza un nueva tarjeta
+  "/cards/{card_id}":
+    get:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: card_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Retorna un tarjeta por su id
+    delete:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: card_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Borra una tarjeta por su id
+  /card_brands:
+    get:
+      tags:
+        - Módulo de ventas
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una colección de marcas de tarjetas
+    post:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Crea una nueva marca de tarjeta
+    put:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Actualiza una marca de tarjeta
+  "/card_brands/{card_id}":
+    get:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: card_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: retorna una tarjeta por su id
+    delete:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: card_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Elimina una tarjeta por su id
+  /financial_entity:
+    get:
+      tags:
+        - Módulo de ventas
+      responses:
+        "200":
+          description: ""
+      summary: Devuelve una colección de entidades financieras
+    post:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Crea un nueva entidad financiera
+    put:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Actualiza una entidad financera
+  "/financial_entity/{financial_entity_id}":
+    get:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: financial_entity_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una entidad financiera por su id
+    delete:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: financial_entity_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Borra una entidad financiera por su id
+  /brands:
+    get:
+      tags:
+        - Módulo de ventas
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una colección de marcas de productos
+    post:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: Payload
+          description: Request Body
+          required: false
+          in: body
+          schema:
+            type: object
+            properties:
+              payload:
+                type: string
+      responses:
+        "200":
+          description: ""
+      summary: Crea una nueva marca de producto
+  "/brands/{brand_id}":
+    get:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: brand_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Retorna una marca de producto por su id
+    delete:
+      tags:
+        - Módulo de ventas
+      parameters:
+        - name: brand_id
+          in: path
+          required: true
+          type: string
+      responses:
+        "200":
+          description: ""
+      summary: Borra una marca de producto por su id
+info:
+  title: "Econtreras ecommerce API "
+  version: v.0.0.1
+  description: API REST de la empresa E-CONTRERAS
+definitions:
+  User:
+    type: object
+    description: usuario del sistema
+    properties:
+      id:
+        type: integer
+        description: Id de usuario
+      name:
+        type: string
+        description: nombre del usuario
+      last_name:
+        type: string
+        description: apellido del usuario
+      age:
+        type: string
+        description: Fecha de nacimiento del usuario
+        format: date
+      email:
+        type: string
+        format: email
+      phone_number:
+        type: string
+      cell_phone:
+        type: string
+      user_name:
+        type: string
+      password:
+        type: string
+      registry_date:
+        type: string
+        format: datetime
+        description: Fecha de alta
+      delete:
+        type: boolean
+        description: Indica si el registro está borrado
+  Card_Type:
+    type: object
+    description: Tipo de tarjeta
+    properties:
+      id:
+        type: integer
+        description: Id de tarjeta
+      name:
+        type: string
+        description: Nombre de la tarjeta
+  Card:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Id de tarjeta
+      card_number:
+        type: string
+        description: Número de tarjeta
+      name:
+        type: string
+        description: Nombre de la tarjeta
+      type:
+        type: string
+        description: Tipo de tarjeta
+  Client:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Id de cliente
+      user:
+        $ref: "#/definitions/User"
+        description: usuario asociado al cliente
+      cards:
+        type: array
+        items:
+          $ref: "#/definitions/Card"
+      delete:
+        type: boolean
