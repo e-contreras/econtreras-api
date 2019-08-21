@@ -41,7 +41,7 @@ public class City implements Serializable {
     private Date modificationDate;
     @JoinColumn(name = "departamento", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private Departament departament;
+    private Department departament;
     @JoinColumn(name = "usu_alta", referencedColumnName = "id")
     @ManyToOne
     private User creationUser;
