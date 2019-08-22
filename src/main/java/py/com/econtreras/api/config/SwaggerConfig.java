@@ -22,7 +22,7 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2)          
 			      .select()
 			      .apis(RequestHandlerSelectors.basePackage("py.com.econtreras.api.controller"))
-			      .paths(PathSelectors.ant("/*"))
+			      .paths(PathSelectors.any())
 			      .build()
 			      .apiInfo(apiInfo());
 	}

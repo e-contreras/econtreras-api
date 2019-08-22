@@ -21,6 +21,7 @@
 		<api-beans.version>0.0.1-SNAPSHOT</api-beans.version>
 		<springfox-swagger.version>2.9.2</springfox-swagger.version>
 		<com.lmax.disruptor.version>3.4.2</com.lmax.disruptor.version>
+		<commons-collections4.version>4.1</commons-collections4.version>
 	</properties>
 
 	<dependencies>
@@ -101,6 +102,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
+		</dependency>
+		<!-- Collections util -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>${commons-collections4.version}</version>
 		</dependency>
 	</dependencies>
 
