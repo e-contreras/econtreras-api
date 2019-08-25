@@ -20,30 +20,31 @@ import py.com.econtreras.api.service.DepartmentService;
 @RequestMapping("/departments")
 public class DepartmentController {
 
-	@Autowired
-	private DepartmentService service;
+    @Autowired
+    private DepartmentService service;
 
-	@GetMapping(value="/{id}", produces= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Department> getById(@PathVariable("id") Integer id) {
-		return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
-	}
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Department> getById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+    }
 
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Iterable<Department>> getAll() {
-		Iterable<Department> iBeans = service.findAll();
-		if (iBeans.iterator().hasNext())
-			return new ResponseEntity<>(iBeans, HttpStatus.OK);
-		else
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Iterable<Department>> getAll() {
+        Iterable<Department> iBeans = service.findAll();
+        if (iBeans.iterator().hasNext()) {
+            return new ResponseEntity<>(iBeans, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Department> save(@Valid @RequestBody Department departament) {
-		if (departament.getId() != null) {
-			return new ResponseEntity<Department>(service.save(departament), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Department>(service.save(departament), HttpStatus.CREATED);
-		}
-	}
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Department> save(@Valid @RequestBody Department departament) {
+        if (departament.getId() != null) {
+            return new ResponseEntity<>(service.save(departament), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(service.save(departament), HttpStatus.CREATED);
+        }
+    }
 
 }

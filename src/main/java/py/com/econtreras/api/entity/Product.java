@@ -32,6 +32,12 @@ public class Product implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
+    @Column(name = "codigo", nullable = false, length = 45)
+    private String code;
+    @Basic(optional = true)
+    @Column(name = "codigo_barra", nullable = true, length = 130)
+    private String barCode;
+    @Basic(optional = false)
     @Column(name = "nom_producto", nullable = false, length = 45)
     private String productName;
     @Column(name = "descripcion", length = 255)

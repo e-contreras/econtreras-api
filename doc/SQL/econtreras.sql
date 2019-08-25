@@ -60,7 +60,6 @@ CREATE TABLE `atributos` (
   `fec_alta` datetime DEFAULT NULL,
   `fec_modificacion` datetime DEFAULT NULL,
   `borrado` tinyint(4) NOT NULL DEFAULT '0',
-  `creation_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_atributos_usuarios1_idx` (`usu_alta`),
   KEY `fk_atributos_usuarios2_idx` (`usu_modificacion`),
@@ -212,11 +211,14 @@ CREATE TABLE `categorias` (
   `usu_modificacion` int(11) DEFAULT NULL,
   `fec_alta` datetime DEFAULT NULL,
   `fec_modificacion` datetime DEFAULT NULL,
+  `categoria_padre` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_categorias_usuarios1_idx` (`usu_alta`),
   KEY `fk_categorias_usuarios2_idx` (`usu_modificacion`),
+  KEY `fk_categorias_categoria_idx` (`categoria_padre`),
   CONSTRAINT `fk_categorias_usuarios1` FOREIGN KEY (`usu_alta`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_categorias_usuarios2` FOREIGN KEY (`usu_modificacion`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_categorias_usuarios2` FOREIGN KEY (`usu_modificacion`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_categorias_categoria` FOREIGN KEY (`categoria_padre`) REFERENCES `categorias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -368,8 +370,8 @@ DROP TABLE IF EXISTS `depositos`;
 CREATE TABLE `depositos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) NOT NULL,
-  `dirección` varchar(45) NOT NULL,
-  `borrado` binary(1) NOT NULL DEFAULT '0',
+  `direccion` varchar(45) NOT NULL,
+  `borrado` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -745,12 +747,11 @@ DROP TABLE IF EXISTS `marcas`;
 CREATE TABLE `marcas` (
   `id` int(11) NOT NULL,
   `descripcion` varchar(45) NOT NULL,
-  `borrado` tinyint(4) NOT NULL DEFAULT '0',
   `usu_alta` int(11) DEFAULT NULL,
   `usu_modificacion` int(11) DEFAULT NULL,
   `fec_alta` datetime DEFAULT NULL,
   `fec_modificacion` datetime DEFAULT NULL,
-  `borrar` tinyint(4) NOT NULL DEFAULT '0',
+  `borrado` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_marcas_usuarios1_idx` (`usu_alta`),
   KEY `fk_marcas_usuarios2_idx` (`usu_modificacion`),
@@ -886,6 +887,8 @@ DROP TABLE IF EXISTS `mercaderias`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mercaderias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo` VARCHAR(45) NOT NULL,
+  `codigo_barra` VARCHAR(13) NULL,
   `nom_producto` varchar(45) NOT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   `borrado` tinyint(4) NOT NULL DEFAULT '0',

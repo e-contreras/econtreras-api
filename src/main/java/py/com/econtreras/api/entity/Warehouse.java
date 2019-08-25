@@ -31,12 +31,11 @@ public class Warehouse implements Serializable {
     @Column(name = "descripcion", nullable = false, length = 45)
     private String description;
     @Basic(optional = false)
-    @Column(name = "direcci\u00f3n", nullable = false, length = 45)
+    @Column(name = "direccion", nullable = false, length = 45)
     private String address;
     @Basic(optional = false)
-    @Lob
     @Column(name = "borrado", nullable = false)
-    private byte[] erased;
+    private short erased;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "warehouse")
     private List<Inventory> inventoryList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "origin")

@@ -27,7 +27,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
 	private DocumentTypeConverter converter;
 	@Autowired
 	ApiMessage message;
-	private static final Logger LOGGER = LogManager.getLogger(DocumentTypeRepository.class);
+	private static final Logger LOGGER = LogManager.getLogger(DocumentTypeServiceImpl.class);
 
 	@Override
 	public DocumentType findById(Integer id) {

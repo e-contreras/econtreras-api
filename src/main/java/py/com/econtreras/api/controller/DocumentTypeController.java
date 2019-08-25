@@ -20,28 +20,28 @@ import py.com.econtreras.api.service.DocumentTypeService;
 @RestController
 @RequestMapping("/document-type")
 public class DocumentTypeController {
-	
-	@Autowired
-	private DocumentTypeService service;
-	
-	@GetMapping(value="{id}", produces= MediaType.APPLICATION_JSON_VALUE)
-	public DocumentType findById(@PathVariable Integer id) {
-		return service.findById(id);
-	}
-	
-	@GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-	public List<DocumentType> findAll() {
-		return service.findAll();
-	}
-	
-	@PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-	public DocumentType save(@Valid @RequestBody DocumentType documentType) {
-		return service.save(documentType);
-	}
-	
-	@DeleteMapping(value = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
-	public Boolean delete(@PathVariable Integer id) {
-		return service.delete(id);
-	}
+
+    @Autowired
+    private DocumentTypeService service;
+
+    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public DocumentType findById(@PathVariable Integer id) {
+        return service.findById(id);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<DocumentType> findAll() {
+        return service.findAll();
+    }
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public DocumentType save(@Valid @RequestBody DocumentType documentType) {
+        return service.save(documentType);
+    }
+
+    @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Boolean delete(@PathVariable Integer id) {
+        return service.delete(id);
+    }
 
 }

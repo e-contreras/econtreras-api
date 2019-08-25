@@ -39,8 +39,9 @@ public class Category implements Serializable {
     @Column(name = "fec_modificacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modificationDate;
-//    @ManyToMany(mappedBy = "category")
-//    private List<Attribute> atributosList;
+    @JoinColumn(name = "categoria_padre", referencedColumnName = "id")
+    @ManyToOne
+    private Category category;
     @JoinColumn(name = "usu_alta", referencedColumnName = "id")
     @ManyToOne
     private User creationUser;
