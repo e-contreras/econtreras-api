@@ -1,0 +1,3642 @@
+-- MySQL dump 10.13  Distrib 5.7.27, for Linux (x86_64)
+--
+-- Host: localhost    Database: apimgtdb
+-- ------------------------------------------------------
+-- Server version	5.7.27-0ubuntu0.18.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `AM_ALERT_EMAILLIST`
+--
+
+DROP TABLE IF EXISTS `AM_ALERT_EMAILLIST`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_ALERT_EMAILLIST` (
+  `EMAIL_LIST_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_NAME` varchar(255) NOT NULL,
+  `STAKE_HOLDER` varchar(100) NOT NULL,
+  PRIMARY KEY (`EMAIL_LIST_ID`,`USER_NAME`,`STAKE_HOLDER`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_ALERT_EMAILLIST`
+--
+
+LOCK TABLES `AM_ALERT_EMAILLIST` WRITE;
+/*!40000 ALTER TABLE `AM_ALERT_EMAILLIST` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_ALERT_EMAILLIST` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_ALERT_EMAILLIST_DETAILS`
+--
+
+DROP TABLE IF EXISTS `AM_ALERT_EMAILLIST_DETAILS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_ALERT_EMAILLIST_DETAILS` (
+  `EMAIL_LIST_ID` int(11) NOT NULL,
+  `EMAIL` varchar(255) NOT NULL,
+  PRIMARY KEY (`EMAIL_LIST_ID`,`EMAIL`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_ALERT_EMAILLIST_DETAILS`
+--
+
+LOCK TABLES `AM_ALERT_EMAILLIST_DETAILS` WRITE;
+/*!40000 ALTER TABLE `AM_ALERT_EMAILLIST_DETAILS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_ALERT_EMAILLIST_DETAILS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_ALERT_TYPES`
+--
+
+DROP TABLE IF EXISTS `AM_ALERT_TYPES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_ALERT_TYPES` (
+  `ALERT_TYPE_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ALERT_TYPE_NAME` varchar(255) NOT NULL,
+  `STAKE_HOLDER` varchar(100) NOT NULL,
+  PRIMARY KEY (`ALERT_TYPE_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_ALERT_TYPES`
+--
+
+LOCK TABLES `AM_ALERT_TYPES` WRITE;
+/*!40000 ALTER TABLE `AM_ALERT_TYPES` DISABLE KEYS */;
+INSERT INTO `AM_ALERT_TYPES` VALUES (1,'AbnormalResponseTime','publisher'),(2,'AbnormalBackendTime','publisher'),(3,'AbnormalRequestsPerMin','subscriber'),(4,'AbnormalRequestPattern','subscriber'),(5,'UnusualIPAccess','subscriber'),(6,'FrequentTierLimitHitting','subscriber'),(7,'ApiHealthMonitor','publisher');
+/*!40000 ALTER TABLE `AM_ALERT_TYPES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_ALERT_TYPES_VALUES`
+--
+
+DROP TABLE IF EXISTS `AM_ALERT_TYPES_VALUES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_ALERT_TYPES_VALUES` (
+  `ALERT_TYPE_ID` int(11) NOT NULL,
+  `USER_NAME` varchar(255) NOT NULL,
+  `STAKE_HOLDER` varchar(100) NOT NULL,
+  PRIMARY KEY (`ALERT_TYPE_ID`,`USER_NAME`,`STAKE_HOLDER`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_ALERT_TYPES_VALUES`
+--
+
+LOCK TABLES `AM_ALERT_TYPES_VALUES` WRITE;
+/*!40000 ALTER TABLE `AM_ALERT_TYPES_VALUES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_ALERT_TYPES_VALUES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_API`
+--
+
+DROP TABLE IF EXISTS `AM_API`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_API` (
+  `API_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `API_PROVIDER` varchar(200) DEFAULT NULL,
+  `API_NAME` varchar(200) DEFAULT NULL,
+  `API_VERSION` varchar(30) DEFAULT NULL,
+  `CONTEXT` varchar(256) DEFAULT NULL,
+  `CONTEXT_TEMPLATE` varchar(256) DEFAULT NULL,
+  `API_TIER` varchar(256) DEFAULT NULL,
+  `CREATED_BY` varchar(100) DEFAULT NULL,
+  `CREATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) DEFAULT NULL,
+  `UPDATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`API_ID`),
+  UNIQUE KEY `API_PROVIDER` (`API_PROVIDER`,`API_NAME`,`API_VERSION`),
+  KEY `IDX_AAI_CTX` (`CONTEXT`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_API`
+--
+
+LOCK TABLES `AM_API` WRITE;
+/*!40000 ALTER TABLE `AM_API` DISABLE KEYS */;
+INSERT INTO `AM_API` VALUES (1,'admin','api-econtreras','v1','/api-econtreras/v1','/api-econtreras',NULL,'admin','2019-08-27 02:00:36',NULL,'2019-08-27 02:00:36');
+/*!40000 ALTER TABLE `AM_API` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_API_COMMENTS`
+--
+
+DROP TABLE IF EXISTS `AM_API_COMMENTS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_API_COMMENTS` (
+  `COMMENT_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `COMMENT_TEXT` varchar(512) DEFAULT NULL,
+  `COMMENTED_USER` varchar(255) DEFAULT NULL,
+  `DATE_COMMENTED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `API_ID` int(11) NOT NULL,
+  PRIMARY KEY (`COMMENT_ID`),
+  KEY `API_ID` (`API_ID`),
+  CONSTRAINT `AM_API_COMMENTS_ibfk_1` FOREIGN KEY (`API_ID`) REFERENCES `AM_API` (`API_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_API_COMMENTS`
+--
+
+LOCK TABLES `AM_API_COMMENTS` WRITE;
+/*!40000 ALTER TABLE `AM_API_COMMENTS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_API_COMMENTS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_API_DEFAULT_VERSION`
+--
+
+DROP TABLE IF EXISTS `AM_API_DEFAULT_VERSION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_API_DEFAULT_VERSION` (
+  `DEFAULT_VERSION_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `API_NAME` varchar(256) NOT NULL,
+  `API_PROVIDER` varchar(256) NOT NULL,
+  `DEFAULT_API_VERSION` varchar(30) DEFAULT NULL,
+  `PUBLISHED_DEFAULT_API_VERSION` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`DEFAULT_VERSION_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_API_DEFAULT_VERSION`
+--
+
+LOCK TABLES `AM_API_DEFAULT_VERSION` WRITE;
+/*!40000 ALTER TABLE `AM_API_DEFAULT_VERSION` DISABLE KEYS */;
+INSERT INTO `AM_API_DEFAULT_VERSION` VALUES (1,'api-econtreras','admin','v1','v1');
+/*!40000 ALTER TABLE `AM_API_DEFAULT_VERSION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_API_LC_EVENT`
+--
+
+DROP TABLE IF EXISTS `AM_API_LC_EVENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_API_LC_EVENT` (
+  `EVENT_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `API_ID` int(11) NOT NULL,
+  `PREVIOUS_STATE` varchar(50) DEFAULT NULL,
+  `NEW_STATE` varchar(50) NOT NULL,
+  `USER_ID` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  `EVENT_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`EVENT_ID`),
+  KEY `API_ID` (`API_ID`),
+  CONSTRAINT `AM_API_LC_EVENT_ibfk_1` FOREIGN KEY (`API_ID`) REFERENCES `AM_API` (`API_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_API_LC_EVENT`
+--
+
+LOCK TABLES `AM_API_LC_EVENT` WRITE;
+/*!40000 ALTER TABLE `AM_API_LC_EVENT` DISABLE KEYS */;
+INSERT INTO `AM_API_LC_EVENT` VALUES (1,1,NULL,'CREATED','admin',-1234,'2019-08-27 01:59:33'),(2,1,'CREATED','PUBLISHED','admin',-1234,'2019-08-27 02:00:38');
+/*!40000 ALTER TABLE `AM_API_LC_EVENT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_API_LC_PUBLISH_EVENTS`
+--
+
+DROP TABLE IF EXISTS `AM_API_LC_PUBLISH_EVENTS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_API_LC_PUBLISH_EVENTS` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_DOMAIN` varchar(500) NOT NULL,
+  `API_ID` varchar(500) NOT NULL,
+  `EVENT_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_API_LC_PUBLISH_EVENTS`
+--
+
+LOCK TABLES `AM_API_LC_PUBLISH_EVENTS` WRITE;
+/*!40000 ALTER TABLE `AM_API_LC_PUBLISH_EVENTS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_API_LC_PUBLISH_EVENTS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_API_RATINGS`
+--
+
+DROP TABLE IF EXISTS `AM_API_RATINGS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_API_RATINGS` (
+  `RATING_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `API_ID` int(11) DEFAULT NULL,
+  `RATING` int(11) DEFAULT NULL,
+  `SUBSCRIBER_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`RATING_ID`),
+  KEY `API_ID` (`API_ID`),
+  KEY `SUBSCRIBER_ID` (`SUBSCRIBER_ID`),
+  CONSTRAINT `AM_API_RATINGS_ibfk_1` FOREIGN KEY (`API_ID`) REFERENCES `AM_API` (`API_ID`) ON UPDATE CASCADE,
+  CONSTRAINT `AM_API_RATINGS_ibfk_2` FOREIGN KEY (`SUBSCRIBER_ID`) REFERENCES `AM_SUBSCRIBER` (`SUBSCRIBER_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_API_RATINGS`
+--
+
+LOCK TABLES `AM_API_RATINGS` WRITE;
+/*!40000 ALTER TABLE `AM_API_RATINGS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_API_RATINGS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_API_SCOPES`
+--
+
+DROP TABLE IF EXISTS `AM_API_SCOPES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_API_SCOPES` (
+  `API_ID` int(11) NOT NULL,
+  `SCOPE_ID` int(11) NOT NULL,
+  PRIMARY KEY (`API_ID`,`SCOPE_ID`),
+  KEY `SCOPE_ID` (`SCOPE_ID`),
+  CONSTRAINT `AM_API_SCOPES_ibfk_1` FOREIGN KEY (`API_ID`) REFERENCES `AM_API` (`API_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `AM_API_SCOPES_ibfk_2` FOREIGN KEY (`SCOPE_ID`) REFERENCES `IDN_OAUTH2_SCOPE` (`SCOPE_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_API_SCOPES`
+--
+
+LOCK TABLES `AM_API_SCOPES` WRITE;
+/*!40000 ALTER TABLE `AM_API_SCOPES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_API_SCOPES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_API_THROTTLE_POLICY`
+--
+
+DROP TABLE IF EXISTS `AM_API_THROTTLE_POLICY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_API_THROTTLE_POLICY` (
+  `POLICY_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(512) NOT NULL,
+  `DISPLAY_NAME` varchar(512) DEFAULT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  `DESCRIPTION` varchar(1024) DEFAULT NULL,
+  `DEFAULT_QUOTA_TYPE` varchar(25) NOT NULL,
+  `DEFAULT_QUOTA` int(11) NOT NULL,
+  `DEFAULT_QUOTA_UNIT` varchar(10) DEFAULT NULL,
+  `DEFAULT_UNIT_TIME` int(11) NOT NULL,
+  `DEFAULT_TIME_UNIT` varchar(25) NOT NULL,
+  `APPLICABLE_LEVEL` varchar(25) NOT NULL,
+  `IS_DEPLOYED` tinyint(1) NOT NULL DEFAULT '0',
+  `UUID` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`POLICY_ID`),
+  UNIQUE KEY `API_NAME_TENANT` (`NAME`,`TENANT_ID`),
+  UNIQUE KEY `UUID` (`UUID`),
+  KEY `IDX_AATP_DQT` (`DEFAULT_QUOTA_TYPE`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_API_THROTTLE_POLICY`
+--
+
+LOCK TABLES `AM_API_THROTTLE_POLICY` WRITE;
+/*!40000 ALTER TABLE `AM_API_THROTTLE_POLICY` DISABLE KEYS */;
+INSERT INTO `AM_API_THROTTLE_POLICY` VALUES (1,'50KPerMin','50KPerMin',-1234,'Allows 50000 requests per minute','requestCount',50000,NULL,1,'min','apiLevel',1,'e6ecd9d2-3bb0-46a9-bbf3-f9a5d97e3b79'),(2,'20KPerMin','20KPerMin',-1234,'Allows 20000 requests per minute','requestCount',20000,NULL,1,'min','apiLevel',1,'85261310-1e53-44b1-ae6c-9638c9ea6d21'),(3,'10KPerMin','10KPerMin',-1234,'Allows 10000 requests per minute','requestCount',10000,NULL,1,'min','apiLevel',1,'bb3bf8ae-432f-4d32-acaf-5495fb957dac'),(4,'Unlimited','Unlimited',-1234,'Allows unlimited requests','requestCount',2147483647,NULL,1,'min','apiLevel',1,'33a4faae-cd19-4c63-a48e-1e238b2c03b1');
+/*!40000 ALTER TABLE `AM_API_THROTTLE_POLICY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_API_URL_MAPPING`
+--
+
+DROP TABLE IF EXISTS `AM_API_URL_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_API_URL_MAPPING` (
+  `URL_MAPPING_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `API_ID` int(11) NOT NULL,
+  `HTTP_METHOD` varchar(20) DEFAULT NULL,
+  `AUTH_SCHEME` varchar(50) DEFAULT NULL,
+  `URL_PATTERN` varchar(512) DEFAULT NULL,
+  `THROTTLING_TIER` varchar(512) DEFAULT NULL,
+  `MEDIATION_SCRIPT` blob,
+  PRIMARY KEY (`URL_MAPPING_ID`),
+  KEY `IDX_AAUM_AI` (`API_ID`),
+  KEY `IDX_AAUM_TT` (`THROTTLING_TIER`)
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_API_URL_MAPPING`
+--
+
+LOCK TABLES `AM_API_URL_MAPPING` WRITE;
+/*!40000 ALTER TABLE `AM_API_URL_MAPPING` DISABLE KEYS */;
+INSERT INTO `AM_API_URL_MAPPING` VALUES (109,1,'GET','Any','/brands/{id}','Unlimited',NULL),(110,1,'DELETE','Any','/brands/{id}','Unlimited',NULL),(111,1,'PUT','Any','/brands/{id}','Unlimited',NULL),(112,1,'POST','Any','/document-type','Unlimited',NULL),(113,1,'GET','Any','/document-type','Unlimited',NULL),(114,1,'POST','Any','/departments','Unlimited',NULL),(115,1,'GET','Any','/departments','Unlimited',NULL),(116,1,'GET','Any','/document-type/{id}','Unlimited',NULL),(117,1,'DELETE','Any','/document-type/{id}','Unlimited',NULL),(118,1,'GET','Any','/categories/{id}','Unlimited',NULL),(119,1,'DELETE','Any','/categories/{id}','Unlimited',NULL),(120,1,'PUT','Any','/categories/{id}','Unlimited',NULL),(121,1,'GET','Any','/products/{id}','Unlimited',NULL),(122,1,'DELETE','Any','/products/{id}','Unlimited',NULL),(123,1,'PUT','Any','/products/{id}','Unlimited',NULL),(124,1,'GET','Any','/warehouses/{id}','Unlimited',NULL),(125,1,'DELETE','Any','/warehouses/{id}','Unlimited',NULL),(126,1,'PUT','Any','/warehouses/{id}','Unlimited',NULL),(127,1,'POST','Any','/warehouses','Unlimited',NULL),(128,1,'GET','Any','/warehouses','Unlimited',NULL),(129,1,'POST','Any','/brands','Unlimited',NULL),(130,1,'GET','Any','/brands','Unlimited',NULL),(131,1,'POST','Any','/categories','Unlimited',NULL),(132,1,'GET','Any','/categories','Unlimited',NULL),(133,1,'GET','Any','/departments/{id}','Unlimited',NULL),(134,1,'POST','Any','/products','Unlimited',NULL),(135,1,'GET','Any','/products','Unlimited',NULL);
+/*!40000 ALTER TABLE `AM_API_URL_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_APPLICATION`
+--
+
+DROP TABLE IF EXISTS `AM_APPLICATION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_APPLICATION` (
+  `APPLICATION_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(100) DEFAULT NULL,
+  `SUBSCRIBER_ID` int(11) DEFAULT NULL,
+  `APPLICATION_TIER` varchar(50) DEFAULT 'Unlimited',
+  `CALLBACK_URL` varchar(512) DEFAULT NULL,
+  `DESCRIPTION` varchar(512) DEFAULT NULL,
+  `APPLICATION_STATUS` varchar(50) DEFAULT 'APPROVED',
+  `GROUP_ID` varchar(100) DEFAULT NULL,
+  `CREATED_BY` varchar(100) DEFAULT NULL,
+  `CREATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) DEFAULT NULL,
+  `UPDATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UUID` varchar(256) DEFAULT NULL,
+  `TOKEN_TYPE` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`APPLICATION_ID`),
+  UNIQUE KEY `NAME` (`NAME`,`SUBSCRIBER_ID`),
+  UNIQUE KEY `UUID` (`UUID`),
+  KEY `SUBSCRIBER_ID` (`SUBSCRIBER_ID`),
+  KEY `IDX_AA_AT_CB` (`APPLICATION_TIER`,`CREATED_BY`),
+  CONSTRAINT `AM_APPLICATION_ibfk_1` FOREIGN KEY (`SUBSCRIBER_ID`) REFERENCES `AM_SUBSCRIBER` (`SUBSCRIBER_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_APPLICATION`
+--
+
+LOCK TABLES `AM_APPLICATION` WRITE;
+/*!40000 ALTER TABLE `AM_APPLICATION` DISABLE KEYS */;
+INSERT INTO `AM_APPLICATION` VALUES (1,'DefaultApplication',1,'Unlimited',NULL,NULL,'APPROVED','','admin','2019-08-27 02:01:10',NULL,'2019-08-27 02:01:10','7971dd84-b202-49ef-9939-b1eb8e3d4327','DEFAULT'),(2,'econtreras-admin',1,'Unlimited',NULL,'Admin de econtreras','APPROVED','','admin','2019-08-27 02:01:43',NULL,'2019-08-27 02:01:43','a4cccb85-3f23-4b82-8a8b-f1a5584d7db8','DEFAULT');
+/*!40000 ALTER TABLE `AM_APPLICATION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_APPLICATION_ATTRIBUTES`
+--
+
+DROP TABLE IF EXISTS `AM_APPLICATION_ATTRIBUTES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_APPLICATION_ATTRIBUTES` (
+  `APPLICATION_ID` int(11) NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `VALUE` varchar(1024) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  PRIMARY KEY (`APPLICATION_ID`,`NAME`),
+  CONSTRAINT `AM_APPLICATION_ATTRIBUTES_ibfk_1` FOREIGN KEY (`APPLICATION_ID`) REFERENCES `AM_APPLICATION` (`APPLICATION_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_APPLICATION_ATTRIBUTES`
+--
+
+LOCK TABLES `AM_APPLICATION_ATTRIBUTES` WRITE;
+/*!40000 ALTER TABLE `AM_APPLICATION_ATTRIBUTES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_APPLICATION_ATTRIBUTES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_APPLICATION_GROUP_MAPPING`
+--
+
+DROP TABLE IF EXISTS `AM_APPLICATION_GROUP_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_APPLICATION_GROUP_MAPPING` (
+  `APPLICATION_ID` int(11) NOT NULL,
+  `GROUP_ID` varchar(512) NOT NULL,
+  `TENANT` varchar(255) NOT NULL,
+  PRIMARY KEY (`APPLICATION_ID`,`GROUP_ID`,`TENANT`),
+  CONSTRAINT `AM_APPLICATION_GROUP_MAPPING_ibfk_1` FOREIGN KEY (`APPLICATION_ID`) REFERENCES `AM_APPLICATION` (`APPLICATION_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_APPLICATION_GROUP_MAPPING`
+--
+
+LOCK TABLES `AM_APPLICATION_GROUP_MAPPING` WRITE;
+/*!40000 ALTER TABLE `AM_APPLICATION_GROUP_MAPPING` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_APPLICATION_GROUP_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_APPLICATION_KEY_MAPPING`
+--
+
+DROP TABLE IF EXISTS `AM_APPLICATION_KEY_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_APPLICATION_KEY_MAPPING` (
+  `APPLICATION_ID` int(11) NOT NULL,
+  `CONSUMER_KEY` varchar(255) DEFAULT NULL,
+  `KEY_TYPE` varchar(512) NOT NULL,
+  `STATE` varchar(30) NOT NULL,
+  `CREATE_MODE` varchar(30) DEFAULT 'CREATED',
+  PRIMARY KEY (`APPLICATION_ID`,`KEY_TYPE`),
+  KEY `IDX_AAKM_CK` (`CONSUMER_KEY`),
+  CONSTRAINT `AM_APPLICATION_KEY_MAPPING_ibfk_1` FOREIGN KEY (`APPLICATION_ID`) REFERENCES `AM_APPLICATION` (`APPLICATION_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_APPLICATION_KEY_MAPPING`
+--
+
+LOCK TABLES `AM_APPLICATION_KEY_MAPPING` WRITE;
+/*!40000 ALTER TABLE `AM_APPLICATION_KEY_MAPPING` DISABLE KEYS */;
+INSERT INTO `AM_APPLICATION_KEY_MAPPING` VALUES (2,'HdE6lFif_fdxcUgRfJswpESbrjIa','PRODUCTION','COMPLETED','CREATED');
+/*!40000 ALTER TABLE `AM_APPLICATION_KEY_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_APPLICATION_REGISTRATION`
+--
+
+DROP TABLE IF EXISTS `AM_APPLICATION_REGISTRATION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_APPLICATION_REGISTRATION` (
+  `REG_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SUBSCRIBER_ID` int(11) DEFAULT NULL,
+  `WF_REF` varchar(255) NOT NULL,
+  `APP_ID` int(11) DEFAULT NULL,
+  `TOKEN_TYPE` varchar(30) DEFAULT NULL,
+  `TOKEN_SCOPE` varchar(1500) DEFAULT 'default',
+  `INPUTS` varchar(1000) DEFAULT NULL,
+  `ALLOWED_DOMAINS` varchar(256) DEFAULT NULL,
+  `VALIDITY_PERIOD` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`REG_ID`),
+  UNIQUE KEY `SUBSCRIBER_ID` (`SUBSCRIBER_ID`,`APP_ID`,`TOKEN_TYPE`),
+  KEY `APP_ID` (`APP_ID`),
+  CONSTRAINT `AM_APPLICATION_REGISTRATION_ibfk_1` FOREIGN KEY (`SUBSCRIBER_ID`) REFERENCES `AM_SUBSCRIBER` (`SUBSCRIBER_ID`) ON UPDATE CASCADE,
+  CONSTRAINT `AM_APPLICATION_REGISTRATION_ibfk_2` FOREIGN KEY (`APP_ID`) REFERENCES `AM_APPLICATION` (`APPLICATION_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_APPLICATION_REGISTRATION`
+--
+
+LOCK TABLES `AM_APPLICATION_REGISTRATION` WRITE;
+/*!40000 ALTER TABLE `AM_APPLICATION_REGISTRATION` DISABLE KEYS */;
+INSERT INTO `AM_APPLICATION_REGISTRATION` VALUES (1,1,'09a22205-82da-46b0-bc0b-59c59e46a96c',2,'PRODUCTION','default','{\"tokenScope\":\"default\",\"validityPeriod\":\"3600\",\"callback_url\":null,\"grant_types\":\"refresh_token,urn:ietf:params:oauth:grant-type:saml2-bearer,password,client_credentials,iwa:ntlm,urn:ietf:params:oauth:grant-type:jwt-bearer\",\"key_type\":\"PRODUCTION\",\"username\":\"admin\"}','ALL',0);
+/*!40000 ALTER TABLE `AM_APPLICATION_REGISTRATION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_APP_KEY_DOMAIN_MAPPING`
+--
+
+DROP TABLE IF EXISTS `AM_APP_KEY_DOMAIN_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_APP_KEY_DOMAIN_MAPPING` (
+  `CONSUMER_KEY` varchar(255) NOT NULL,
+  `AUTHZ_DOMAIN` varchar(255) NOT NULL DEFAULT 'ALL',
+  PRIMARY KEY (`CONSUMER_KEY`,`AUTHZ_DOMAIN`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_APP_KEY_DOMAIN_MAPPING`
+--
+
+LOCK TABLES `AM_APP_KEY_DOMAIN_MAPPING` WRITE;
+/*!40000 ALTER TABLE `AM_APP_KEY_DOMAIN_MAPPING` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_APP_KEY_DOMAIN_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_BLOCK_CONDITIONS`
+--
+
+DROP TABLE IF EXISTS `AM_BLOCK_CONDITIONS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_BLOCK_CONDITIONS` (
+  `CONDITION_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TYPE` varchar(45) DEFAULT NULL,
+  `VALUE` varchar(512) DEFAULT NULL,
+  `ENABLED` varchar(45) DEFAULT NULL,
+  `DOMAIN` varchar(45) DEFAULT NULL,
+  `UUID` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`CONDITION_ID`),
+  UNIQUE KEY `UUID` (`UUID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_BLOCK_CONDITIONS`
+--
+
+LOCK TABLES `AM_BLOCK_CONDITIONS` WRITE;
+/*!40000 ALTER TABLE `AM_BLOCK_CONDITIONS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_BLOCK_CONDITIONS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_CERTIFICATE_METADATA`
+--
+
+DROP TABLE IF EXISTS `AM_CERTIFICATE_METADATA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_CERTIFICATE_METADATA` (
+  `TENANT_ID` int(11) NOT NULL,
+  `ALIAS` varchar(45) NOT NULL,
+  `END_POINT` varchar(100) NOT NULL,
+  PRIMARY KEY (`ALIAS`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_CERTIFICATE_METADATA`
+--
+
+LOCK TABLES `AM_CERTIFICATE_METADATA` WRITE;
+/*!40000 ALTER TABLE `AM_CERTIFICATE_METADATA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_CERTIFICATE_METADATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_CONDITION_GROUP`
+--
+
+DROP TABLE IF EXISTS `AM_CONDITION_GROUP`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_CONDITION_GROUP` (
+  `CONDITION_GROUP_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `POLICY_ID` int(11) NOT NULL,
+  `QUOTA_TYPE` varchar(25) DEFAULT NULL,
+  `QUOTA` int(11) NOT NULL,
+  `QUOTA_UNIT` varchar(10) DEFAULT NULL,
+  `UNIT_TIME` int(11) NOT NULL,
+  `TIME_UNIT` varchar(25) NOT NULL,
+  `DESCRIPTION` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`CONDITION_GROUP_ID`),
+  KEY `POLICY_ID` (`POLICY_ID`),
+  KEY `IDX_ACG_QT` (`QUOTA_TYPE`),
+  CONSTRAINT `AM_CONDITION_GROUP_ibfk_1` FOREIGN KEY (`POLICY_ID`) REFERENCES `AM_API_THROTTLE_POLICY` (`POLICY_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_CONDITION_GROUP`
+--
+
+LOCK TABLES `AM_CONDITION_GROUP` WRITE;
+/*!40000 ALTER TABLE `AM_CONDITION_GROUP` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_CONDITION_GROUP` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_EXTERNAL_STORES`
+--
+
+DROP TABLE IF EXISTS `AM_EXTERNAL_STORES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_EXTERNAL_STORES` (
+  `APISTORE_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `API_ID` int(11) DEFAULT NULL,
+  `STORE_ID` varchar(255) NOT NULL,
+  `STORE_DISPLAY_NAME` varchar(255) NOT NULL,
+  `STORE_ENDPOINT` varchar(255) NOT NULL,
+  `STORE_TYPE` varchar(255) NOT NULL,
+  PRIMARY KEY (`APISTORE_ID`),
+  KEY `API_ID` (`API_ID`),
+  CONSTRAINT `AM_EXTERNAL_STORES_ibfk_1` FOREIGN KEY (`API_ID`) REFERENCES `AM_API` (`API_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_EXTERNAL_STORES`
+--
+
+LOCK TABLES `AM_EXTERNAL_STORES` WRITE;
+/*!40000 ALTER TABLE `AM_EXTERNAL_STORES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_EXTERNAL_STORES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_HEADER_FIELD_CONDITION`
+--
+
+DROP TABLE IF EXISTS `AM_HEADER_FIELD_CONDITION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_HEADER_FIELD_CONDITION` (
+  `HEADER_FIELD_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `CONDITION_GROUP_ID` int(11) NOT NULL,
+  `HEADER_FIELD_NAME` varchar(255) DEFAULT NULL,
+  `HEADER_FIELD_VALUE` varchar(255) DEFAULT NULL,
+  `IS_HEADER_FIELD_MAPPING` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`HEADER_FIELD_ID`),
+  KEY `CONDITION_GROUP_ID` (`CONDITION_GROUP_ID`),
+  CONSTRAINT `AM_HEADER_FIELD_CONDITION_ibfk_1` FOREIGN KEY (`CONDITION_GROUP_ID`) REFERENCES `AM_CONDITION_GROUP` (`CONDITION_GROUP_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_HEADER_FIELD_CONDITION`
+--
+
+LOCK TABLES `AM_HEADER_FIELD_CONDITION` WRITE;
+/*!40000 ALTER TABLE `AM_HEADER_FIELD_CONDITION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_HEADER_FIELD_CONDITION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_IP_CONDITION`
+--
+
+DROP TABLE IF EXISTS `AM_IP_CONDITION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_IP_CONDITION` (
+  `AM_IP_CONDITION_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `STARTING_IP` varchar(45) DEFAULT NULL,
+  `ENDING_IP` varchar(45) DEFAULT NULL,
+  `SPECIFIC_IP` varchar(45) DEFAULT NULL,
+  `WITHIN_IP_RANGE` tinyint(1) DEFAULT '1',
+  `CONDITION_GROUP_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`AM_IP_CONDITION_ID`),
+  KEY `fk_AM_IP_CONDITION_1_idx` (`CONDITION_GROUP_ID`),
+  CONSTRAINT `fk_AM_IP_CONDITION_1` FOREIGN KEY (`CONDITION_GROUP_ID`) REFERENCES `AM_CONDITION_GROUP` (`CONDITION_GROUP_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_IP_CONDITION`
+--
+
+LOCK TABLES `AM_IP_CONDITION` WRITE;
+/*!40000 ALTER TABLE `AM_IP_CONDITION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_IP_CONDITION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_JWT_CLAIM_CONDITION`
+--
+
+DROP TABLE IF EXISTS `AM_JWT_CLAIM_CONDITION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_JWT_CLAIM_CONDITION` (
+  `JWT_CLAIM_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `CONDITION_GROUP_ID` int(11) NOT NULL,
+  `CLAIM_URI` varchar(512) DEFAULT NULL,
+  `CLAIM_ATTRIB` varchar(1024) DEFAULT NULL,
+  `IS_CLAIM_MAPPING` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`JWT_CLAIM_ID`),
+  KEY `CONDITION_GROUP_ID` (`CONDITION_GROUP_ID`),
+  CONSTRAINT `AM_JWT_CLAIM_CONDITION_ibfk_1` FOREIGN KEY (`CONDITION_GROUP_ID`) REFERENCES `AM_CONDITION_GROUP` (`CONDITION_GROUP_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_JWT_CLAIM_CONDITION`
+--
+
+LOCK TABLES `AM_JWT_CLAIM_CONDITION` WRITE;
+/*!40000 ALTER TABLE `AM_JWT_CLAIM_CONDITION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_JWT_CLAIM_CONDITION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_LABELS`
+--
+
+DROP TABLE IF EXISTS `AM_LABELS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_LABELS` (
+  `LABEL_ID` varchar(50) NOT NULL,
+  `NAME` varchar(255) DEFAULT NULL,
+  `DESCRIPTION` varchar(1024) DEFAULT NULL,
+  `TENANT_DOMAIN` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`LABEL_ID`),
+  UNIQUE KEY `NAME` (`NAME`,`TENANT_DOMAIN`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_LABELS`
+--
+
+LOCK TABLES `AM_LABELS` WRITE;
+/*!40000 ALTER TABLE `AM_LABELS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_LABELS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_LABEL_URLS`
+--
+
+DROP TABLE IF EXISTS `AM_LABEL_URLS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_LABEL_URLS` (
+  `LABEL_ID` varchar(50) NOT NULL,
+  `ACCESS_URL` varchar(255) NOT NULL,
+  PRIMARY KEY (`LABEL_ID`,`ACCESS_URL`),
+  CONSTRAINT `AM_LABEL_URLS_ibfk_1` FOREIGN KEY (`LABEL_ID`) REFERENCES `AM_LABELS` (`LABEL_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_LABEL_URLS`
+--
+
+LOCK TABLES `AM_LABEL_URLS` WRITE;
+/*!40000 ALTER TABLE `AM_LABEL_URLS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_LABEL_URLS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_POLICY_APPLICATION`
+--
+
+DROP TABLE IF EXISTS `AM_POLICY_APPLICATION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_POLICY_APPLICATION` (
+  `POLICY_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(512) NOT NULL,
+  `DISPLAY_NAME` varchar(512) DEFAULT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  `DESCRIPTION` varchar(1024) DEFAULT NULL,
+  `QUOTA_TYPE` varchar(25) NOT NULL,
+  `QUOTA` int(11) NOT NULL,
+  `QUOTA_UNIT` varchar(10) DEFAULT NULL,
+  `UNIT_TIME` int(11) NOT NULL,
+  `TIME_UNIT` varchar(25) NOT NULL,
+  `IS_DEPLOYED` tinyint(1) NOT NULL DEFAULT '0',
+  `CUSTOM_ATTRIBUTES` blob,
+  `UUID` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`POLICY_ID`),
+  UNIQUE KEY `APP_NAME_TENANT` (`NAME`,`TENANT_ID`),
+  UNIQUE KEY `UUID` (`UUID`),
+  KEY `IDX_APA_QT` (`QUOTA_TYPE`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_POLICY_APPLICATION`
+--
+
+LOCK TABLES `AM_POLICY_APPLICATION` WRITE;
+/*!40000 ALTER TABLE `AM_POLICY_APPLICATION` DISABLE KEYS */;
+INSERT INTO `AM_POLICY_APPLICATION` VALUES (1,'50PerMin','50PerMin',-1234,'Allows 50 request per minute','requestCount',50,NULL,1,'min',1,NULL,'199095e9-a71d-4ca0-b921-2355799b63d6'),(2,'20PerMin','20PerMin',-1234,'Allows 20 request per minute','requestCount',20,NULL,1,'min',1,NULL,'5e6f9a07-70e1-4126-972f-fd5dce03cce5'),(3,'10PerMin','10PerMin',-1234,'Allows 10 request per minute','requestCount',10,NULL,1,'min',1,NULL,'e824fd88-60cc-4500-8ffb-9829e43602e3'),(4,'Unlimited','Unlimited',-1234,'Allows unlimited requests','requestCount',2147483647,NULL,1,'min',1,NULL,'63e36cb3-7f6b-43aa-90a6-deb17e7ae8d2');
+/*!40000 ALTER TABLE `AM_POLICY_APPLICATION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_POLICY_GLOBAL`
+--
+
+DROP TABLE IF EXISTS `AM_POLICY_GLOBAL`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_POLICY_GLOBAL` (
+  `POLICY_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(512) NOT NULL,
+  `KEY_TEMPLATE` varchar(512) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  `DESCRIPTION` varchar(1024) DEFAULT NULL,
+  `SIDDHI_QUERY` blob,
+  `IS_DEPLOYED` tinyint(1) NOT NULL DEFAULT '0',
+  `UUID` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`POLICY_ID`),
+  UNIQUE KEY `UUID` (`UUID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_POLICY_GLOBAL`
+--
+
+LOCK TABLES `AM_POLICY_GLOBAL` WRITE;
+/*!40000 ALTER TABLE `AM_POLICY_GLOBAL` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_POLICY_GLOBAL` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_POLICY_HARD_THROTTLING`
+--
+
+DROP TABLE IF EXISTS `AM_POLICY_HARD_THROTTLING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_POLICY_HARD_THROTTLING` (
+  `POLICY_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(512) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  `DESCRIPTION` varchar(1024) DEFAULT NULL,
+  `QUOTA_TYPE` varchar(25) NOT NULL,
+  `QUOTA` int(11) NOT NULL,
+  `QUOTA_UNIT` varchar(10) DEFAULT NULL,
+  `UNIT_TIME` int(11) NOT NULL,
+  `TIME_UNIT` varchar(25) NOT NULL,
+  `IS_DEPLOYED` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`POLICY_ID`),
+  UNIQUE KEY `POLICY_HARD_NAME_TENANT` (`NAME`,`TENANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_POLICY_HARD_THROTTLING`
+--
+
+LOCK TABLES `AM_POLICY_HARD_THROTTLING` WRITE;
+/*!40000 ALTER TABLE `AM_POLICY_HARD_THROTTLING` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_POLICY_HARD_THROTTLING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_POLICY_SUBSCRIPTION`
+--
+
+DROP TABLE IF EXISTS `AM_POLICY_SUBSCRIPTION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_POLICY_SUBSCRIPTION` (
+  `POLICY_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(512) NOT NULL,
+  `DISPLAY_NAME` varchar(512) DEFAULT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  `DESCRIPTION` varchar(1024) DEFAULT NULL,
+  `QUOTA_TYPE` varchar(25) NOT NULL,
+  `QUOTA` int(11) NOT NULL,
+  `QUOTA_UNIT` varchar(10) DEFAULT NULL,
+  `UNIT_TIME` int(11) NOT NULL,
+  `TIME_UNIT` varchar(25) NOT NULL,
+  `RATE_LIMIT_COUNT` int(11) DEFAULT NULL,
+  `RATE_LIMIT_TIME_UNIT` varchar(25) DEFAULT NULL,
+  `IS_DEPLOYED` tinyint(1) NOT NULL DEFAULT '0',
+  `CUSTOM_ATTRIBUTES` blob,
+  `STOP_ON_QUOTA_REACH` tinyint(1) NOT NULL DEFAULT '0',
+  `BILLING_PLAN` varchar(20) NOT NULL,
+  `UUID` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`POLICY_ID`),
+  UNIQUE KEY `AM_POLICY_SUBSCRIPTION_NAME_TENANT` (`NAME`,`TENANT_ID`),
+  UNIQUE KEY `UUID` (`UUID`),
+  KEY `IDX_APS_QT` (`QUOTA_TYPE`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_POLICY_SUBSCRIPTION`
+--
+
+LOCK TABLES `AM_POLICY_SUBSCRIPTION` WRITE;
+/*!40000 ALTER TABLE `AM_POLICY_SUBSCRIPTION` DISABLE KEYS */;
+INSERT INTO `AM_POLICY_SUBSCRIPTION` VALUES (1,'Gold','Gold',-1234,'Allows 5000 requests per minute','requestCount',5000,NULL,1,'min',0,NULL,1,NULL,1,'FREE','1fb4a424-a0ae-4244-a709-3ba594c88d5c'),(2,'Silver','Silver',-1234,'Allows 2000 requests per minute','requestCount',2000,NULL,1,'min',0,NULL,1,NULL,1,'FREE','cf847cc2-3d13-4e45-a340-8a675e4469be'),(3,'Bronze','Bronze',-1234,'Allows 1000 requests per minute','requestCount',1000,NULL,1,'min',0,NULL,1,NULL,1,'FREE','f9713a39-d7a1-4c5d-82e8-4090df39eef1'),(4,'Unauthenticated','Unauthenticated',-1234,'Allows 500 request(s) per minute','requestCount',500,NULL,1,'min',0,NULL,1,NULL,1,'FREE','8929584a-6b9b-4625-b1a4-bf84db49fbf3'),(5,'Unlimited','Unlimited',-1234,'Allows unlimited requests','requestCount',2147483647,NULL,1,'min',0,NULL,1,NULL,1,'FREE','a1fc2770-5f9e-41f4-959a-900b756520fb');
+/*!40000 ALTER TABLE `AM_POLICY_SUBSCRIPTION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_QUERY_PARAMETER_CONDITION`
+--
+
+DROP TABLE IF EXISTS `AM_QUERY_PARAMETER_CONDITION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_QUERY_PARAMETER_CONDITION` (
+  `QUERY_PARAMETER_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `CONDITION_GROUP_ID` int(11) NOT NULL,
+  `PARAMETER_NAME` varchar(255) DEFAULT NULL,
+  `PARAMETER_VALUE` varchar(255) DEFAULT NULL,
+  `IS_PARAM_MAPPING` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`QUERY_PARAMETER_ID`),
+  KEY `CONDITION_GROUP_ID` (`CONDITION_GROUP_ID`),
+  CONSTRAINT `AM_QUERY_PARAMETER_CONDITION_ibfk_1` FOREIGN KEY (`CONDITION_GROUP_ID`) REFERENCES `AM_CONDITION_GROUP` (`CONDITION_GROUP_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_QUERY_PARAMETER_CONDITION`
+--
+
+LOCK TABLES `AM_QUERY_PARAMETER_CONDITION` WRITE;
+/*!40000 ALTER TABLE `AM_QUERY_PARAMETER_CONDITION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_QUERY_PARAMETER_CONDITION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_SUBSCRIBER`
+--
+
+DROP TABLE IF EXISTS `AM_SUBSCRIBER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_SUBSCRIBER` (
+  `SUBSCRIBER_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  `EMAIL_ADDRESS` varchar(256) DEFAULT NULL,
+  `DATE_SUBSCRIBED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `CREATED_BY` varchar(100) DEFAULT NULL,
+  `CREATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) DEFAULT NULL,
+  `UPDATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`SUBSCRIBER_ID`),
+  UNIQUE KEY `TENANT_ID` (`TENANT_ID`,`USER_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_SUBSCRIBER`
+--
+
+LOCK TABLES `AM_SUBSCRIBER` WRITE;
+/*!40000 ALTER TABLE `AM_SUBSCRIBER` DISABLE KEYS */;
+INSERT INTO `AM_SUBSCRIBER` VALUES (1,'admin',-1234,'','2019-08-27 02:01:10','admin','2019-08-27 02:01:10',NULL,'2019-08-27 02:01:10');
+/*!40000 ALTER TABLE `AM_SUBSCRIBER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_SUBSCRIPTION`
+--
+
+DROP TABLE IF EXISTS `AM_SUBSCRIPTION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_SUBSCRIPTION` (
+  `SUBSCRIPTION_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TIER_ID` varchar(50) DEFAULT NULL,
+  `API_ID` int(11) DEFAULT NULL,
+  `LAST_ACCESSED` timestamp NULL DEFAULT NULL,
+  `APPLICATION_ID` int(11) DEFAULT NULL,
+  `SUB_STATUS` varchar(50) DEFAULT NULL,
+  `SUBS_CREATE_STATE` varchar(50) DEFAULT 'SUBSCRIBE',
+  `CREATED_BY` varchar(100) DEFAULT NULL,
+  `CREATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATED_BY` varchar(100) DEFAULT NULL,
+  `UPDATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UUID` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`SUBSCRIPTION_ID`),
+  UNIQUE KEY `UUID` (`UUID`),
+  KEY `IDX_SUB_APP_ID` (`APPLICATION_ID`,`SUBSCRIPTION_ID`),
+  KEY `IDX_AS_AITIAI` (`API_ID`,`TIER_ID`,`APPLICATION_ID`),
+  CONSTRAINT `AM_SUBSCRIPTION_ibfk_1` FOREIGN KEY (`APPLICATION_ID`) REFERENCES `AM_APPLICATION` (`APPLICATION_ID`) ON UPDATE CASCADE,
+  CONSTRAINT `AM_SUBSCRIPTION_ibfk_2` FOREIGN KEY (`API_ID`) REFERENCES `AM_API` (`API_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_SUBSCRIPTION`
+--
+
+LOCK TABLES `AM_SUBSCRIPTION` WRITE;
+/*!40000 ALTER TABLE `AM_SUBSCRIPTION` DISABLE KEYS */;
+INSERT INTO `AM_SUBSCRIPTION` VALUES (1,'Unlimited',1,NULL,2,'UNBLOCKED','SUBSCRIBE','admin','2019-08-27 02:02:27',NULL,'2019-08-27 02:02:27','b7bff16f-3f24-48dd-a2f9-b159983d25a1');
+/*!40000 ALTER TABLE `AM_SUBSCRIPTION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_SUBSCRIPTION_KEY_MAPPING`
+--
+
+DROP TABLE IF EXISTS `AM_SUBSCRIPTION_KEY_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_SUBSCRIPTION_KEY_MAPPING` (
+  `SUBSCRIPTION_ID` int(11) NOT NULL,
+  `ACCESS_TOKEN` varchar(512) NOT NULL,
+  `KEY_TYPE` varchar(512) NOT NULL,
+  PRIMARY KEY (`SUBSCRIPTION_ID`,`ACCESS_TOKEN`),
+  CONSTRAINT `AM_SUBSCRIPTION_KEY_MAPPING_ibfk_1` FOREIGN KEY (`SUBSCRIPTION_ID`) REFERENCES `AM_SUBSCRIPTION` (`SUBSCRIPTION_ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_SUBSCRIPTION_KEY_MAPPING`
+--
+
+LOCK TABLES `AM_SUBSCRIPTION_KEY_MAPPING` WRITE;
+/*!40000 ALTER TABLE `AM_SUBSCRIPTION_KEY_MAPPING` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_SUBSCRIPTION_KEY_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_THROTTLE_TIER_PERMISSIONS`
+--
+
+DROP TABLE IF EXISTS `AM_THROTTLE_TIER_PERMISSIONS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_THROTTLE_TIER_PERMISSIONS` (
+  `THROTTLE_TIER_PERMISSIONS_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TIER` varchar(50) DEFAULT NULL,
+  `PERMISSIONS_TYPE` varchar(50) DEFAULT NULL,
+  `ROLES` varchar(512) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`THROTTLE_TIER_PERMISSIONS_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_THROTTLE_TIER_PERMISSIONS`
+--
+
+LOCK TABLES `AM_THROTTLE_TIER_PERMISSIONS` WRITE;
+/*!40000 ALTER TABLE `AM_THROTTLE_TIER_PERMISSIONS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_THROTTLE_TIER_PERMISSIONS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_TIER_PERMISSIONS`
+--
+
+DROP TABLE IF EXISTS `AM_TIER_PERMISSIONS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_TIER_PERMISSIONS` (
+  `TIER_PERMISSIONS_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TIER` varchar(50) NOT NULL,
+  `PERMISSIONS_TYPE` varchar(50) NOT NULL,
+  `ROLES` varchar(512) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  PRIMARY KEY (`TIER_PERMISSIONS_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_TIER_PERMISSIONS`
+--
+
+LOCK TABLES `AM_TIER_PERMISSIONS` WRITE;
+/*!40000 ALTER TABLE `AM_TIER_PERMISSIONS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_TIER_PERMISSIONS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_USAGE_UPLOADED_FILES`
+--
+
+DROP TABLE IF EXISTS `AM_USAGE_UPLOADED_FILES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_USAGE_UPLOADED_FILES` (
+  `TENANT_DOMAIN` varchar(255) NOT NULL,
+  `FILE_NAME` varchar(255) NOT NULL,
+  `FILE_TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `FILE_PROCESSED` tinyint(1) DEFAULT '0',
+  `FILE_CONTENT` mediumblob,
+  PRIMARY KEY (`TENANT_DOMAIN`,`FILE_NAME`,`FILE_TIMESTAMP`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_USAGE_UPLOADED_FILES`
+--
+
+LOCK TABLES `AM_USAGE_UPLOADED_FILES` WRITE;
+/*!40000 ALTER TABLE `AM_USAGE_UPLOADED_FILES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_USAGE_UPLOADED_FILES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AM_WORKFLOWS`
+--
+
+DROP TABLE IF EXISTS `AM_WORKFLOWS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AM_WORKFLOWS` (
+  `WF_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `WF_REFERENCE` varchar(255) NOT NULL,
+  `WF_TYPE` varchar(255) NOT NULL,
+  `WF_STATUS` varchar(255) NOT NULL,
+  `WF_CREATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `WF_UPDATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `WF_STATUS_DESC` varchar(1000) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `TENANT_DOMAIN` varchar(255) DEFAULT NULL,
+  `WF_EXTERNAL_REFERENCE` varchar(255) NOT NULL,
+  PRIMARY KEY (`WF_ID`),
+  UNIQUE KEY `WF_EXTERNAL_REFERENCE` (`WF_EXTERNAL_REFERENCE`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AM_WORKFLOWS`
+--
+
+LOCK TABLES `AM_WORKFLOWS` WRITE;
+/*!40000 ALTER TABLE `AM_WORKFLOWS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AM_WORKFLOWS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CM_CONSENT_RECEIPT_PROPERTY`
+--
+
+DROP TABLE IF EXISTS `CM_CONSENT_RECEIPT_PROPERTY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CM_CONSENT_RECEIPT_PROPERTY` (
+  `CONSENT_RECEIPT_ID` varchar(255) NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `VALUE` varchar(1023) NOT NULL,
+  UNIQUE KEY `CONSENT_RECEIPT_ID` (`CONSENT_RECEIPT_ID`,`NAME`),
+  CONSTRAINT `CM_CONSENT_RECEIPT_PRT_fk0` FOREIGN KEY (`CONSENT_RECEIPT_ID`) REFERENCES `CM_RECEIPT` (`CONSENT_RECEIPT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CM_CONSENT_RECEIPT_PROPERTY`
+--
+
+LOCK TABLES `CM_CONSENT_RECEIPT_PROPERTY` WRITE;
+/*!40000 ALTER TABLE `CM_CONSENT_RECEIPT_PROPERTY` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CM_CONSENT_RECEIPT_PROPERTY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CM_PII_CATEGORY`
+--
+
+DROP TABLE IF EXISTS `CM_PII_CATEGORY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CM_PII_CATEGORY` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(1023) DEFAULT NULL,
+  `DISPLAY_NAME` varchar(255) DEFAULT NULL,
+  `IS_SENSITIVE` int(11) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1234',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `NAME` (`NAME`,`TENANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CM_PII_CATEGORY`
+--
+
+LOCK TABLES `CM_PII_CATEGORY` WRITE;
+/*!40000 ALTER TABLE `CM_PII_CATEGORY` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CM_PII_CATEGORY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CM_PURPOSE`
+--
+
+DROP TABLE IF EXISTS `CM_PURPOSE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CM_PURPOSE` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(1023) DEFAULT NULL,
+  `PURPOSE_GROUP` varchar(255) NOT NULL,
+  `GROUP_TYPE` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1234',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `NAME` (`NAME`,`TENANT_ID`,`PURPOSE_GROUP`,`GROUP_TYPE`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CM_PURPOSE`
+--
+
+LOCK TABLES `CM_PURPOSE` WRITE;
+/*!40000 ALTER TABLE `CM_PURPOSE` DISABLE KEYS */;
+INSERT INTO `CM_PURPOSE` VALUES (1,'DEFAULT','For core functionalities of the product','DEFAULT','SP',-1234);
+/*!40000 ALTER TABLE `CM_PURPOSE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CM_PURPOSE_CATEGORY`
+--
+
+DROP TABLE IF EXISTS `CM_PURPOSE_CATEGORY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CM_PURPOSE_CATEGORY` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(1023) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1234',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `NAME` (`NAME`,`TENANT_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CM_PURPOSE_CATEGORY`
+--
+
+LOCK TABLES `CM_PURPOSE_CATEGORY` WRITE;
+/*!40000 ALTER TABLE `CM_PURPOSE_CATEGORY` DISABLE KEYS */;
+INSERT INTO `CM_PURPOSE_CATEGORY` VALUES (1,'DEFAULT','For core functionalities of the product',-1234);
+/*!40000 ALTER TABLE `CM_PURPOSE_CATEGORY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CM_PURPOSE_PII_CAT_ASSOC`
+--
+
+DROP TABLE IF EXISTS `CM_PURPOSE_PII_CAT_ASSOC`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CM_PURPOSE_PII_CAT_ASSOC` (
+  `PURPOSE_ID` int(11) NOT NULL,
+  `CM_PII_CATEGORY_ID` int(11) NOT NULL,
+  `IS_MANDATORY` int(11) NOT NULL,
+  UNIQUE KEY `PURPOSE_ID` (`PURPOSE_ID`,`CM_PII_CATEGORY_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CM_PURPOSE_PII_CAT_ASSOC`
+--
+
+LOCK TABLES `CM_PURPOSE_PII_CAT_ASSOC` WRITE;
+/*!40000 ALTER TABLE `CM_PURPOSE_PII_CAT_ASSOC` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CM_PURPOSE_PII_CAT_ASSOC` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CM_RECEIPT`
+--
+
+DROP TABLE IF EXISTS `CM_RECEIPT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CM_RECEIPT` (
+  `CONSENT_RECEIPT_ID` varchar(255) NOT NULL,
+  `VERSION` varchar(255) NOT NULL,
+  `JURISDICTION` varchar(255) NOT NULL,
+  `CONSENT_TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `COLLECTION_METHOD` varchar(255) NOT NULL,
+  `LANGUAGE` varchar(255) NOT NULL,
+  `PII_PRINCIPAL_ID` varchar(255) NOT NULL,
+  `PRINCIPAL_TENANT_ID` int(11) DEFAULT '-1234',
+  `POLICY_URL` varchar(255) NOT NULL,
+  `STATE` varchar(255) NOT NULL,
+  `PII_CONTROLLER` varchar(2048) NOT NULL,
+  PRIMARY KEY (`CONSENT_RECEIPT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CM_RECEIPT`
+--
+
+LOCK TABLES `CM_RECEIPT` WRITE;
+/*!40000 ALTER TABLE `CM_RECEIPT` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CM_RECEIPT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CM_RECEIPT_SP_ASSOC`
+--
+
+DROP TABLE IF EXISTS `CM_RECEIPT_SP_ASSOC`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CM_RECEIPT_SP_ASSOC` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `CONSENT_RECEIPT_ID` varchar(255) NOT NULL,
+  `SP_NAME` varchar(255) NOT NULL,
+  `SP_DISPLAY_NAME` varchar(255) DEFAULT NULL,
+  `SP_DESCRIPTION` varchar(255) DEFAULT NULL,
+  `SP_TENANT_ID` int(11) DEFAULT '-1234',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CONSENT_RECEIPT_ID` (`CONSENT_RECEIPT_ID`,`SP_NAME`,`SP_TENANT_ID`),
+  CONSTRAINT `CM_RECEIPT_SP_ASSOC_fk0` FOREIGN KEY (`CONSENT_RECEIPT_ID`) REFERENCES `CM_RECEIPT` (`CONSENT_RECEIPT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CM_RECEIPT_SP_ASSOC`
+--
+
+LOCK TABLES `CM_RECEIPT_SP_ASSOC` WRITE;
+/*!40000 ALTER TABLE `CM_RECEIPT_SP_ASSOC` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CM_RECEIPT_SP_ASSOC` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CM_SP_PURPOSE_ASSOC`
+--
+
+DROP TABLE IF EXISTS `CM_SP_PURPOSE_ASSOC`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CM_SP_PURPOSE_ASSOC` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `RECEIPT_SP_ASSOC` int(11) NOT NULL,
+  `PURPOSE_ID` int(11) NOT NULL,
+  `CONSENT_TYPE` varchar(255) NOT NULL,
+  `IS_PRIMARY_PURPOSE` int(11) NOT NULL,
+  `TERMINATION` varchar(255) NOT NULL,
+  `THIRD_PARTY_DISCLOSURE` int(11) NOT NULL,
+  `THIRD_PARTY_NAME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `RECEIPT_SP_ASSOC` (`RECEIPT_SP_ASSOC`,`PURPOSE_ID`),
+  KEY `CM_SP_PURPOSE_ASSOC_fk1` (`PURPOSE_ID`),
+  CONSTRAINT `CM_SP_PURPOSE_ASSOC_fk0` FOREIGN KEY (`RECEIPT_SP_ASSOC`) REFERENCES `CM_RECEIPT_SP_ASSOC` (`ID`),
+  CONSTRAINT `CM_SP_PURPOSE_ASSOC_fk1` FOREIGN KEY (`PURPOSE_ID`) REFERENCES `CM_PURPOSE` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CM_SP_PURPOSE_ASSOC`
+--
+
+LOCK TABLES `CM_SP_PURPOSE_ASSOC` WRITE;
+/*!40000 ALTER TABLE `CM_SP_PURPOSE_ASSOC` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CM_SP_PURPOSE_ASSOC` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CM_SP_PURPOSE_PII_CAT_ASSOC`
+--
+
+DROP TABLE IF EXISTS `CM_SP_PURPOSE_PII_CAT_ASSOC`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CM_SP_PURPOSE_PII_CAT_ASSOC` (
+  `SP_PURPOSE_ASSOC_ID` int(11) NOT NULL,
+  `PII_CATEGORY_ID` int(11) NOT NULL,
+  `VALIDITY` varchar(1023) DEFAULT NULL,
+  UNIQUE KEY `SP_PURPOSE_ASSOC_ID` (`SP_PURPOSE_ASSOC_ID`,`PII_CATEGORY_ID`),
+  KEY `CM_SP_P_PII_CAT_ASSOC_fk1` (`PII_CATEGORY_ID`),
+  CONSTRAINT `CM_SP_P_PII_CAT_ASSOC_fk0` FOREIGN KEY (`SP_PURPOSE_ASSOC_ID`) REFERENCES `CM_SP_PURPOSE_ASSOC` (`ID`),
+  CONSTRAINT `CM_SP_P_PII_CAT_ASSOC_fk1` FOREIGN KEY (`PII_CATEGORY_ID`) REFERENCES `CM_PII_CATEGORY` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CM_SP_PURPOSE_PII_CAT_ASSOC`
+--
+
+LOCK TABLES `CM_SP_PURPOSE_PII_CAT_ASSOC` WRITE;
+/*!40000 ALTER TABLE `CM_SP_PURPOSE_PII_CAT_ASSOC` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CM_SP_PURPOSE_PII_CAT_ASSOC` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CM_SP_PURPOSE_PURPOSE_CAT_ASSC`
+--
+
+DROP TABLE IF EXISTS `CM_SP_PURPOSE_PURPOSE_CAT_ASSC`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CM_SP_PURPOSE_PURPOSE_CAT_ASSC` (
+  `SP_PURPOSE_ASSOC_ID` int(11) NOT NULL,
+  `PURPOSE_CATEGORY_ID` int(11) NOT NULL,
+  UNIQUE KEY `SP_PURPOSE_ASSOC_ID` (`SP_PURPOSE_ASSOC_ID`,`PURPOSE_CATEGORY_ID`),
+  KEY `CM_SP_P_P_CAT_ASSOC_fk1` (`PURPOSE_CATEGORY_ID`),
+  CONSTRAINT `CM_SP_P_P_CAT_ASSOC_fk0` FOREIGN KEY (`SP_PURPOSE_ASSOC_ID`) REFERENCES `CM_SP_PURPOSE_ASSOC` (`ID`),
+  CONSTRAINT `CM_SP_P_P_CAT_ASSOC_fk1` FOREIGN KEY (`PURPOSE_CATEGORY_ID`) REFERENCES `CM_PURPOSE_CATEGORY` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CM_SP_PURPOSE_PURPOSE_CAT_ASSC`
+--
+
+LOCK TABLES `CM_SP_PURPOSE_PURPOSE_CAT_ASSC` WRITE;
+/*!40000 ALTER TABLE `CM_SP_PURPOSE_PURPOSE_CAT_ASSC` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CM_SP_PURPOSE_PURPOSE_CAT_ASSC` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `FIDO_DEVICE_STORE`
+--
+
+DROP TABLE IF EXISTS `FIDO_DEVICE_STORE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `FIDO_DEVICE_STORE` (
+  `TENANT_ID` int(11) NOT NULL,
+  `DOMAIN_NAME` varchar(255) NOT NULL,
+  `USER_NAME` varchar(45) NOT NULL,
+  `TIME_REGISTERED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `KEY_HANDLE` varchar(200) NOT NULL,
+  `DEVICE_DATA` varchar(2048) NOT NULL,
+  PRIMARY KEY (`TENANT_ID`,`DOMAIN_NAME`,`USER_NAME`,`KEY_HANDLE`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `FIDO_DEVICE_STORE`
+--
+
+LOCK TABLES `FIDO_DEVICE_STORE` WRITE;
+/*!40000 ALTER TABLE `FIDO_DEVICE_STORE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `FIDO_DEVICE_STORE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_ASSOCIATED_ID`
+--
+
+DROP TABLE IF EXISTS `IDN_ASSOCIATED_ID`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_ASSOCIATED_ID` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IDP_USER_ID` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1234',
+  `IDP_ID` int(11) NOT NULL,
+  `DOMAIN_NAME` varchar(255) NOT NULL,
+  `USER_NAME` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `IDP_USER_ID` (`IDP_USER_ID`,`TENANT_ID`,`IDP_ID`),
+  KEY `IDP_ID` (`IDP_ID`),
+  CONSTRAINT `IDN_ASSOCIATED_ID_ibfk_1` FOREIGN KEY (`IDP_ID`) REFERENCES `IDP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_ASSOCIATED_ID`
+--
+
+LOCK TABLES `IDN_ASSOCIATED_ID` WRITE;
+/*!40000 ALTER TABLE `IDN_ASSOCIATED_ID` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_ASSOCIATED_ID` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_AUTH_SESSION_STORE`
+--
+
+DROP TABLE IF EXISTS `IDN_AUTH_SESSION_STORE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_AUTH_SESSION_STORE` (
+  `SESSION_ID` varchar(100) NOT NULL,
+  `SESSION_TYPE` varchar(100) NOT NULL,
+  `OPERATION` varchar(10) NOT NULL,
+  `SESSION_OBJECT` blob,
+  `TIME_CREATED` bigint(20) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  `EXPIRY_TIME` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`SESSION_ID`,`SESSION_TYPE`,`TIME_CREATED`,`OPERATION`),
+  KEY `IDX_IDN_AUTH_SESSION_TIME` (`TIME_CREATED`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_AUTH_SESSION_STORE`
+--
+
+LOCK TABLES `IDN_AUTH_SESSION_STORE` WRITE;
+/*!40000 ALTER TABLE `IDN_AUTH_SESSION_STORE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_AUTH_SESSION_STORE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_AUTH_TEMP_SESSION_STORE`
+--
+
+DROP TABLE IF EXISTS `IDN_AUTH_TEMP_SESSION_STORE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_AUTH_TEMP_SESSION_STORE` (
+  `SESSION_ID` varchar(100) NOT NULL,
+  `SESSION_TYPE` varchar(100) NOT NULL,
+  `OPERATION` varchar(10) NOT NULL,
+  `SESSION_OBJECT` blob,
+  `TIME_CREATED` bigint(20) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  `EXPIRY_TIME` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`SESSION_ID`,`SESSION_TYPE`,`TIME_CREATED`,`OPERATION`),
+  KEY `IDX_IDN_AUTH_TMP_SESSION_TIME` (`TIME_CREATED`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_AUTH_TEMP_SESSION_STORE`
+--
+
+LOCK TABLES `IDN_AUTH_TEMP_SESSION_STORE` WRITE;
+/*!40000 ALTER TABLE `IDN_AUTH_TEMP_SESSION_STORE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_AUTH_TEMP_SESSION_STORE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_AUTH_WAIT_STATUS`
+--
+
+DROP TABLE IF EXISTS `IDN_AUTH_WAIT_STATUS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_AUTH_WAIT_STATUS` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `LONG_WAIT_KEY` varchar(255) NOT NULL,
+  `WAIT_STATUS` char(1) NOT NULL DEFAULT '1',
+  `TIME_CREATED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `EXPIRE_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `IDN_AUTH_WAIT_STATUS_KEY` (`LONG_WAIT_KEY`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_AUTH_WAIT_STATUS`
+--
+
+LOCK TABLES `IDN_AUTH_WAIT_STATUS` WRITE;
+/*!40000 ALTER TABLE `IDN_AUTH_WAIT_STATUS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_AUTH_WAIT_STATUS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_BASE_TABLE`
+--
+
+DROP TABLE IF EXISTS `IDN_BASE_TABLE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_BASE_TABLE` (
+  `PRODUCT_NAME` varchar(20) NOT NULL,
+  PRIMARY KEY (`PRODUCT_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_BASE_TABLE`
+--
+
+LOCK TABLES `IDN_BASE_TABLE` WRITE;
+/*!40000 ALTER TABLE `IDN_BASE_TABLE` DISABLE KEYS */;
+INSERT INTO `IDN_BASE_TABLE` VALUES ('WSO2 Identity Server');
+/*!40000 ALTER TABLE `IDN_BASE_TABLE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_CERTIFICATE`
+--
+
+DROP TABLE IF EXISTS `IDN_CERTIFICATE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_CERTIFICATE` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(100) DEFAULT NULL,
+  `CERTIFICATE_IN_PEM` blob,
+  `TENANT_ID` int(11) DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CERTIFICATE_UNIQUE_KEY` (`NAME`,`TENANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_CERTIFICATE`
+--
+
+LOCK TABLES `IDN_CERTIFICATE` WRITE;
+/*!40000 ALTER TABLE `IDN_CERTIFICATE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_CERTIFICATE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_CLAIM`
+--
+
+DROP TABLE IF EXISTS `IDN_CLAIM`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_CLAIM` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `DIALECT_ID` int(11) DEFAULT NULL,
+  `CLAIM_URI` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CLAIM_URI_CONSTRAINT` (`DIALECT_ID`,`CLAIM_URI`,`TENANT_ID`),
+  CONSTRAINT `IDN_CLAIM_ibfk_1` FOREIGN KEY (`DIALECT_ID`) REFERENCES `IDN_CLAIM_DIALECT` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=267 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_CLAIM`
+--
+
+LOCK TABLES `IDN_CLAIM` WRITE;
+/*!40000 ALTER TABLE `IDN_CLAIM` DISABLE KEYS */;
+INSERT INTO `IDN_CLAIM` VALUES (71,1,'http://wso2.org/claims/active',-1234),(12,1,'http://wso2.org/claims/addresses',-1234),(40,1,'http://wso2.org/claims/addresses.formatted',-1234),(34,1,'http://wso2.org/claims/addresses.locality',-1234),(43,1,'http://wso2.org/claims/challengeQuestion1',-1234),(48,1,'http://wso2.org/claims/challengeQuestion2',-1234),(23,1,'http://wso2.org/claims/challengeQuestionUris',-1234),(21,1,'http://wso2.org/claims/costCenter',-1234),(3,1,'http://wso2.org/claims/country',-1234),(81,1,'http://wso2.org/claims/created',-1234),(26,1,'http://wso2.org/claims/department',-1234),(4,1,'http://wso2.org/claims/displayName',-1234),(65,1,'http://wso2.org/claims/dob',-1234),(30,1,'http://wso2.org/claims/emailaddress',-1234),(68,1,'http://wso2.org/claims/emails.home',-1234),(25,1,'http://wso2.org/claims/emails.other',-1234),(32,1,'http://wso2.org/claims/emails.work',-1234),(62,1,'http://wso2.org/claims/entitlements',-1234),(56,1,'http://wso2.org/claims/extendedDisplayName',-1234),(18,1,'http://wso2.org/claims/extendedExternalId',-1234),(80,1,'http://wso2.org/claims/extendedRef',-1234),(42,1,'http://wso2.org/claims/externalid',-1234),(46,1,'http://wso2.org/claims/formattedName',-1234),(9,1,'http://wso2.org/claims/fullname',-1234),(82,1,'http://wso2.org/claims/gender',-1234),(55,1,'http://wso2.org/claims/givenname',-1234),(59,1,'http://wso2.org/claims/groups',-1234),(58,1,'http://wso2.org/claims/gtalk',-1234),(10,1,'http://wso2.org/claims/honorificPrefix',-1234),(37,1,'http://wso2.org/claims/honorificSuffix',-1234),(54,1,'http://wso2.org/claims/identity/accountDisabled',-1234),(24,1,'http://wso2.org/claims/identity/accountLocked',-1234),(77,1,'http://wso2.org/claims/identity/adminForcedPasswordReset',-1234),(47,1,'http://wso2.org/claims/identity/askPassword',-1234),(73,1,'http://wso2.org/claims/identity/emailVerified',-1234),(57,1,'http://wso2.org/claims/identity/failedLoginAttempts',-1234),(5,1,'http://wso2.org/claims/identity/failedLoginLockoutCount',-1234),(50,1,'http://wso2.org/claims/identity/failedPasswordRecoveryAttempts',-1234),(15,1,'http://wso2.org/claims/identity/lastLogonTime',-1234),(63,1,'http://wso2.org/claims/identity/lastPasswordUpdateTime',-1234),(8,1,'http://wso2.org/claims/identity/lockedReason',-1234),(38,1,'http://wso2.org/claims/identity/phoneVerified',-1234),(35,1,'http://wso2.org/claims/identity/unlockTime',-1234),(41,1,'http://wso2.org/claims/identity/verifyEmail',-1234),(28,1,'http://wso2.org/claims/im',-1234),(79,1,'http://wso2.org/claims/lastLoginTime',-1234),(20,1,'http://wso2.org/claims/lastname',-1234),(1,1,'http://wso2.org/claims/local',-1234),(2,1,'http://wso2.org/claims/locality',-1234),(22,1,'http://wso2.org/claims/location',-1234),(14,1,'http://wso2.org/claims/middleName',-1234),(6,1,'http://wso2.org/claims/mobile',-1234),(45,1,'http://wso2.org/claims/modified',-1234),(7,1,'http://wso2.org/claims/nickname',-1234),(70,1,'http://wso2.org/claims/oneTimePassword',-1234),(31,1,'http://wso2.org/claims/organization',-1234),(75,1,'http://wso2.org/claims/otherphone',-1234),(64,1,'http://wso2.org/claims/phoneNumbers',-1234),(44,1,'http://wso2.org/claims/phoneNumbers.fax',-1234),(49,1,'http://wso2.org/claims/phoneNumbers.home',-1234),(66,1,'http://wso2.org/claims/phoneNumbers.other',-1234),(84,1,'http://wso2.org/claims/phoneNumbers.pager',-1234),(36,1,'http://wso2.org/claims/phoneNumbers.work',-1234),(61,1,'http://wso2.org/claims/photos',-1234),(27,1,'http://wso2.org/claims/photourl',-1234),(29,1,'http://wso2.org/claims/postalcode',-1234),(17,1,'http://wso2.org/claims/preferredLanguage',-1234),(39,1,'http://wso2.org/claims/primaryChallengeQuestion',-1234),(13,1,'http://wso2.org/claims/region',-1234),(72,1,'http://wso2.org/claims/resourceType',-1234),(83,1,'http://wso2.org/claims/role',-1234),(11,1,'http://wso2.org/claims/skype',-1234),(69,1,'http://wso2.org/claims/stateorprovince',-1234),(52,1,'http://wso2.org/claims/streetaddress',-1234),(53,1,'http://wso2.org/claims/telephone',-1234),(76,1,'http://wso2.org/claims/thumbnail',-1234),(19,1,'http://wso2.org/claims/timeZone',-1234),(78,1,'http://wso2.org/claims/title',-1234),(33,1,'http://wso2.org/claims/url',-1234),(51,1,'http://wso2.org/claims/userid',-1234),(16,1,'http://wso2.org/claims/username',-1234),(67,1,'http://wso2.org/claims/userprincipal',-1234),(74,1,'http://wso2.org/claims/userType',-1234),(60,1,'http://wso2.org/claims/x509Certificates',-1234),(261,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country',-1234),(165,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth',-1234),(259,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',-1234),(159,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/gender',-1234),(157,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',-1234),(217,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/homephone',-1234),(124,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/locality',-1234),(154,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobile',-1234),(143,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nickname',-1234),(239,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/otherphone',-1234),(200,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/postalcode',-1234),(187,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/privatepersonalidentifier',-1234),(137,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/stateorprovince',-1234),(86,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/streetaddress',-1234),(186,2,'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',-1234),(109,3,'urn:scim:schemas:core:1.0:active',-1234),(195,3,'urn:scim:schemas:core:1.0:addresses',-1234),(181,3,'urn:scim:schemas:core:1.0:addresses.country',-1234),(133,3,'urn:scim:schemas:core:1.0:addresses.formatted',-1234),(229,3,'urn:scim:schemas:core:1.0:addresses.locality',-1234),(208,3,'urn:scim:schemas:core:1.0:addresses.postalCode',-1234),(160,3,'urn:scim:schemas:core:1.0:addresses.region',-1234),(223,3,'urn:scim:schemas:core:1.0:addresses.streetAddress',-1234),(232,3,'urn:scim:schemas:core:1.0:displayName',-1234),(247,3,'urn:scim:schemas:core:1.0:emails',-1234),(162,3,'urn:scim:schemas:core:1.0:emails.home',-1234),(183,3,'urn:scim:schemas:core:1.0:emails.other',-1234),(248,3,'urn:scim:schemas:core:1.0:emails.work',-1234),(231,3,'urn:scim:schemas:core:1.0:entitlements',-1234),(121,3,'urn:scim:schemas:core:1.0:externalId',-1234),(119,3,'urn:scim:schemas:core:1.0:groups',-1234),(224,3,'urn:scim:schemas:core:1.0:id',-1234),(169,3,'urn:scim:schemas:core:1.0:ims',-1234),(207,3,'urn:scim:schemas:core:1.0:ims.gtalk',-1234),(148,3,'urn:scim:schemas:core:1.0:ims.skype',-1234),(91,3,'urn:scim:schemas:core:1.0:locale',-1234),(171,3,'urn:scim:schemas:core:1.0:meta.created',-1234),(116,3,'urn:scim:schemas:core:1.0:meta.lastModified',-1234),(192,3,'urn:scim:schemas:core:1.0:meta.location',-1234),(166,3,'urn:scim:schemas:core:1.0:name.familyName',-1234),(265,3,'urn:scim:schemas:core:1.0:name.formatted',-1234),(93,3,'urn:scim:schemas:core:1.0:name.givenName',-1234),(228,3,'urn:scim:schemas:core:1.0:name.honorificPrefix',-1234),(112,3,'urn:scim:schemas:core:1.0:name.honorificSuffix',-1234),(230,3,'urn:scim:schemas:core:1.0:name.middleName',-1234),(252,3,'urn:scim:schemas:core:1.0:nickName',-1234),(95,3,'urn:scim:schemas:core:1.0:phoneNumbers',-1234),(266,3,'urn:scim:schemas:core:1.0:phoneNumbers.fax',-1234),(120,3,'urn:scim:schemas:core:1.0:phoneNumbers.home',-1234),(188,3,'urn:scim:schemas:core:1.0:phoneNumbers.mobile',-1234),(150,3,'urn:scim:schemas:core:1.0:phoneNumbers.other',-1234),(110,3,'urn:scim:schemas:core:1.0:phoneNumbers.pager',-1234),(185,3,'urn:scim:schemas:core:1.0:phoneNumbers.work',-1234),(113,3,'urn:scim:schemas:core:1.0:photos',-1234),(89,3,'urn:scim:schemas:core:1.0:photos.photo',-1234),(103,3,'urn:scim:schemas:core:1.0:photos.thumbnail',-1234),(149,3,'urn:scim:schemas:core:1.0:preferredLanguage',-1234),(164,3,'urn:scim:schemas:core:1.0:profileUrl',-1234),(122,3,'urn:scim:schemas:core:1.0:roles',-1234),(87,3,'urn:scim:schemas:core:1.0:timeZone',-1234),(216,3,'urn:scim:schemas:core:1.0:title',-1234),(142,3,'urn:scim:schemas:core:1.0:userName',-1234),(107,3,'urn:scim:schemas:core:1.0:userType',-1234),(168,3,'urn:scim:schemas:core:1.0:x509Certificates',-1234),(190,4,'urn:ietf:params:scim:schemas:core:2.0:User:active',-1234),(126,4,'urn:ietf:params:scim:schemas:core:2.0:User:addresses',-1234),(227,4,'urn:ietf:params:scim:schemas:core:2.0:User:addresses.home',-1234),(153,4,'urn:ietf:params:scim:schemas:core:2.0:User:addresses.work',-1234),(114,4,'urn:ietf:params:scim:schemas:core:2.0:User:displayName',-1234),(99,4,'urn:ietf:params:scim:schemas:core:2.0:User:emails',-1234),(108,4,'urn:ietf:params:scim:schemas:core:2.0:User:emails.home',-1234),(220,4,'urn:ietf:params:scim:schemas:core:2.0:User:emails.other',-1234),(180,4,'urn:ietf:params:scim:schemas:core:2.0:User:emails.work',-1234),(123,4,'urn:ietf:params:scim:schemas:core:2.0:User:entitlements.default',-1234),(226,4,'urn:ietf:params:scim:schemas:core:2.0:User:groups',-1234),(237,4,'urn:ietf:params:scim:schemas:core:2.0:User:ims.gtalk',-1234),(174,4,'urn:ietf:params:scim:schemas:core:2.0:User:ims.skype',-1234),(206,4,'urn:ietf:params:scim:schemas:core:2.0:User:locale',-1234),(101,4,'urn:ietf:params:scim:schemas:core:2.0:User:name.familyName',-1234),(118,4,'urn:ietf:params:scim:schemas:core:2.0:User:name.formatted',-1234),(258,4,'urn:ietf:params:scim:schemas:core:2.0:User:name.givenName',-1234),(205,4,'urn:ietf:params:scim:schemas:core:2.0:User:name.honorificPrefix',-1234),(136,4,'urn:ietf:params:scim:schemas:core:2.0:User:name.honorificSuffix',-1234),(152,4,'urn:ietf:params:scim:schemas:core:2.0:User:name.middleName',-1234),(244,4,'urn:ietf:params:scim:schemas:core:2.0:User:nickName',-1234),(100,4,'urn:ietf:params:scim:schemas:core:2.0:User:phoneNumbers',-1234),(254,4,'urn:ietf:params:scim:schemas:core:2.0:User:phoneNumbers.home',-1234),(260,4,'urn:ietf:params:scim:schemas:core:2.0:User:phoneNumbers.mobile',-1234),(222,4,'urn:ietf:params:scim:schemas:core:2.0:User:phoneNumbers.other',-1234),(178,4,'urn:ietf:params:scim:schemas:core:2.0:User:phoneNumbers.work',-1234),(225,4,'urn:ietf:params:scim:schemas:core:2.0:User:photos',-1234),(102,4,'urn:ietf:params:scim:schemas:core:2.0:User:photos.photo',-1234),(202,4,'urn:ietf:params:scim:schemas:core:2.0:User:photos.thumbnail',-1234),(213,4,'urn:ietf:params:scim:schemas:core:2.0:User:preferredLanguage',-1234),(264,4,'urn:ietf:params:scim:schemas:core:2.0:User:profileUrl',-1234),(246,4,'urn:ietf:params:scim:schemas:core:2.0:User:roles.default',-1234),(135,4,'urn:ietf:params:scim:schemas:core:2.0:User:timezone',-1234),(106,4,'urn:ietf:params:scim:schemas:core:2.0:User:title',-1234),(134,4,'urn:ietf:params:scim:schemas:core:2.0:User:userName',-1234),(241,4,'urn:ietf:params:scim:schemas:core:2.0:User:userType',-1234),(117,4,'urn:ietf:params:scim:schemas:core:2.0:User:x509Certificates.default',-1234),(184,5,'address',-1234),(255,5,'birthdate',-1234),(191,5,'country',-1234),(201,5,'email',-1234),(105,5,'email_verified',-1234),(219,5,'family_name',-1234),(197,5,'formatted',-1234),(85,5,'gender',-1234),(210,5,'given_name',-1234),(182,5,'groups',-1234),(235,5,'locale',-1234),(212,5,'locality',-1234),(129,5,'middle_name',-1234),(234,5,'name',-1234),(144,5,'nickname',-1234),(249,5,'phone_number',-1234),(172,5,'phone_number_verified',-1234),(115,5,'picture',-1234),(179,5,'postal_code',-1234),(128,5,'preferred_username',-1234),(170,5,'profile',-1234),(218,5,'region',-1234),(243,5,'street_address',-1234),(141,5,'sub',-1234),(263,5,'updated_at',-1234),(204,5,'upn',-1234),(245,5,'website',-1234),(111,5,'zoneinfo',-1234),(189,6,'http://eidas.europa.eu/attributes/legalperson/D-2012-17-EUIdentifier',-1234),(98,6,'http://eidas.europa.eu/attributes/legalperson/EORI',-1234),(92,6,'http://eidas.europa.eu/attributes/legalperson/LegalName',-1234),(173,6,'http://eidas.europa.eu/attributes/legalperson/LegalPersonAddress',-1234),(138,6,'http://eidas.europa.eu/attributes/legalperson/LegalPersonIdentifier',-1234),(177,6,'http://eidas.europa.eu/attributes/legalperson/LEI',-1234),(199,6,'http://eidas.europa.eu/attributes/legalperson/SEED',-1234),(257,6,'http://eidas.europa.eu/attributes/legalperson/SIC',-1234),(145,6,'http://eidas.europa.eu/attributes/legalperson/TaxReference',-1234),(236,6,'http://eidas.europa.eu/attributes/legalperson/VATRegistrationNumber',-1234),(104,7,'country',-1234),(90,7,'dob',-1234),(158,7,'email',-1234),(155,7,'fullname',-1234),(139,7,'gender',-1234),(140,7,'language',-1234),(203,7,'nickname',-1234),(97,7,'postcode',-1234),(125,7,'timezone',-1234),(175,8,'http://eidas.europa.eu/attributes/naturalperson/BirthName',-1234),(256,8,'http://eidas.europa.eu/attributes/naturalperson/CurrentAddress',-1234),(127,8,'http://eidas.europa.eu/attributes/naturalperson/CurrentFamilyName',-1234),(151,8,'http://eidas.europa.eu/attributes/naturalperson/CurrentGivenName',-1234),(240,8,'http://eidas.europa.eu/attributes/naturalperson/DateOfBirth',-1234),(250,8,'http://eidas.europa.eu/attributes/naturalperson/Gender',-1234),(209,8,'http://eidas.europa.eu/attributes/naturalperson/PersonIdentifier',-1234),(94,8,'http://eidas.europa.eu/attributes/naturalperson/PlaceOfBirth',-1234),(131,9,'urn:ietf:params:scim:schemas:core:2.0:externalId',-1234),(251,9,'urn:ietf:params:scim:schemas:core:2.0:id',-1234),(233,9,'urn:ietf:params:scim:schemas:core:2.0:meta.created',-1234),(163,9,'urn:ietf:params:scim:schemas:core:2.0:meta.lastModified',-1234),(161,9,'urn:ietf:params:scim:schemas:core:2.0:meta.location',-1234),(147,9,'urn:ietf:params:scim:schemas:core:2.0:meta.resourceType',-1234),(167,9,'urn:ietf:params:scim:schemas:core:2.0:meta.version',-1234),(262,10,'http://axschema.org/birthDate',-1234),(176,10,'http://axschema.org/contact/country/home',-1234),(238,10,'http://axschema.org/contact/email',-1234),(146,10,'http://axschema.org/contact/postalCode/home',-1234),(211,10,'http://axschema.org/namePerson/first',-1234),(156,10,'http://axschema.org/namePerson/last',-1234),(214,10,'http://axschema.org/person/gender',-1234),(132,10,'http://axschema.org/pref/language',-1234),(215,10,'http://axschema.org/pref/timezone',-1234),(196,11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:askPassword',-1234),(221,11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:costCenter',-1234),(253,11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:department',-1234),(198,11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:division',-1234),(130,11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:employeeNumber',-1234),(193,11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:manager.$ref',-1234),(242,11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:manager.displayName',-1234),(88,11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:manager.value',-1234),(96,11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:organization',-1234),(194,11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:verifyEmail',-1234);
+/*!40000 ALTER TABLE `IDN_CLAIM` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_CLAIM_DIALECT`
+--
+
+DROP TABLE IF EXISTS `IDN_CLAIM_DIALECT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_CLAIM_DIALECT` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `DIALECT_URI` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `DIALECT_URI_CONSTRAINT` (`DIALECT_URI`,`TENANT_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_CLAIM_DIALECT`
+--
+
+LOCK TABLES `IDN_CLAIM_DIALECT` WRITE;
+/*!40000 ALTER TABLE `IDN_CLAIM_DIALECT` DISABLE KEYS */;
+INSERT INTO `IDN_CLAIM_DIALECT` VALUES (10,'http://axschema.org',-1234),(6,'http://eidas.europa.eu/attributes/legalperson',-1234),(8,'http://eidas.europa.eu/attributes/naturalperson',-1234),(7,'http://schema.openid.net/2007/05/claims',-1234),(2,'http://schemas.xmlsoap.org/ws/2005/05/identity',-1234),(1,'http://wso2.org/claims',-1234),(5,'http://wso2.org/oidc/claim',-1234),(9,'urn:ietf:params:scim:schemas:core:2.0',-1234),(4,'urn:ietf:params:scim:schemas:core:2.0:User',-1234),(11,'urn:ietf:params:scim:schemas:extension:enterprise:2.0:User',-1234),(3,'urn:scim:schemas:core:1.0',-1234);
+/*!40000 ALTER TABLE `IDN_CLAIM_DIALECT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_CLAIM_MAPPED_ATTRIBUTE`
+--
+
+DROP TABLE IF EXISTS `IDN_CLAIM_MAPPED_ATTRIBUTE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_CLAIM_MAPPED_ATTRIBUTE` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `LOCAL_CLAIM_ID` int(11) DEFAULT NULL,
+  `USER_STORE_DOMAIN_NAME` varchar(255) NOT NULL,
+  `ATTRIBUTE_NAME` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `USER_STORE_DOMAIN_CONSTRAINT` (`LOCAL_CLAIM_ID`,`USER_STORE_DOMAIN_NAME`,`TENANT_ID`),
+  CONSTRAINT `IDN_CLAIM_MAPPED_ATTRIBUTE_ibfk_1` FOREIGN KEY (`LOCAL_CLAIM_ID`) REFERENCES `IDN_CLAIM` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_CLAIM_MAPPED_ATTRIBUTE`
+--
+
+LOCK TABLES `IDN_CLAIM_MAPPED_ATTRIBUTE` WRITE;
+/*!40000 ALTER TABLE `IDN_CLAIM_MAPPED_ATTRIBUTE` DISABLE KEYS */;
+INSERT INTO `IDN_CLAIM_MAPPED_ATTRIBUTE` VALUES (1,1,'PRIMARY','local',-1234),(2,2,'PRIMARY','local',-1234),(3,3,'PRIMARY','country',-1234),(4,4,'PRIMARY','displayName',-1234),(5,5,'PRIMARY','failedLockoutCount',-1234),(6,6,'PRIMARY','mobile',-1234),(7,7,'PRIMARY','nickName',-1234),(8,8,'PRIMARY','lockedReason',-1234),(9,9,'PRIMARY','cn',-1234),(10,10,'PRIMARY','honoricPrefix',-1234),(11,11,'PRIMARY','imSkype',-1234),(12,12,'PRIMARY','addresses',-1234),(13,13,'PRIMARY','region',-1234),(14,14,'PRIMARY','middleName',-1234),(15,15,'PRIMARY','lastLogonTime',-1234),(16,16,'PRIMARY','uid',-1234),(17,17,'PRIMARY','preferredLanguage',-1234),(18,18,'PRIMARY','extendedExternalId',-1234),(19,19,'PRIMARY','timeZone',-1234),(20,20,'PRIMARY','sn',-1234),(21,21,'PRIMARY','costCenter',-1234),(22,22,'PRIMARY','location',-1234),(23,23,'PRIMARY','challengeQuestionUris',-1234),(24,24,'PRIMARY','accountLock',-1234),(25,25,'PRIMARY','otherEmail',-1234),(26,26,'PRIMARY','departmentNumber',-1234),(27,27,'PRIMARY','photoUrl',-1234),(28,28,'PRIMARY','im',-1234),(29,29,'PRIMARY','postalcode',-1234),(30,30,'PRIMARY','mail',-1234),(31,31,'PRIMARY','organizationName',-1234),(32,32,'PRIMARY','workEmail',-1234),(33,33,'PRIMARY','url',-1234),(34,34,'PRIMARY','localityAddress',-1234),(35,35,'PRIMARY','unlockTime',-1234),(36,36,'PRIMARY','workPhone',-1234),(37,37,'PRIMARY','honoricSuffix',-1234),(38,38,'PRIMARY','phoneVerified',-1234),(39,39,'PRIMARY','primaryChallengeQuestion',-1234),(40,40,'PRIMARY','formattedAddress',-1234),(41,41,'PRIMARY','verifyEmail',-1234),(42,42,'PRIMARY','externalId',-1234),(43,43,'PRIMARY','firstChallenge',-1234),(44,44,'PRIMARY','fax',-1234),(45,45,'PRIMARY','lastModifiedDate',-1234),(46,46,'PRIMARY','formattedName',-1234),(47,47,'PRIMARY','askPassword',-1234),(48,48,'PRIMARY','secondChallenge',-1234),(49,49,'PRIMARY','homePhone',-1234),(50,50,'PRIMARY','failedRecoveryAttempts',-1234),(51,51,'PRIMARY','scimId',-1234),(52,52,'PRIMARY','streetAddress',-1234),(53,53,'PRIMARY','telephoneNumber',-1234),(54,54,'PRIMARY','accountDisabled',-1234),(55,55,'PRIMARY','givenName',-1234),(56,56,'PRIMARY','extendedDisplayName',-1234),(57,57,'PRIMARY','failedLoginAttempts',-1234),(58,58,'PRIMARY','imGtalk',-1234),(59,59,'PRIMARY','groups',-1234),(60,60,'PRIMARY','x509Certificates',-1234),(61,61,'PRIMARY','photos',-1234),(62,62,'PRIMARY','entitlements',-1234),(63,63,'PRIMARY','lastPasswordUpdate',-1234),(64,64,'PRIMARY','phoneNumbers',-1234),(65,65,'PRIMARY','dateOfBirth',-1234),(66,66,'PRIMARY','otherPhoneNumber',-1234),(67,67,'PRIMARY','uid',-1234),(68,68,'PRIMARY','homeEmail',-1234),(69,69,'PRIMARY','stateOrProvinceName',-1234),(70,70,'PRIMARY','oneTimePassword',-1234),(71,71,'PRIMARY','active',-1234),(72,72,'PRIMARY','ref',-1234),(73,73,'PRIMARY','emailVerified',-1234),(74,74,'PRIMARY','userType',-1234),(75,75,'PRIMARY','otherPhone',-1234),(76,76,'PRIMARY','thumbnail',-1234),(77,77,'PRIMARY','forcePasswordReset',-1234),(78,78,'PRIMARY','title',-1234),(79,79,'PRIMARY','lastLoginTime',-1234),(80,80,'PRIMARY','extendedRef',-1234),(81,81,'PRIMARY','createdDate',-1234),(82,82,'PRIMARY','gender',-1234),(83,83,'PRIMARY','role',-1234),(84,84,'PRIMARY','pager',-1234);
+/*!40000 ALTER TABLE `IDN_CLAIM_MAPPED_ATTRIBUTE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_CLAIM_MAPPING`
+--
+
+DROP TABLE IF EXISTS `IDN_CLAIM_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_CLAIM_MAPPING` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `EXT_CLAIM_ID` int(11) NOT NULL,
+  `MAPPED_LOCAL_CLAIM_ID` int(11) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `EXT_TO_LOC_MAPPING_CONSTRN` (`EXT_CLAIM_ID`,`TENANT_ID`),
+  KEY `MAPPED_LOCAL_CLAIM_ID` (`MAPPED_LOCAL_CLAIM_ID`),
+  CONSTRAINT `IDN_CLAIM_MAPPING_ibfk_1` FOREIGN KEY (`EXT_CLAIM_ID`) REFERENCES `IDN_CLAIM` (`ID`) ON DELETE CASCADE,
+  CONSTRAINT `IDN_CLAIM_MAPPING_ibfk_2` FOREIGN KEY (`MAPPED_LOCAL_CLAIM_ID`) REFERENCES `IDN_CLAIM` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_CLAIM_MAPPING`
+--
+
+LOCK TABLES `IDN_CLAIM_MAPPING` WRITE;
+/*!40000 ALTER TABLE `IDN_CLAIM_MAPPING` DISABLE KEYS */;
+INSERT INTO `IDN_CLAIM_MAPPING` VALUES (1,85,82,-1234),(2,86,52,-1234),(3,87,19,-1234),(4,88,82,-1234),(5,89,27,-1234),(6,90,65,-1234),(7,91,1,-1234),(8,92,56,-1234),(9,93,55,-1234),(10,94,3,-1234),(11,95,64,-1234),(12,96,31,-1234),(13,97,29,-1234),(14,98,26,-1234),(15,99,30,-1234),(16,100,64,-1234),(17,101,20,-1234),(18,102,27,-1234),(19,103,76,-1234),(20,104,3,-1234),(21,105,73,-1234),(22,106,78,-1234),(23,107,74,-1234),(24,108,68,-1234),(25,109,71,-1234),(26,110,84,-1234),(27,111,19,-1234),(28,112,37,-1234),(29,113,61,-1234),(30,114,4,-1234),(31,115,27,-1234),(32,116,45,-1234),(33,117,60,-1234),(34,118,46,-1234),(35,119,59,-1234),(36,120,49,-1234),(37,121,42,-1234),(38,122,83,-1234),(39,123,62,-1234),(40,124,2,-1234),(41,125,19,-1234),(42,126,12,-1234),(43,127,20,-1234),(44,128,4,-1234),(45,129,14,-1234),(46,130,18,-1234),(47,131,42,-1234),(48,132,17,-1234),(49,133,40,-1234),(50,134,16,-1234),(51,135,19,-1234),(52,136,37,-1234),(53,137,69,-1234),(54,138,18,-1234),(55,139,82,-1234),(56,140,17,-1234),(57,141,16,-1234),(58,142,16,-1234),(59,143,7,-1234),(60,144,7,-1234),(61,145,29,-1234),(62,146,29,-1234),(63,147,72,-1234),(64,148,11,-1234),(65,149,17,-1234),(66,150,66,-1234),(67,151,55,-1234),(68,152,14,-1234),(69,153,13,-1234),(70,154,6,-1234),(71,155,9,-1234),(72,156,20,-1234),(73,157,55,-1234),(74,158,30,-1234),(75,159,82,-1234),(76,160,13,-1234),(77,161,22,-1234),(78,162,68,-1234),(79,163,45,-1234),(80,164,33,-1234),(81,165,65,-1234),(82,166,20,-1234),(83,167,28,-1234),(84,168,60,-1234),(85,169,28,-1234),(86,170,33,-1234),(87,171,81,-1234),(88,172,38,-1234),(89,173,12,-1234),(90,174,11,-1234),(91,175,16,-1234),(92,176,3,-1234),(93,177,80,-1234),(94,178,36,-1234),(95,179,29,-1234),(96,180,32,-1234),(97,181,3,-1234),(98,182,83,-1234),(99,183,25,-1234),(100,184,12,-1234),(101,185,36,-1234),(102,186,20,-1234),(103,187,28,-1234),(104,188,6,-1234),(105,189,42,-1234),(106,190,71,-1234),(107,191,3,-1234),(108,192,22,-1234),(109,193,80,-1234),(110,194,41,-1234),(111,195,12,-1234),(112,196,47,-1234),(113,197,40,-1234),(114,198,69,-1234),(115,199,7,-1234),(116,200,29,-1234),(117,201,30,-1234),(118,202,76,-1234),(119,203,7,-1234),(120,204,67,-1234),(121,205,10,-1234),(122,206,1,-1234),(123,207,58,-1234),(124,208,29,-1234),(125,209,51,-1234),(126,210,55,-1234),(127,211,55,-1234),(128,212,2,-1234),(129,213,17,-1234),(130,214,82,-1234),(131,215,19,-1234),(132,216,78,-1234),(133,217,49,-1234),(134,218,13,-1234),(135,219,20,-1234),(136,220,25,-1234),(137,221,21,-1234),(138,222,66,-1234),(139,223,52,-1234),(140,224,51,-1234),(141,225,61,-1234),(142,226,59,-1234),(143,227,34,-1234),(144,228,10,-1234),(145,229,34,-1234),(146,230,14,-1234),(147,231,62,-1234),(148,232,4,-1234),(149,233,81,-1234),(150,234,9,-1234),(151,235,1,-1234),(152,236,28,-1234),(153,237,58,-1234),(154,238,30,-1234),(155,239,75,-1234),(156,240,65,-1234),(157,241,74,-1234),(158,242,56,-1234),(159,243,52,-1234),(160,244,7,-1234),(161,245,33,-1234),(162,246,83,-1234),(163,247,30,-1234),(164,248,32,-1234),(165,249,53,-1234),(166,250,82,-1234),(167,251,51,-1234),(168,252,7,-1234),(169,253,26,-1234),(170,254,49,-1234),(171,255,65,-1234),(172,256,12,-1234),(173,257,7,-1234),(174,258,55,-1234),(175,259,30,-1234),(176,260,6,-1234),(177,261,3,-1234),(178,262,65,-1234),(179,263,45,-1234),(180,264,33,-1234),(181,265,46,-1234),(182,266,44,-1234);
+/*!40000 ALTER TABLE `IDN_CLAIM_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_CLAIM_PROPERTY`
+--
+
+DROP TABLE IF EXISTS `IDN_CLAIM_PROPERTY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_CLAIM_PROPERTY` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `LOCAL_CLAIM_ID` int(11) DEFAULT NULL,
+  `PROPERTY_NAME` varchar(255) NOT NULL,
+  `PROPERTY_VALUE` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `PROPERTY_NAME_CONSTRAINT` (`LOCAL_CLAIM_ID`,`PROPERTY_NAME`,`TENANT_ID`),
+  CONSTRAINT `IDN_CLAIM_PROPERTY_ibfk_1` FOREIGN KEY (`LOCAL_CLAIM_ID`) REFERENCES `IDN_CLAIM` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_CLAIM_PROPERTY`
+--
+
+LOCK TABLES `IDN_CLAIM_PROPERTY` WRITE;
+/*!40000 ALTER TABLE `IDN_CLAIM_PROPERTY` DISABLE KEYS */;
+INSERT INTO `IDN_CLAIM_PROPERTY` VALUES (1,1,'Description','Local',-1234),(2,1,'DisplayName','Local',-1234),(3,2,'Description','Locality',-1234),(4,2,'DisplayName','Locality',-1234),(5,3,'Description','Country',-1234),(6,3,'DisplayOrder','5',-1234),(7,3,'SupportedByDefault','true',-1234),(8,3,'DisplayName','Country',-1234),(9,4,'Description','Display Name',-1234),(10,4,'DisplayName','Display Name',-1234),(11,5,'Description','Failed Lockout Count',-1234),(12,5,'DisplayName','Failed Lockout Count',-1234),(13,6,'Description','Mobile',-1234),(14,6,'DisplayOrder','8',-1234),(15,6,'SupportedByDefault','true',-1234),(16,6,'DisplayName','Mobile',-1234),(17,7,'Description','Nick Name',-1234),(18,7,'DisplayName','Nick Name',-1234),(19,8,'Description','Locked Reason',-1234),(20,8,'DisplayName','Locked Reason',-1234),(21,9,'Description','Full Name',-1234),(22,9,'DisplayName','Full Name',-1234),(23,10,'Description','Honoric Prefix',-1234),(24,10,'DisplayName','Name - Honoric Prefix',-1234),(25,11,'Description','IM - Skype',-1234),(26,11,'DisplayName','IM - Skype',-1234),(27,12,'Description','Address',-1234),(28,12,'DisplayName','Address',-1234),(29,13,'Description','Region',-1234),(30,13,'DisplayName','Region',-1234),(31,14,'Description','Middle Name',-1234),(32,14,'DisplayName','Middle Name',-1234),(33,15,'Description','Last Logon Time',-1234),(34,15,'DisplayName','Last Logon',-1234),(35,16,'Description','Username',-1234),(36,16,'DisplayName','Username',-1234),(37,17,'Description','Preferred Language',-1234),(38,17,'DisplayName','Preferred Language',-1234),(39,18,'Description','Extended External ID',-1234),(40,18,'DisplayName','Extended External ID',-1234),(41,19,'Description','Time Zone',-1234),(42,19,'DisplayName','Time Zone',-1234),(43,20,'Description','Last Name',-1234),(44,20,'DisplayOrder','2',-1234),(45,20,'Required','true',-1234),(46,20,'SupportedByDefault','true',-1234),(47,20,'DisplayName','Last Name',-1234),(48,21,'Description','Cost Center',-1234),(49,21,'DisplayName','Cost Center',-1234),(50,22,'Description','Location',-1234),(51,22,'DisplayName','Location',-1234),(52,23,'Description','Challenge Question',-1234),(53,23,'DisplayName','Challenge Question',-1234),(54,24,'Description','Account Locked',-1234),(55,24,'DisplayName','Account Locked',-1234),(56,25,'Description','Other Email',-1234),(57,25,'DisplayName','Emails - Other Email',-1234),(58,26,'ReadOnly','true',-1234),(59,26,'Description','Department',-1234),(60,26,'SupportedByDefault','true',-1234),(61,26,'DisplayName','Department',-1234),(62,27,'Description','Photo URL',-1234),(63,27,'DisplayName','Photo URIL',-1234),(64,28,'Description','IM',-1234),(65,28,'DisplayOrder','9',-1234),(66,28,'SupportedByDefault','true',-1234),(67,28,'DisplayName','IM',-1234),(68,29,'Description','Postal Code',-1234),(69,29,'DisplayName','Postal Code',-1234),(70,30,'Description','Email Address',-1234),(71,30,'DisplayOrder','6',-1234),(72,30,'Required','true',-1234),(73,30,'RegEx','^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$',-1234),(74,30,'SupportedByDefault','true',-1234),(75,30,'DisplayName','Email',-1234),(76,31,'Description','Organization',-1234),(77,31,'DisplayOrder','3',-1234),(78,31,'SupportedByDefault','true',-1234),(79,31,'DisplayName','Organization',-1234),(80,32,'Description','Work Email',-1234),(81,32,'DisplayName','Emails - Work Email',-1234),(82,33,'Description','URL',-1234),(83,33,'DisplayOrder','10',-1234),(84,33,'SupportedByDefault','true',-1234),(85,33,'DisplayName','URL',-1234),(86,34,'Description','Address - Locality',-1234),(87,34,'DisplayName','Address - Locality',-1234),(88,35,'Description','Unlock Time',-1234),(89,35,'DisplayName','Unlock Time',-1234),(90,36,'Description','Work Phone',-1234),(91,36,'DisplayName','Phone Numbers - Work Phone Number',-1234),(92,37,'Description','Honoric Suffix',-1234),(93,37,'DisplayName','Name - Honoric Suffix',-1234),(94,38,'Description','Phone Verified',-1234),(95,38,'DisplayName','Phone Verified',-1234),(96,39,'Description','Primary Challenge Question',-1234),(97,39,'DisplayName','Primary Challenge Question',-1234),(98,40,'Description','Address - Formatted',-1234),(99,40,'DisplayName','Address - Formatted',-1234),(100,41,'Description','Temporary claim to invoke email verified feature',-1234),(101,41,'DisplayName','Verify Email',-1234),(102,42,'ReadOnly','true',-1234),(103,42,'Description','Unique ID of the user used in external systems',-1234),(104,42,'DisplayName','External User ID',-1234),(105,43,'Description','Challenge Question1',-1234),(106,43,'DisplayName','Challenge Question1',-1234),(107,44,'Description','Fax Number',-1234),(108,44,'DisplayName','Phone Numbers - Fax Number',-1234),(109,45,'ReadOnly','true',-1234),(110,45,'Description','Last Modified timestamp of the user',-1234),(111,45,'DisplayName','Last Modified Time',-1234),(112,46,'Description','Formatted Name',-1234),(113,46,'DisplayName','Name - Formatted Name',-1234),(114,47,'Description','Temporary claim to invoke email ask Password feature',-1234),(115,47,'DisplayName','Ask Password',-1234),(116,48,'Description','Challenge Question2',-1234),(117,48,'DisplayName','Challenge Question2',-1234),(118,49,'Description','Home Phone',-1234),(119,49,'DisplayName','Phone Numbers - Home Phone Number',-1234),(120,50,'Description','Number of consecutive failed attempts done for password recovery',-1234),(121,50,'DisplayName','Failed Password Recovery Attempts',-1234),(122,51,'ReadOnly','true',-1234),(123,51,'Description','Unique ID of the user',-1234),(124,51,'DisplayName','User ID',-1234),(125,52,'Description','Address - Street',-1234),(126,52,'DisplayOrder','5',-1234),(127,52,'DisplayName','Address - Street',-1234),(128,53,'Description','Telephone',-1234),(129,53,'DisplayOrder','7',-1234),(130,53,'SupportedByDefault','true',-1234),(131,53,'DisplayName','Telephone',-1234),(132,54,'Description','Account Disabled',-1234),(133,54,'DisplayName','Account Disabled',-1234),(134,55,'Description','First Name',-1234),(135,55,'DisplayOrder','1',-1234),(136,55,'Required','true',-1234),(137,55,'SupportedByDefault','true',-1234),(138,55,'DisplayName','First Name',-1234),(139,56,'Description','Extended Display Name',-1234),(140,56,'DisplayName','Extended Display Name',-1234),(141,57,'Description','Failed Login Attempts',-1234),(142,57,'DisplayName','Failed Login Attempts',-1234),(143,58,'Description','IM - Gtalk',-1234),(144,58,'DisplayName','IM - Gtalk',-1234),(145,59,'Description','Groups',-1234),(146,59,'DisplayName','Groups',-1234),(147,60,'Description','X509Certificates',-1234),(148,60,'DisplayName','X509Certificates',-1234),(149,61,'Description','Photo',-1234),(150,61,'DisplayName','Photo',-1234),(151,62,'Description','Entitlements',-1234),(152,62,'DisplayName','Entitlements',-1234),(153,63,'Description','Last Password Update Time',-1234),(154,63,'DisplayName','Last Password Update',-1234),(155,64,'Description','Phone Numbers',-1234),(156,64,'RegEx','^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$',-1234),(157,64,'DisplayName','Phone Numbers',-1234),(158,65,'Description','Birth Date',-1234),(159,65,'DisplayName','Birth Date',-1234),(160,66,'Description','Other Phone Number',-1234),(161,66,'DisplayName','Phone Numbers - Other',-1234),(162,67,'Description','User Principal',-1234),(163,67,'DisplayName','User Principal',-1234),(164,68,'Description','Home Email',-1234),(165,68,'DisplayName','Emails - Home Email',-1234),(166,69,'Description','State',-1234),(167,69,'DisplayName','State',-1234),(168,70,'Description','One Time Password',-1234),(169,70,'DisplayName','One Time Password',-1234),(170,71,'Description','Status of the account',-1234),(171,71,'DisplayName','Active',-1234),(172,72,'Description','Resource Type',-1234),(173,72,'DisplayName','Resource Type',-1234),(174,73,'Description','Email Verified',-1234),(175,73,'DisplayName','Email Verified',-1234),(176,74,'Description','User Type',-1234),(177,74,'DisplayName','User Type',-1234),(178,75,'Description','Other Phone',-1234),(179,75,'DisplayName','Other Phone',-1234),(180,76,'Description','Photo - Thumbnail',-1234),(181,76,'DisplayName','Photo - Thumbnail',-1234),(182,77,'Description','Temporary claim to invoke email force password feature',-1234),(183,77,'DisplayName','Force Password Reset',-1234),(184,78,'Description','Title',-1234),(185,78,'DisplayName','Title',-1234),(186,79,'Description','Last Login Time',-1234),(187,79,'DisplayName','Last Login',-1234),(188,80,'Description','Extended Ref',-1234),(189,80,'DisplayName','Extended Ref',-1234),(190,81,'ReadOnly','true',-1234),(191,81,'Description','Created timestamp of the user',-1234),(192,81,'DisplayName','Created Time',-1234),(193,82,'Description','Gender',-1234),(194,82,'DisplayName','Gender',-1234),(195,83,'ReadOnly','true',-1234),(196,83,'Description','Role',-1234),(197,83,'SupportedByDefault','true',-1234),(198,83,'DisplayName','Role',-1234),(199,84,'Description','Pager Number',-1234),(200,84,'DisplayName','Phone Numbers - Pager Number',-1234);
+/*!40000 ALTER TABLE `IDN_CLAIM_PROPERTY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_IDENTITY_META_DATA`
+--
+
+DROP TABLE IF EXISTS `IDN_IDENTITY_META_DATA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_IDENTITY_META_DATA` (
+  `USER_NAME` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL DEFAULT '-1234',
+  `METADATA_TYPE` varchar(255) NOT NULL,
+  `METADATA` varchar(255) NOT NULL,
+  `VALID` varchar(255) NOT NULL,
+  PRIMARY KEY (`TENANT_ID`,`USER_NAME`,`METADATA_TYPE`,`METADATA`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_IDENTITY_META_DATA`
+--
+
+LOCK TABLES `IDN_IDENTITY_META_DATA` WRITE;
+/*!40000 ALTER TABLE `IDN_IDENTITY_META_DATA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_IDENTITY_META_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_IDENTITY_USER_DATA`
+--
+
+DROP TABLE IF EXISTS `IDN_IDENTITY_USER_DATA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_IDENTITY_USER_DATA` (
+  `TENANT_ID` int(11) NOT NULL DEFAULT '-1234',
+  `USER_NAME` varchar(255) NOT NULL,
+  `DATA_KEY` varchar(255) NOT NULL,
+  `DATA_VALUE` varchar(2048) DEFAULT NULL,
+  PRIMARY KEY (`TENANT_ID`,`USER_NAME`,`DATA_KEY`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_IDENTITY_USER_DATA`
+--
+
+LOCK TABLES `IDN_IDENTITY_USER_DATA` WRITE;
+/*!40000 ALTER TABLE `IDN_IDENTITY_USER_DATA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_IDENTITY_USER_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH1A_ACCESS_TOKEN`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH1A_ACCESS_TOKEN`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH1A_ACCESS_TOKEN` (
+  `ACCESS_TOKEN` varchar(255) NOT NULL,
+  `ACCESS_TOKEN_SECRET` varchar(512) DEFAULT NULL,
+  `CONSUMER_KEY_ID` int(11) DEFAULT NULL,
+  `SCOPE` varchar(2048) DEFAULT NULL,
+  `AUTHZ_USER` varchar(512) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`ACCESS_TOKEN`),
+  KEY `CONSUMER_KEY_ID` (`CONSUMER_KEY_ID`),
+  CONSTRAINT `IDN_OAUTH1A_ACCESS_TOKEN_ibfk_1` FOREIGN KEY (`CONSUMER_KEY_ID`) REFERENCES `IDN_OAUTH_CONSUMER_APPS` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH1A_ACCESS_TOKEN`
+--
+
+LOCK TABLES `IDN_OAUTH1A_ACCESS_TOKEN` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH1A_ACCESS_TOKEN` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OAUTH1A_ACCESS_TOKEN` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH1A_REQUEST_TOKEN`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH1A_REQUEST_TOKEN`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH1A_REQUEST_TOKEN` (
+  `REQUEST_TOKEN` varchar(255) NOT NULL,
+  `REQUEST_TOKEN_SECRET` varchar(512) DEFAULT NULL,
+  `CONSUMER_KEY_ID` int(11) DEFAULT NULL,
+  `CALLBACK_URL` varchar(1024) DEFAULT NULL,
+  `SCOPE` varchar(2048) DEFAULT NULL,
+  `AUTHORIZED` varchar(128) DEFAULT NULL,
+  `OAUTH_VERIFIER` varchar(512) DEFAULT NULL,
+  `AUTHZ_USER` varchar(512) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`REQUEST_TOKEN`),
+  KEY `CONSUMER_KEY_ID` (`CONSUMER_KEY_ID`),
+  CONSTRAINT `IDN_OAUTH1A_REQUEST_TOKEN_ibfk_1` FOREIGN KEY (`CONSUMER_KEY_ID`) REFERENCES `IDN_OAUTH_CONSUMER_APPS` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH1A_REQUEST_TOKEN`
+--
+
+LOCK TABLES `IDN_OAUTH1A_REQUEST_TOKEN` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH1A_REQUEST_TOKEN` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OAUTH1A_REQUEST_TOKEN` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH2_ACCESS_TOKEN`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH2_ACCESS_TOKEN`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH2_ACCESS_TOKEN` (
+  `TOKEN_ID` varchar(255) NOT NULL,
+  `ACCESS_TOKEN` varchar(2048) DEFAULT NULL,
+  `REFRESH_TOKEN` varchar(2048) DEFAULT NULL,
+  `CONSUMER_KEY_ID` int(11) DEFAULT NULL,
+  `AUTHZ_USER` varchar(100) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `USER_DOMAIN` varchar(50) DEFAULT NULL,
+  `USER_TYPE` varchar(25) DEFAULT NULL,
+  `GRANT_TYPE` varchar(50) DEFAULT NULL,
+  `TIME_CREATED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `REFRESH_TOKEN_TIME_CREATED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `VALIDITY_PERIOD` bigint(20) DEFAULT NULL,
+  `REFRESH_TOKEN_VALIDITY_PERIOD` bigint(20) DEFAULT NULL,
+  `TOKEN_SCOPE_HASH` varchar(32) DEFAULT NULL,
+  `TOKEN_STATE` varchar(25) DEFAULT 'ACTIVE',
+  `TOKEN_STATE_ID` varchar(128) DEFAULT 'NONE',
+  `SUBJECT_IDENTIFIER` varchar(255) DEFAULT NULL,
+  `ACCESS_TOKEN_HASH` varchar(512) DEFAULT NULL,
+  `REFRESH_TOKEN_HASH` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`TOKEN_ID`),
+  UNIQUE KEY `CON_APP_KEY` (`CONSUMER_KEY_ID`,`AUTHZ_USER`,`TENANT_ID`,`USER_DOMAIN`,`USER_TYPE`,`TOKEN_SCOPE_HASH`,`TOKEN_STATE`,`TOKEN_STATE_ID`),
+  KEY `IDX_AT_CK_AU` (`CONSUMER_KEY_ID`,`AUTHZ_USER`,`TOKEN_STATE`,`USER_TYPE`),
+  KEY `IDX_TC` (`TIME_CREATED`),
+  KEY `IDX_ATH` (`ACCESS_TOKEN_HASH`),
+  KEY `IDX_AT_TI_UD` (`AUTHZ_USER`,`TENANT_ID`,`TOKEN_STATE`,`USER_DOMAIN`),
+  KEY `IDX_IOAT_UT` (`USER_TYPE`),
+  CONSTRAINT `IDN_OAUTH2_ACCESS_TOKEN_ibfk_1` FOREIGN KEY (`CONSUMER_KEY_ID`) REFERENCES `IDN_OAUTH_CONSUMER_APPS` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH2_ACCESS_TOKEN`
+--
+
+LOCK TABLES `IDN_OAUTH2_ACCESS_TOKEN` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH2_ACCESS_TOKEN` DISABLE KEYS */;
+INSERT INTO `IDN_OAUTH2_ACCESS_TOKEN` VALUES ('1f67830a-df47-4f84-a31e-a4bc6885a299','c6d51eb5-eebc-3eb9-bacc-a200f42f9319','a8e1ac3c-e21d-3ddf-93f7-e6abbc47e72e',1,'admin',-1234,'PRIMARY','APPLICATION','client_credentials','2019-08-27 02:01:53','2019-08-27 02:01:53',3600000,84600000,'15703966c63ae7da301cd656ef647fa6','ACTIVE','NONE',NULL,'{\"hash\":\"c29e43d378af498455ee4a178b3b7ed669d3283a44b627ce35f97fda9ad53907\",\"algorithm\":\"SHA-256\"}','{\"hash\":\"5d32d77a4e10cd35fd8d0d48576b7b86eb7215073c5445f8c231e7077fdca87c\",\"algorithm\":\"SHA-256\"}');
+/*!40000 ALTER TABLE `IDN_OAUTH2_ACCESS_TOKEN` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH2_ACCESS_TOKEN_AUDIT`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH2_ACCESS_TOKEN_AUDIT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH2_ACCESS_TOKEN_AUDIT` (
+  `TOKEN_ID` varchar(255) DEFAULT NULL,
+  `ACCESS_TOKEN` varchar(2048) DEFAULT NULL,
+  `REFRESH_TOKEN` varchar(2048) DEFAULT NULL,
+  `CONSUMER_KEY_ID` int(11) DEFAULT NULL,
+  `AUTHZ_USER` varchar(100) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `USER_DOMAIN` varchar(50) DEFAULT NULL,
+  `USER_TYPE` varchar(25) DEFAULT NULL,
+  `GRANT_TYPE` varchar(50) DEFAULT NULL,
+  `TIME_CREATED` timestamp NULL DEFAULT NULL,
+  `REFRESH_TOKEN_TIME_CREATED` timestamp NULL DEFAULT NULL,
+  `VALIDITY_PERIOD` bigint(20) DEFAULT NULL,
+  `REFRESH_TOKEN_VALIDITY_PERIOD` bigint(20) DEFAULT NULL,
+  `TOKEN_SCOPE_HASH` varchar(32) DEFAULT NULL,
+  `TOKEN_STATE` varchar(25) DEFAULT NULL,
+  `TOKEN_STATE_ID` varchar(128) DEFAULT NULL,
+  `SUBJECT_IDENTIFIER` varchar(255) DEFAULT NULL,
+  `ACCESS_TOKEN_HASH` varchar(512) DEFAULT NULL,
+  `REFRESH_TOKEN_HASH` varchar(512) DEFAULT NULL,
+  `INVALIDATED_TIME` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH2_ACCESS_TOKEN_AUDIT`
+--
+
+LOCK TABLES `IDN_OAUTH2_ACCESS_TOKEN_AUDIT` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH2_ACCESS_TOKEN_AUDIT` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OAUTH2_ACCESS_TOKEN_AUDIT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH2_ACCESS_TOKEN_SCOPE`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH2_ACCESS_TOKEN_SCOPE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH2_ACCESS_TOKEN_SCOPE` (
+  `TOKEN_ID` varchar(255) NOT NULL,
+  `TOKEN_SCOPE` varchar(60) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`TOKEN_ID`,`TOKEN_SCOPE`),
+  CONSTRAINT `IDN_OAUTH2_ACCESS_TOKEN_SCOPE_ibfk_1` FOREIGN KEY (`TOKEN_ID`) REFERENCES `IDN_OAUTH2_ACCESS_TOKEN` (`TOKEN_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH2_ACCESS_TOKEN_SCOPE`
+--
+
+LOCK TABLES `IDN_OAUTH2_ACCESS_TOKEN_SCOPE` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH2_ACCESS_TOKEN_SCOPE` DISABLE KEYS */;
+INSERT INTO `IDN_OAUTH2_ACCESS_TOKEN_SCOPE` VALUES ('1f67830a-df47-4f84-a31e-a4bc6885a299','am_application_scope',-1234),('1f67830a-df47-4f84-a31e-a4bc6885a299','default',-1234);
+/*!40000 ALTER TABLE `IDN_OAUTH2_ACCESS_TOKEN_SCOPE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH2_AUTHORIZATION_CODE`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH2_AUTHORIZATION_CODE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH2_AUTHORIZATION_CODE` (
+  `CODE_ID` varchar(255) NOT NULL,
+  `AUTHORIZATION_CODE` varchar(2048) DEFAULT NULL,
+  `CONSUMER_KEY_ID` int(11) DEFAULT NULL,
+  `CALLBACK_URL` varchar(1024) DEFAULT NULL,
+  `SCOPE` varchar(2048) DEFAULT NULL,
+  `AUTHZ_USER` varchar(100) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `USER_DOMAIN` varchar(50) DEFAULT NULL,
+  `TIME_CREATED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `VALIDITY_PERIOD` bigint(20) DEFAULT NULL,
+  `STATE` varchar(25) DEFAULT 'ACTIVE',
+  `TOKEN_ID` varchar(255) DEFAULT NULL,
+  `SUBJECT_IDENTIFIER` varchar(255) DEFAULT NULL,
+  `PKCE_CODE_CHALLENGE` varchar(255) DEFAULT NULL,
+  `PKCE_CODE_CHALLENGE_METHOD` varchar(128) DEFAULT NULL,
+  `AUTHORIZATION_CODE_HASH` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`CODE_ID`),
+  KEY `CONSUMER_KEY_ID` (`CONSUMER_KEY_ID`),
+  KEY `IDX_AUTHORIZATION_CODE_HASH` (`AUTHORIZATION_CODE_HASH`,`CONSUMER_KEY_ID`),
+  KEY `IDX_AUTHORIZATION_CODE_AU_TI` (`AUTHZ_USER`,`TENANT_ID`,`USER_DOMAIN`,`STATE`),
+  CONSTRAINT `IDN_OAUTH2_AUTHORIZATION_CODE_ibfk_1` FOREIGN KEY (`CONSUMER_KEY_ID`) REFERENCES `IDN_OAUTH_CONSUMER_APPS` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH2_AUTHORIZATION_CODE`
+--
+
+LOCK TABLES `IDN_OAUTH2_AUTHORIZATION_CODE` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH2_AUTHORIZATION_CODE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OAUTH2_AUTHORIZATION_CODE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH2_RESOURCE_SCOPE`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH2_RESOURCE_SCOPE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH2_RESOURCE_SCOPE` (
+  `RESOURCE_PATH` varchar(255) NOT NULL,
+  `SCOPE_ID` int(11) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`RESOURCE_PATH`),
+  KEY `SCOPE_ID` (`SCOPE_ID`),
+  CONSTRAINT `IDN_OAUTH2_RESOURCE_SCOPE_ibfk_1` FOREIGN KEY (`SCOPE_ID`) REFERENCES `IDN_OAUTH2_SCOPE` (`SCOPE_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH2_RESOURCE_SCOPE`
+--
+
+LOCK TABLES `IDN_OAUTH2_RESOURCE_SCOPE` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH2_RESOURCE_SCOPE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OAUTH2_RESOURCE_SCOPE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH2_SCOPE`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH2_SCOPE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH2_SCOPE` (
+  `SCOPE_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) NOT NULL,
+  `DISPLAY_NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(512) DEFAULT NULL,
+  `TENANT_ID` int(11) NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`SCOPE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH2_SCOPE`
+--
+
+LOCK TABLES `IDN_OAUTH2_SCOPE` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH2_SCOPE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OAUTH2_SCOPE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH2_SCOPE_BINDING`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH2_SCOPE_BINDING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH2_SCOPE_BINDING` (
+  `SCOPE_ID` int(11) NOT NULL,
+  `SCOPE_BINDING` varchar(255) DEFAULT NULL,
+  KEY `SCOPE_ID` (`SCOPE_ID`),
+  CONSTRAINT `IDN_OAUTH2_SCOPE_BINDING_ibfk_1` FOREIGN KEY (`SCOPE_ID`) REFERENCES `IDN_OAUTH2_SCOPE` (`SCOPE_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH2_SCOPE_BINDING`
+--
+
+LOCK TABLES `IDN_OAUTH2_SCOPE_BINDING` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH2_SCOPE_BINDING` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OAUTH2_SCOPE_BINDING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH2_SCOPE_VALIDATORS`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH2_SCOPE_VALIDATORS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH2_SCOPE_VALIDATORS` (
+  `APP_ID` int(11) NOT NULL,
+  `SCOPE_VALIDATOR` varchar(128) NOT NULL,
+  PRIMARY KEY (`APP_ID`,`SCOPE_VALIDATOR`),
+  CONSTRAINT `IDN_OAUTH2_SCOPE_VALIDATORS_ibfk_1` FOREIGN KEY (`APP_ID`) REFERENCES `IDN_OAUTH_CONSUMER_APPS` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH2_SCOPE_VALIDATORS`
+--
+
+LOCK TABLES `IDN_OAUTH2_SCOPE_VALIDATORS` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH2_SCOPE_VALIDATORS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OAUTH2_SCOPE_VALIDATORS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OAUTH_CONSUMER_APPS`
+--
+
+DROP TABLE IF EXISTS `IDN_OAUTH_CONSUMER_APPS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OAUTH_CONSUMER_APPS` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `CONSUMER_KEY` varchar(255) DEFAULT NULL,
+  `CONSUMER_SECRET` varchar(2048) DEFAULT NULL,
+  `USERNAME` varchar(255) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT '0',
+  `USER_DOMAIN` varchar(50) DEFAULT NULL,
+  `APP_NAME` varchar(255) DEFAULT NULL,
+  `OAUTH_VERSION` varchar(128) DEFAULT NULL,
+  `CALLBACK_URL` varchar(1024) DEFAULT NULL,
+  `GRANT_TYPES` varchar(1024) DEFAULT NULL,
+  `PKCE_MANDATORY` char(1) DEFAULT '0',
+  `PKCE_SUPPORT_PLAIN` char(1) DEFAULT '0',
+  `APP_STATE` varchar(25) DEFAULT 'ACTIVE',
+  `USER_ACCESS_TOKEN_EXPIRE_TIME` bigint(20) DEFAULT '3600',
+  `APP_ACCESS_TOKEN_EXPIRE_TIME` bigint(20) DEFAULT '3600',
+  `REFRESH_TOKEN_EXPIRE_TIME` bigint(20) DEFAULT '84600',
+  `ID_TOKEN_EXPIRE_TIME` bigint(20) DEFAULT '3600',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `CONSUMER_KEY_CONSTRAINT` (`CONSUMER_KEY`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OAUTH_CONSUMER_APPS`
+--
+
+LOCK TABLES `IDN_OAUTH_CONSUMER_APPS` WRITE;
+/*!40000 ALTER TABLE `IDN_OAUTH_CONSUMER_APPS` DISABLE KEYS */;
+INSERT INTO `IDN_OAUTH_CONSUMER_APPS` VALUES (1,'HdE6lFif_fdxcUgRfJswpESbrjIa','Ssqa6wmk0vE161flpEojVkyvAkka','admin',-1234,'PRIMARY','admin_econtreras-admin_PRODUCTION','OAuth-2.0',NULL,'refresh_token urn:ietf:params:oauth:grant-type:saml2-bearer password client_credentials iwa:ntlm urn:ietf:params:oauth:grant-type:jwt-bearer','0','0','ACTIVE',3600,3600,84600,3600);
+/*!40000 ALTER TABLE `IDN_OAUTH_CONSUMER_APPS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OIDC_JTI`
+--
+
+DROP TABLE IF EXISTS `IDN_OIDC_JTI`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OIDC_JTI` (
+  `JWT_ID` varchar(255) NOT NULL,
+  `EXP_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `TIME_CREATED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`JWT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OIDC_JTI`
+--
+
+LOCK TABLES `IDN_OIDC_JTI` WRITE;
+/*!40000 ALTER TABLE `IDN_OIDC_JTI` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OIDC_JTI` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OIDC_PROPERTY`
+--
+
+DROP TABLE IF EXISTS `IDN_OIDC_PROPERTY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OIDC_PROPERTY` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `CONSUMER_KEY` varchar(255) DEFAULT NULL,
+  `PROPERTY_KEY` varchar(255) NOT NULL,
+  `PROPERTY_VALUE` varchar(2047) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `CONSUMER_KEY` (`CONSUMER_KEY`),
+  CONSTRAINT `IDN_OIDC_PROPERTY_ibfk_1` FOREIGN KEY (`CONSUMER_KEY`) REFERENCES `IDN_OAUTH_CONSUMER_APPS` (`CONSUMER_KEY`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OIDC_PROPERTY`
+--
+
+LOCK TABLES `IDN_OIDC_PROPERTY` WRITE;
+/*!40000 ALTER TABLE `IDN_OIDC_PROPERTY` DISABLE KEYS */;
+INSERT INTO `IDN_OIDC_PROPERTY` VALUES (1,-1234,'HdE6lFif_fdxcUgRfJswpESbrjIa','audience','http://org.wso2.apimgt/gateway'),(2,-1234,'HdE6lFif_fdxcUgRfJswpESbrjIa','requestObjectSigned','false'),(3,-1234,'HdE6lFif_fdxcUgRfJswpESbrjIa','idTokenEncrypted','false'),(4,-1234,'HdE6lFif_fdxcUgRfJswpESbrjIa','idTokenEncryptionAlgorithm','null'),(5,-1234,'HdE6lFif_fdxcUgRfJswpESbrjIa','idTokenEncryptionMethod','null'),(6,-1234,'HdE6lFif_fdxcUgRfJswpESbrjIa','backChannelLogoutURL',NULL),(7,-1234,'HdE6lFif_fdxcUgRfJswpESbrjIa','tokenType',NULL),(8,-1234,'HdE6lFif_fdxcUgRfJswpESbrjIa','bypassClientCredentials','false');
+/*!40000 ALTER TABLE `IDN_OIDC_PROPERTY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OIDC_REQ_OBJECT_CLAIMS`
+--
+
+DROP TABLE IF EXISTS `IDN_OIDC_REQ_OBJECT_CLAIMS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OIDC_REQ_OBJECT_CLAIMS` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `REQ_OBJECT_ID` int(11) DEFAULT NULL,
+  `CLAIM_ATTRIBUTE` varchar(255) DEFAULT NULL,
+  `ESSENTIAL` char(1) NOT NULL DEFAULT '0',
+  `VALUE` varchar(255) DEFAULT NULL,
+  `IS_USERINFO` char(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  KEY `REQ_OBJECT_ID` (`REQ_OBJECT_ID`),
+  CONSTRAINT `IDN_OIDC_REQ_OBJECT_CLAIMS_ibfk_1` FOREIGN KEY (`REQ_OBJECT_ID`) REFERENCES `IDN_OIDC_REQ_OBJECT_REFERENCE` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OIDC_REQ_OBJECT_CLAIMS`
+--
+
+LOCK TABLES `IDN_OIDC_REQ_OBJECT_CLAIMS` WRITE;
+/*!40000 ALTER TABLE `IDN_OIDC_REQ_OBJECT_CLAIMS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OIDC_REQ_OBJECT_CLAIMS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OIDC_REQ_OBJECT_REFERENCE`
+--
+
+DROP TABLE IF EXISTS `IDN_OIDC_REQ_OBJECT_REFERENCE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OIDC_REQ_OBJECT_REFERENCE` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `CONSUMER_KEY_ID` int(11) DEFAULT NULL,
+  `CODE_ID` varchar(255) DEFAULT NULL,
+  `TOKEN_ID` varchar(255) DEFAULT NULL,
+  `SESSION_DATA_KEY` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `CONSUMER_KEY_ID` (`CONSUMER_KEY_ID`),
+  KEY `TOKEN_ID` (`TOKEN_ID`),
+  KEY `CODE_ID` (`CODE_ID`),
+  CONSTRAINT `IDN_OIDC_REQ_OBJECT_REFERENCE_ibfk_1` FOREIGN KEY (`CONSUMER_KEY_ID`) REFERENCES `IDN_OAUTH_CONSUMER_APPS` (`ID`) ON DELETE CASCADE,
+  CONSTRAINT `IDN_OIDC_REQ_OBJECT_REFERENCE_ibfk_2` FOREIGN KEY (`TOKEN_ID`) REFERENCES `IDN_OAUTH2_ACCESS_TOKEN` (`TOKEN_ID`) ON DELETE CASCADE,
+  CONSTRAINT `IDN_OIDC_REQ_OBJECT_REFERENCE_ibfk_3` FOREIGN KEY (`CODE_ID`) REFERENCES `IDN_OAUTH2_AUTHORIZATION_CODE` (`CODE_ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OIDC_REQ_OBJECT_REFERENCE`
+--
+
+LOCK TABLES `IDN_OIDC_REQ_OBJECT_REFERENCE` WRITE;
+/*!40000 ALTER TABLE `IDN_OIDC_REQ_OBJECT_REFERENCE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OIDC_REQ_OBJECT_REFERENCE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OIDC_REQ_OBJ_CLAIM_VALUES`
+--
+
+DROP TABLE IF EXISTS `IDN_OIDC_REQ_OBJ_CLAIM_VALUES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OIDC_REQ_OBJ_CLAIM_VALUES` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `REQ_OBJECT_CLAIMS_ID` int(11) DEFAULT NULL,
+  `CLAIM_VALUES` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `REQ_OBJECT_CLAIMS_ID` (`REQ_OBJECT_CLAIMS_ID`),
+  CONSTRAINT `IDN_OIDC_REQ_OBJ_CLAIM_VALUES_ibfk_1` FOREIGN KEY (`REQ_OBJECT_CLAIMS_ID`) REFERENCES `IDN_OIDC_REQ_OBJECT_CLAIMS` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OIDC_REQ_OBJ_CLAIM_VALUES`
+--
+
+LOCK TABLES `IDN_OIDC_REQ_OBJ_CLAIM_VALUES` WRITE;
+/*!40000 ALTER TABLE `IDN_OIDC_REQ_OBJ_CLAIM_VALUES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OIDC_REQ_OBJ_CLAIM_VALUES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OIDC_SCOPE`
+--
+
+DROP TABLE IF EXISTS `IDN_OIDC_SCOPE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OIDC_SCOPE` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OIDC_SCOPE`
+--
+
+LOCK TABLES `IDN_OIDC_SCOPE` WRITE;
+/*!40000 ALTER TABLE `IDN_OIDC_SCOPE` DISABLE KEYS */;
+INSERT INTO `IDN_OIDC_SCOPE` VALUES (1,'openid',-1234),(2,'email',-1234),(3,'profile',-1234),(4,'phone',-1234),(5,'address',-1234);
+/*!40000 ALTER TABLE `IDN_OIDC_SCOPE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OIDC_SCOPE_CLAIM_MAPPING`
+--
+
+DROP TABLE IF EXISTS `IDN_OIDC_SCOPE_CLAIM_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OIDC_SCOPE_CLAIM_MAPPING` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SCOPE_ID` int(11) DEFAULT NULL,
+  `EXTERNAL_CLAIM_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `EXTERNAL_CLAIM_ID` (`EXTERNAL_CLAIM_ID`),
+  KEY `IDX_AT_SI_ECI` (`SCOPE_ID`,`EXTERNAL_CLAIM_ID`),
+  CONSTRAINT `IDN_OIDC_SCOPE_CLAIM_MAPPING_ibfk_1` FOREIGN KEY (`SCOPE_ID`) REFERENCES `IDN_OIDC_SCOPE` (`ID`) ON DELETE CASCADE,
+  CONSTRAINT `IDN_OIDC_SCOPE_CLAIM_MAPPING_ibfk_2` FOREIGN KEY (`EXTERNAL_CLAIM_ID`) REFERENCES `IDN_CLAIM` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OIDC_SCOPE_CLAIM_MAPPING`
+--
+
+LOCK TABLES `IDN_OIDC_SCOPE_CLAIM_MAPPING` WRITE;
+/*!40000 ALTER TABLE `IDN_OIDC_SCOPE_CLAIM_MAPPING` DISABLE KEYS */;
+INSERT INTO `IDN_OIDC_SCOPE_CLAIM_MAPPING` VALUES (6,1,85),(14,1,105),(4,1,111),(22,1,115),(8,1,128),(21,1,129),(1,1,141),(11,1,144),(16,1,170),(19,1,172),(26,1,179),(18,1,182),(15,1,184),(3,1,191),(7,1,197),(12,1,201),(23,1,204),(20,1,210),(17,1,212),(27,1,218),(28,1,219),(24,1,234),(9,1,235),(2,1,243),(13,1,245),(25,1,249),(5,1,255),(10,1,263),(29,2,105),(30,2,201),(34,3,85),(32,3,111),(40,3,115),(36,3,128),(38,3,129),(43,3,144),(35,3,170),(37,3,210),(44,3,219),(42,3,234),(39,3,235),(31,3,245),(33,3,255),(41,3,263),(45,4,172),(46,4,249),(48,5,184),(47,5,243);
+/*!40000 ALTER TABLE `IDN_OIDC_SCOPE_CLAIM_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OPENID_ASSOCIATIONS`
+--
+
+DROP TABLE IF EXISTS `IDN_OPENID_ASSOCIATIONS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OPENID_ASSOCIATIONS` (
+  `HANDLE` varchar(255) NOT NULL,
+  `ASSOC_TYPE` varchar(255) NOT NULL,
+  `EXPIRE_IN` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `MAC_KEY` varchar(255) NOT NULL,
+  `ASSOC_STORE` varchar(128) DEFAULT 'SHARED',
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`HANDLE`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OPENID_ASSOCIATIONS`
+--
+
+LOCK TABLES `IDN_OPENID_ASSOCIATIONS` WRITE;
+/*!40000 ALTER TABLE `IDN_OPENID_ASSOCIATIONS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OPENID_ASSOCIATIONS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OPENID_REMEMBER_ME`
+--
+
+DROP TABLE IF EXISTS `IDN_OPENID_REMEMBER_ME`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OPENID_REMEMBER_ME` (
+  `USER_NAME` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL DEFAULT '0',
+  `COOKIE_VALUE` varchar(1024) DEFAULT NULL,
+  `CREATED_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`USER_NAME`,`TENANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OPENID_REMEMBER_ME`
+--
+
+LOCK TABLES `IDN_OPENID_REMEMBER_ME` WRITE;
+/*!40000 ALTER TABLE `IDN_OPENID_REMEMBER_ME` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OPENID_REMEMBER_ME` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_OPENID_USER_RPS`
+--
+
+DROP TABLE IF EXISTS `IDN_OPENID_USER_RPS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_OPENID_USER_RPS` (
+  `USER_NAME` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL DEFAULT '0',
+  `RP_URL` varchar(255) NOT NULL,
+  `TRUSTED_ALWAYS` varchar(128) DEFAULT 'FALSE',
+  `LAST_VISIT` date NOT NULL,
+  `VISIT_COUNT` int(11) DEFAULT '0',
+  `DEFAULT_PROFILE_NAME` varchar(255) DEFAULT 'DEFAULT',
+  PRIMARY KEY (`USER_NAME`,`TENANT_ID`,`RP_URL`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_OPENID_USER_RPS`
+--
+
+LOCK TABLES `IDN_OPENID_USER_RPS` WRITE;
+/*!40000 ALTER TABLE `IDN_OPENID_USER_RPS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_OPENID_USER_RPS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_PASSWORD_HISTORY_DATA`
+--
+
+DROP TABLE IF EXISTS `IDN_PASSWORD_HISTORY_DATA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_PASSWORD_HISTORY_DATA` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_NAME` varchar(255) NOT NULL,
+  `USER_DOMAIN` varchar(127) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  `SALT_VALUE` varchar(255) DEFAULT NULL,
+  `HASH` varchar(255) NOT NULL,
+  `TIME_CREATED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `USER_NAME` (`USER_NAME`,`USER_DOMAIN`,`TENANT_ID`,`SALT_VALUE`,`HASH`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_PASSWORD_HISTORY_DATA`
+--
+
+LOCK TABLES `IDN_PASSWORD_HISTORY_DATA` WRITE;
+/*!40000 ALTER TABLE `IDN_PASSWORD_HISTORY_DATA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_PASSWORD_HISTORY_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_RECOVERY_DATA`
+--
+
+DROP TABLE IF EXISTS `IDN_RECOVERY_DATA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_RECOVERY_DATA` (
+  `USER_NAME` varchar(255) NOT NULL,
+  `USER_DOMAIN` varchar(127) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL DEFAULT '-1',
+  `CODE` varchar(255) NOT NULL,
+  `SCENARIO` varchar(255) NOT NULL,
+  `STEP` varchar(127) NOT NULL,
+  `TIME_CREATED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `REMAINING_SETS` varchar(2500) DEFAULT NULL,
+  PRIMARY KEY (`USER_NAME`,`USER_DOMAIN`,`TENANT_ID`,`SCENARIO`,`STEP`),
+  UNIQUE KEY `CODE` (`CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_RECOVERY_DATA`
+--
+
+LOCK TABLES `IDN_RECOVERY_DATA` WRITE;
+/*!40000 ALTER TABLE `IDN_RECOVERY_DATA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_RECOVERY_DATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_SAML2_ARTIFACT_STORE`
+--
+
+DROP TABLE IF EXISTS `IDN_SAML2_ARTIFACT_STORE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_SAML2_ARTIFACT_STORE` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SOURCE_ID` varchar(255) NOT NULL,
+  `MESSAGE_HANDLER` varchar(255) NOT NULL,
+  `AUTHN_REQ_DTO` blob NOT NULL,
+  `SESSION_ID` varchar(255) NOT NULL,
+  `EXP_TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `INIT_TIMESTAMP` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ASSERTION_ID` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_SAML2_ARTIFACT_STORE`
+--
+
+LOCK TABLES `IDN_SAML2_ARTIFACT_STORE` WRITE;
+/*!40000 ALTER TABLE `IDN_SAML2_ARTIFACT_STORE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_SAML2_ARTIFACT_STORE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_SAML2_ASSERTION_STORE`
+--
+
+DROP TABLE IF EXISTS `IDN_SAML2_ASSERTION_STORE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_SAML2_ASSERTION_STORE` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SAML2_ID` varchar(255) DEFAULT NULL,
+  `SAML2_ISSUER` varchar(255) DEFAULT NULL,
+  `SAML2_SUBJECT` varchar(255) DEFAULT NULL,
+  `SAML2_SESSION_INDEX` varchar(255) DEFAULT NULL,
+  `SAML2_AUTHN_CONTEXT_CLASS_REF` varchar(255) DEFAULT NULL,
+  `SAML2_ASSERTION` varchar(4096) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_SAML2_ASSERTION_STORE`
+--
+
+LOCK TABLES `IDN_SAML2_ASSERTION_STORE` WRITE;
+/*!40000 ALTER TABLE `IDN_SAML2_ASSERTION_STORE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_SAML2_ASSERTION_STORE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_SCIM_GROUP`
+--
+
+DROP TABLE IF EXISTS `IDN_SCIM_GROUP`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_SCIM_GROUP` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `ROLE_NAME` varchar(255) NOT NULL,
+  `ATTR_NAME` varchar(1024) NOT NULL,
+  `ATTR_VALUE` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `IDX_IDN_SCIM_GROUP_TI_RN` (`TENANT_ID`,`ROLE_NAME`),
+  KEY `IDX_IDN_SCIM_GROUP_TI_RN_AN` (`TENANT_ID`,`ROLE_NAME`,`ATTR_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_SCIM_GROUP`
+--
+
+LOCK TABLES `IDN_SCIM_GROUP` WRITE;
+/*!40000 ALTER TABLE `IDN_SCIM_GROUP` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_SCIM_GROUP` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_STS_STORE`
+--
+
+DROP TABLE IF EXISTS `IDN_STS_STORE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_STS_STORE` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TOKEN_ID` varchar(255) NOT NULL,
+  `TOKEN_CONTENT` blob NOT NULL,
+  `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `EXPIRE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `STATE` int(11) DEFAULT '0',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_STS_STORE`
+--
+
+LOCK TABLES `IDN_STS_STORE` WRITE;
+/*!40000 ALTER TABLE `IDN_STS_STORE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_STS_STORE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_THRIFT_SESSION`
+--
+
+DROP TABLE IF EXISTS `IDN_THRIFT_SESSION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_THRIFT_SESSION` (
+  `SESSION_ID` varchar(255) NOT NULL,
+  `USER_NAME` varchar(255) NOT NULL,
+  `CREATED_TIME` varchar(255) NOT NULL,
+  `LAST_MODIFIED_TIME` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`SESSION_ID`),
+  KEY `IDX_ITS_LMT` (`LAST_MODIFIED_TIME`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_THRIFT_SESSION`
+--
+
+LOCK TABLES `IDN_THRIFT_SESSION` WRITE;
+/*!40000 ALTER TABLE `IDN_THRIFT_SESSION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_THRIFT_SESSION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDN_USER_ACCOUNT_ASSOCIATION`
+--
+
+DROP TABLE IF EXISTS `IDN_USER_ACCOUNT_ASSOCIATION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDN_USER_ACCOUNT_ASSOCIATION` (
+  `ASSOCIATION_KEY` varchar(255) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  `DOMAIN_NAME` varchar(255) NOT NULL,
+  `USER_NAME` varchar(255) NOT NULL,
+  PRIMARY KEY (`TENANT_ID`,`DOMAIN_NAME`,`USER_NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDN_USER_ACCOUNT_ASSOCIATION`
+--
+
+LOCK TABLES `IDN_USER_ACCOUNT_ASSOCIATION` WRITE;
+/*!40000 ALTER TABLE `IDN_USER_ACCOUNT_ASSOCIATION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDN_USER_ACCOUNT_ASSOCIATION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP`
+--
+
+DROP TABLE IF EXISTS `IDP`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `NAME` varchar(254) NOT NULL,
+  `IS_ENABLED` char(1) NOT NULL DEFAULT '1',
+  `IS_PRIMARY` char(1) NOT NULL DEFAULT '0',
+  `HOME_REALM_ID` varchar(254) DEFAULT NULL,
+  `IMAGE` mediumblob,
+  `CERTIFICATE` blob,
+  `ALIAS` varchar(254) DEFAULT NULL,
+  `INBOUND_PROV_ENABLED` char(1) NOT NULL DEFAULT '0',
+  `INBOUND_PROV_USER_STORE_ID` varchar(254) DEFAULT NULL,
+  `USER_CLAIM_URI` varchar(254) DEFAULT NULL,
+  `ROLE_CLAIM_URI` varchar(254) DEFAULT NULL,
+  `DESCRIPTION` varchar(1024) DEFAULT NULL,
+  `DEFAULT_AUTHENTICATOR_NAME` varchar(254) DEFAULT NULL,
+  `DEFAULT_PRO_CONNECTOR_NAME` varchar(254) DEFAULT NULL,
+  `PROVISIONING_ROLE` varchar(128) DEFAULT NULL,
+  `IS_FEDERATION_HUB` char(1) NOT NULL DEFAULT '0',
+  `IS_LOCAL_CLAIM_DIALECT` char(1) NOT NULL DEFAULT '0',
+  `DISPLAY_NAME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `TENANT_ID` (`TENANT_ID`,`NAME`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP`
+--
+
+LOCK TABLES `IDP` WRITE;
+/*!40000 ALTER TABLE `IDP` DISABLE KEYS */;
+INSERT INTO `IDP` VALUES (1,-1234,'LOCAL','1','1','192.168.0.4',NULL,_binary '[]',NULL,'0',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'0','0',NULL);
+/*!40000 ALTER TABLE `IDP` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_AUTHENTICATOR`
+--
+
+DROP TABLE IF EXISTS `IDP_AUTHENTICATOR`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_AUTHENTICATOR` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `IDP_ID` int(11) DEFAULT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `IS_ENABLED` char(1) DEFAULT '1',
+  `DISPLAY_NAME` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `TENANT_ID` (`TENANT_ID`,`IDP_ID`,`NAME`),
+  KEY `IDP_ID` (`IDP_ID`),
+  CONSTRAINT `IDP_AUTHENTICATOR_ibfk_1` FOREIGN KEY (`IDP_ID`) REFERENCES `IDP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_AUTHENTICATOR`
+--
+
+LOCK TABLES `IDP_AUTHENTICATOR` WRITE;
+/*!40000 ALTER TABLE `IDP_AUTHENTICATOR` DISABLE KEYS */;
+INSERT INTO `IDP_AUTHENTICATOR` VALUES (1,-1234,1,'passivests','0',NULL),(2,-1234,1,'samlsso','0',NULL),(3,-1234,1,'openidconnect','0',NULL),(4,-1234,1,'IDPProperties','0',NULL);
+/*!40000 ALTER TABLE `IDP_AUTHENTICATOR` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_AUTHENTICATOR_PROPERTY`
+--
+
+DROP TABLE IF EXISTS `IDP_AUTHENTICATOR_PROPERTY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_AUTHENTICATOR_PROPERTY` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `AUTHENTICATOR_ID` int(11) DEFAULT NULL,
+  `PROPERTY_KEY` varchar(255) NOT NULL,
+  `PROPERTY_VALUE` varchar(2047) DEFAULT NULL,
+  `IS_SECRET` char(1) DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `TENANT_ID` (`TENANT_ID`,`AUTHENTICATOR_ID`,`PROPERTY_KEY`),
+  KEY `AUTHENTICATOR_ID` (`AUTHENTICATOR_ID`),
+  CONSTRAINT `IDP_AUTHENTICATOR_PROPERTY_ibfk_1` FOREIGN KEY (`AUTHENTICATOR_ID`) REFERENCES `IDP_AUTHENTICATOR` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_AUTHENTICATOR_PROPERTY`
+--
+
+LOCK TABLES `IDP_AUTHENTICATOR_PROPERTY` WRITE;
+/*!40000 ALTER TABLE `IDP_AUTHENTICATOR_PROPERTY` DISABLE KEYS */;
+INSERT INTO `IDP_AUTHENTICATOR_PROPERTY` VALUES (1,-1234,1,'IdPEntityId','192.168.0.4','0'),(2,-1234,2,'IdPEntityId','192.168.0.4','0'),(3,-1234,3,'IdPEntityId','https://localhost:9443/oauth2/token','0'),(4,-1234,4,'CleanUpPeriod','1140','0');
+/*!40000 ALTER TABLE `IDP_AUTHENTICATOR_PROPERTY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_CLAIM`
+--
+
+DROP TABLE IF EXISTS `IDP_CLAIM`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_CLAIM` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IDP_ID` int(11) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `CLAIM` varchar(254) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `IDP_ID` (`IDP_ID`,`CLAIM`),
+  CONSTRAINT `IDP_CLAIM_ibfk_1` FOREIGN KEY (`IDP_ID`) REFERENCES `IDP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_CLAIM`
+--
+
+LOCK TABLES `IDP_CLAIM` WRITE;
+/*!40000 ALTER TABLE `IDP_CLAIM` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDP_CLAIM` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_CLAIM_MAPPING`
+--
+
+DROP TABLE IF EXISTS `IDP_CLAIM_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_CLAIM_MAPPING` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IDP_CLAIM_ID` int(11) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `LOCAL_CLAIM` varchar(253) DEFAULT NULL,
+  `DEFAULT_VALUE` varchar(255) DEFAULT NULL,
+  `IS_REQUESTED` varchar(128) DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `IDP_CLAIM_ID` (`IDP_CLAIM_ID`,`TENANT_ID`,`LOCAL_CLAIM`),
+  CONSTRAINT `IDP_CLAIM_MAPPING_ibfk_1` FOREIGN KEY (`IDP_CLAIM_ID`) REFERENCES `IDP_CLAIM` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_CLAIM_MAPPING`
+--
+
+LOCK TABLES `IDP_CLAIM_MAPPING` WRITE;
+/*!40000 ALTER TABLE `IDP_CLAIM_MAPPING` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDP_CLAIM_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_LOCAL_CLAIM`
+--
+
+DROP TABLE IF EXISTS `IDP_LOCAL_CLAIM`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_LOCAL_CLAIM` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `IDP_ID` int(11) DEFAULT NULL,
+  `CLAIM_URI` varchar(255) NOT NULL,
+  `DEFAULT_VALUE` varchar(255) DEFAULT NULL,
+  `IS_REQUESTED` varchar(128) DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `TENANT_ID` (`TENANT_ID`,`IDP_ID`,`CLAIM_URI`),
+  KEY `IDP_ID` (`IDP_ID`),
+  CONSTRAINT `IDP_LOCAL_CLAIM_ibfk_1` FOREIGN KEY (`IDP_ID`) REFERENCES `IDP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_LOCAL_CLAIM`
+--
+
+LOCK TABLES `IDP_LOCAL_CLAIM` WRITE;
+/*!40000 ALTER TABLE `IDP_LOCAL_CLAIM` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDP_LOCAL_CLAIM` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_METADATA`
+--
+
+DROP TABLE IF EXISTS `IDP_METADATA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_METADATA` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IDP_ID` int(11) DEFAULT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `VALUE` varchar(255) NOT NULL,
+  `DISPLAY_NAME` varchar(255) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `IDP_METADATA_CONSTRAINT` (`IDP_ID`,`NAME`),
+  CONSTRAINT `IDP_METADATA_ibfk_1` FOREIGN KEY (`IDP_ID`) REFERENCES `IDP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_METADATA`
+--
+
+LOCK TABLES `IDP_METADATA` WRITE;
+/*!40000 ALTER TABLE `IDP_METADATA` DISABLE KEYS */;
+INSERT INTO `IDP_METADATA` VALUES (1,1,'RememberMeTimeout','20160',NULL,-1234),(2,1,'SessionIdleTimeout','15',NULL,-1234),(3,1,'PASSWORD_PROVISIONING_ENABLED','false',NULL,-1234),(4,1,'MODIFY_USERNAME_ENABLED','false',NULL,-1234),(5,1,'PROMPT_CONSENT_ENABLED','false',NULL,-1234);
+/*!40000 ALTER TABLE `IDP_METADATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_PROVISIONING_CONFIG`
+--
+
+DROP TABLE IF EXISTS `IDP_PROVISIONING_CONFIG`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_PROVISIONING_CONFIG` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `IDP_ID` int(11) DEFAULT NULL,
+  `PROVISIONING_CONNECTOR_TYPE` varchar(255) NOT NULL,
+  `IS_ENABLED` char(1) DEFAULT '0',
+  `IS_BLOCKING` char(1) DEFAULT '0',
+  `IS_RULES_ENABLED` char(1) DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `TENANT_ID` (`TENANT_ID`,`IDP_ID`,`PROVISIONING_CONNECTOR_TYPE`),
+  KEY `IDP_ID` (`IDP_ID`),
+  CONSTRAINT `IDP_PROVISIONING_CONFIG_ibfk_1` FOREIGN KEY (`IDP_ID`) REFERENCES `IDP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_PROVISIONING_CONFIG`
+--
+
+LOCK TABLES `IDP_PROVISIONING_CONFIG` WRITE;
+/*!40000 ALTER TABLE `IDP_PROVISIONING_CONFIG` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDP_PROVISIONING_CONFIG` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_PROVISIONING_ENTITY`
+--
+
+DROP TABLE IF EXISTS `IDP_PROVISIONING_ENTITY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_PROVISIONING_ENTITY` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `PROVISIONING_CONFIG_ID` int(11) DEFAULT NULL,
+  `ENTITY_TYPE` varchar(255) NOT NULL,
+  `ENTITY_LOCAL_USERSTORE` varchar(255) NOT NULL,
+  `ENTITY_NAME` varchar(255) NOT NULL,
+  `ENTITY_VALUE` varchar(255) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `ENTITY_LOCAL_ID` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ENTITY_TYPE` (`ENTITY_TYPE`,`TENANT_ID`,`ENTITY_LOCAL_USERSTORE`,`ENTITY_NAME`,`PROVISIONING_CONFIG_ID`),
+  UNIQUE KEY `PROVISIONING_CONFIG_ID` (`PROVISIONING_CONFIG_ID`,`ENTITY_TYPE`,`ENTITY_VALUE`),
+  CONSTRAINT `IDP_PROVISIONING_ENTITY_ibfk_1` FOREIGN KEY (`PROVISIONING_CONFIG_ID`) REFERENCES `IDP_PROVISIONING_CONFIG` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_PROVISIONING_ENTITY`
+--
+
+LOCK TABLES `IDP_PROVISIONING_ENTITY` WRITE;
+/*!40000 ALTER TABLE `IDP_PROVISIONING_ENTITY` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDP_PROVISIONING_ENTITY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_PROV_CONFIG_PROPERTY`
+--
+
+DROP TABLE IF EXISTS `IDP_PROV_CONFIG_PROPERTY`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_PROV_CONFIG_PROPERTY` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `PROVISIONING_CONFIG_ID` int(11) DEFAULT NULL,
+  `PROPERTY_KEY` varchar(255) NOT NULL,
+  `PROPERTY_VALUE` varchar(2048) DEFAULT NULL,
+  `PROPERTY_BLOB_VALUE` blob,
+  `PROPERTY_TYPE` char(32) NOT NULL,
+  `IS_SECRET` char(1) DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `TENANT_ID` (`TENANT_ID`,`PROVISIONING_CONFIG_ID`,`PROPERTY_KEY`),
+  KEY `PROVISIONING_CONFIG_ID` (`PROVISIONING_CONFIG_ID`),
+  CONSTRAINT `IDP_PROV_CONFIG_PROPERTY_ibfk_1` FOREIGN KEY (`PROVISIONING_CONFIG_ID`) REFERENCES `IDP_PROVISIONING_CONFIG` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_PROV_CONFIG_PROPERTY`
+--
+
+LOCK TABLES `IDP_PROV_CONFIG_PROPERTY` WRITE;
+/*!40000 ALTER TABLE `IDP_PROV_CONFIG_PROPERTY` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDP_PROV_CONFIG_PROPERTY` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_ROLE`
+--
+
+DROP TABLE IF EXISTS `IDP_ROLE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_ROLE` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IDP_ID` int(11) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `ROLE` varchar(254) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `IDP_ID` (`IDP_ID`,`ROLE`),
+  CONSTRAINT `IDP_ROLE_ibfk_1` FOREIGN KEY (`IDP_ID`) REFERENCES `IDP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_ROLE`
+--
+
+LOCK TABLES `IDP_ROLE` WRITE;
+/*!40000 ALTER TABLE `IDP_ROLE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDP_ROLE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `IDP_ROLE_MAPPING`
+--
+
+DROP TABLE IF EXISTS `IDP_ROLE_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `IDP_ROLE_MAPPING` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IDP_ROLE_ID` int(11) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT NULL,
+  `USER_STORE_ID` varchar(253) DEFAULT NULL,
+  `LOCAL_ROLE` varchar(253) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `IDP_ROLE_ID` (`IDP_ROLE_ID`,`TENANT_ID`,`USER_STORE_ID`,`LOCAL_ROLE`),
+  CONSTRAINT `IDP_ROLE_MAPPING_ibfk_1` FOREIGN KEY (`IDP_ROLE_ID`) REFERENCES `IDP_ROLE` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `IDP_ROLE_MAPPING`
+--
+
+LOCK TABLES `IDP_ROLE_MAPPING` WRITE;
+/*!40000 ALTER TABLE `IDP_ROLE_MAPPING` DISABLE KEYS */;
+/*!40000 ALTER TABLE `IDP_ROLE_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_APP`
+--
+
+DROP TABLE IF EXISTS `SP_APP`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_APP` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `APP_NAME` varchar(255) NOT NULL,
+  `USER_STORE` varchar(255) NOT NULL,
+  `USERNAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(1024) DEFAULT NULL,
+  `ROLE_CLAIM` varchar(512) DEFAULT NULL,
+  `AUTH_TYPE` varchar(255) NOT NULL,
+  `PROVISIONING_USERSTORE_DOMAIN` varchar(512) DEFAULT NULL,
+  `IS_LOCAL_CLAIM_DIALECT` char(1) DEFAULT '1',
+  `IS_SEND_LOCAL_SUBJECT_ID` char(1) DEFAULT '0',
+  `IS_SEND_AUTH_LIST_OF_IDPS` char(1) DEFAULT '0',
+  `IS_USE_TENANT_DOMAIN_SUBJECT` char(1) DEFAULT '1',
+  `IS_USE_USER_DOMAIN_SUBJECT` char(1) DEFAULT '1',
+  `ENABLE_AUTHORIZATION` char(1) DEFAULT '0',
+  `SUBJECT_CLAIM_URI` varchar(512) DEFAULT NULL,
+  `IS_SAAS_APP` char(1) DEFAULT '0',
+  `IS_DUMB_MODE` char(1) DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `APPLICATION_NAME_CONSTRAINT` (`APP_NAME`,`TENANT_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_APP`
+--
+
+LOCK TABLES `SP_APP` WRITE;
+/*!40000 ALTER TABLE `SP_APP` DISABLE KEYS */;
+INSERT INTO `SP_APP` VALUES (1,-1234,'admin_econtreras-admin_PRODUCTION','PRIMARY','admin','Service Provider for application admin_econtreras-admin_PRODUCTION',NULL,'default',NULL,'1','0','0','0','0','0',NULL,'0','0');
+/*!40000 ALTER TABLE `SP_APP` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_AUTH_SCRIPT`
+--
+
+DROP TABLE IF EXISTS `SP_AUTH_SCRIPT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_AUTH_SCRIPT` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `APP_ID` int(11) NOT NULL,
+  `TYPE` varchar(255) NOT NULL,
+  `CONTENT` blob,
+  `IS_ENABLED` char(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_AUTH_SCRIPT`
+--
+
+LOCK TABLES `SP_AUTH_SCRIPT` WRITE;
+/*!40000 ALTER TABLE `SP_AUTH_SCRIPT` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SP_AUTH_SCRIPT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_AUTH_STEP`
+--
+
+DROP TABLE IF EXISTS `SP_AUTH_STEP`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_AUTH_STEP` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `STEP_ORDER` int(11) DEFAULT '1',
+  `APP_ID` int(11) NOT NULL,
+  `IS_SUBJECT_STEP` char(1) DEFAULT '0',
+  `IS_ATTRIBUTE_STEP` char(1) DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  KEY `APPLICATION_ID_CONSTRAINT_STEP` (`APP_ID`),
+  CONSTRAINT `APPLICATION_ID_CONSTRAINT_STEP` FOREIGN KEY (`APP_ID`) REFERENCES `SP_APP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_AUTH_STEP`
+--
+
+LOCK TABLES `SP_AUTH_STEP` WRITE;
+/*!40000 ALTER TABLE `SP_AUTH_STEP` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SP_AUTH_STEP` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_CLAIM_DIALECT`
+--
+
+DROP TABLE IF EXISTS `SP_CLAIM_DIALECT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_CLAIM_DIALECT` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `SP_DIALECT` varchar(512) NOT NULL,
+  `APP_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `DIALECTID_APPID_CONSTRAINT` (`APP_ID`),
+  CONSTRAINT `DIALECTID_APPID_CONSTRAINT` FOREIGN KEY (`APP_ID`) REFERENCES `SP_APP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_CLAIM_DIALECT`
+--
+
+LOCK TABLES `SP_CLAIM_DIALECT` WRITE;
+/*!40000 ALTER TABLE `SP_CLAIM_DIALECT` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SP_CLAIM_DIALECT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_CLAIM_MAPPING`
+--
+
+DROP TABLE IF EXISTS `SP_CLAIM_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_CLAIM_MAPPING` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `IDP_CLAIM` varchar(512) NOT NULL,
+  `SP_CLAIM` varchar(512) NOT NULL,
+  `APP_ID` int(11) NOT NULL,
+  `IS_REQUESTED` varchar(128) DEFAULT '0',
+  `IS_MANDATORY` varchar(128) DEFAULT '0',
+  `DEFAULT_VALUE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `CLAIMID_APPID_CONSTRAINT` (`APP_ID`),
+  CONSTRAINT `CLAIMID_APPID_CONSTRAINT` FOREIGN KEY (`APP_ID`) REFERENCES `SP_APP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_CLAIM_MAPPING`
+--
+
+LOCK TABLES `SP_CLAIM_MAPPING` WRITE;
+/*!40000 ALTER TABLE `SP_CLAIM_MAPPING` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SP_CLAIM_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_FEDERATED_IDP`
+--
+
+DROP TABLE IF EXISTS `SP_FEDERATED_IDP`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_FEDERATED_IDP` (
+  `ID` int(11) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL,
+  `AUTHENTICATOR_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`,`AUTHENTICATOR_ID`),
+  CONSTRAINT `STEP_ID_CONSTRAINT` FOREIGN KEY (`ID`) REFERENCES `SP_AUTH_STEP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_FEDERATED_IDP`
+--
+
+LOCK TABLES `SP_FEDERATED_IDP` WRITE;
+/*!40000 ALTER TABLE `SP_FEDERATED_IDP` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SP_FEDERATED_IDP` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_INBOUND_AUTH`
+--
+
+DROP TABLE IF EXISTS `SP_INBOUND_AUTH`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_INBOUND_AUTH` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `INBOUND_AUTH_KEY` varchar(255) DEFAULT NULL,
+  `INBOUND_AUTH_TYPE` varchar(255) NOT NULL,
+  `INBOUND_CONFIG_TYPE` varchar(255) NOT NULL,
+  `PROP_NAME` varchar(255) DEFAULT NULL,
+  `PROP_VALUE` varchar(1024) DEFAULT NULL,
+  `APP_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `APPLICATION_ID_CONSTRAINT` (`APP_ID`),
+  CONSTRAINT `APPLICATION_ID_CONSTRAINT` FOREIGN KEY (`APP_ID`) REFERENCES `SP_APP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_INBOUND_AUTH`
+--
+
+LOCK TABLES `SP_INBOUND_AUTH` WRITE;
+/*!40000 ALTER TABLE `SP_INBOUND_AUTH` DISABLE KEYS */;
+INSERT INTO `SP_INBOUND_AUTH` VALUES (1,-1234,'HdE6lFif_fdxcUgRfJswpESbrjIa','oauth2','standardAPP',NULL,NULL,1);
+/*!40000 ALTER TABLE `SP_INBOUND_AUTH` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_METADATA`
+--
+
+DROP TABLE IF EXISTS `SP_METADATA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_METADATA` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SP_ID` int(11) DEFAULT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `VALUE` varchar(255) NOT NULL,
+  `DISPLAY_NAME` varchar(255) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `SP_METADATA_CONSTRAINT` (`SP_ID`,`NAME`),
+  CONSTRAINT `SP_METADATA_ibfk_1` FOREIGN KEY (`SP_ID`) REFERENCES `SP_APP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_METADATA`
+--
+
+LOCK TABLES `SP_METADATA` WRITE;
+/*!40000 ALTER TABLE `SP_METADATA` DISABLE KEYS */;
+INSERT INTO `SP_METADATA` VALUES (2,1,'USE_DOMAIN_IN_ROLES','true','DOMAIN_IN_ROLES',-1234);
+/*!40000 ALTER TABLE `SP_METADATA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_PROVISIONING_CONNECTOR`
+--
+
+DROP TABLE IF EXISTS `SP_PROVISIONING_CONNECTOR`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_PROVISIONING_CONNECTOR` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `IDP_NAME` varchar(255) NOT NULL,
+  `CONNECTOR_NAME` varchar(255) NOT NULL,
+  `APP_ID` int(11) NOT NULL,
+  `IS_JIT_ENABLED` char(1) NOT NULL DEFAULT '0',
+  `BLOCKING` char(1) NOT NULL DEFAULT '0',
+  `RULE_ENABLED` char(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  KEY `PRO_CONNECTOR_APPID_CONSTRAINT` (`APP_ID`),
+  CONSTRAINT `PRO_CONNECTOR_APPID_CONSTRAINT` FOREIGN KEY (`APP_ID`) REFERENCES `SP_APP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_PROVISIONING_CONNECTOR`
+--
+
+LOCK TABLES `SP_PROVISIONING_CONNECTOR` WRITE;
+/*!40000 ALTER TABLE `SP_PROVISIONING_CONNECTOR` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SP_PROVISIONING_CONNECTOR` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_REQ_PATH_AUTHENTICATOR`
+--
+
+DROP TABLE IF EXISTS `SP_REQ_PATH_AUTHENTICATOR`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_REQ_PATH_AUTHENTICATOR` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `AUTHENTICATOR_NAME` varchar(255) NOT NULL,
+  `APP_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `REQ_AUTH_APPID_CONSTRAINT` (`APP_ID`),
+  CONSTRAINT `REQ_AUTH_APPID_CONSTRAINT` FOREIGN KEY (`APP_ID`) REFERENCES `SP_APP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_REQ_PATH_AUTHENTICATOR`
+--
+
+LOCK TABLES `SP_REQ_PATH_AUTHENTICATOR` WRITE;
+/*!40000 ALTER TABLE `SP_REQ_PATH_AUTHENTICATOR` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SP_REQ_PATH_AUTHENTICATOR` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_ROLE_MAPPING`
+--
+
+DROP TABLE IF EXISTS `SP_ROLE_MAPPING`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_ROLE_MAPPING` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `IDP_ROLE` varchar(255) NOT NULL,
+  `SP_ROLE` varchar(255) NOT NULL,
+  `APP_ID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `ROLEID_APPID_CONSTRAINT` (`APP_ID`),
+  CONSTRAINT `ROLEID_APPID_CONSTRAINT` FOREIGN KEY (`APP_ID`) REFERENCES `SP_APP` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_ROLE_MAPPING`
+--
+
+LOCK TABLES `SP_ROLE_MAPPING` WRITE;
+/*!40000 ALTER TABLE `SP_ROLE_MAPPING` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SP_ROLE_MAPPING` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SP_TEMPLATE`
+--
+
+DROP TABLE IF EXISTS `SP_TEMPLATE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `SP_TEMPLATE` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TENANT_ID` int(11) NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `DESCRIPTION` varchar(1023) DEFAULT NULL,
+  `CONTENT` blob,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `SP_TEMPLATE_CONSTRAINT` (`TENANT_ID`,`NAME`),
+  KEY `IDX_SP_TEMPLATE` (`TENANT_ID`,`NAME`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SP_TEMPLATE`
+--
+
+LOCK TABLES `SP_TEMPLATE` WRITE;
+/*!40000 ALTER TABLE `SP_TEMPLATE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SP_TEMPLATE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `WF_BPS_PROFILE`
+--
+
+DROP TABLE IF EXISTS `WF_BPS_PROFILE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `WF_BPS_PROFILE` (
+  `PROFILE_NAME` varchar(45) NOT NULL,
+  `HOST_URL_MANAGER` varchar(255) DEFAULT NULL,
+  `HOST_URL_WORKER` varchar(255) DEFAULT NULL,
+  `USERNAME` varchar(45) DEFAULT NULL,
+  `PASSWORD` varchar(1023) DEFAULT NULL,
+  `CALLBACK_HOST` varchar(45) DEFAULT NULL,
+  `CALLBACK_USERNAME` varchar(45) DEFAULT NULL,
+  `CALLBACK_PASSWORD` varchar(255) DEFAULT NULL,
+  `TENANT_ID` int(11) NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`PROFILE_NAME`,`TENANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `WF_BPS_PROFILE`
+--
+
+LOCK TABLES `WF_BPS_PROFILE` WRITE;
+/*!40000 ALTER TABLE `WF_BPS_PROFILE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `WF_BPS_PROFILE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `WF_REQUEST`
+--
+
+DROP TABLE IF EXISTS `WF_REQUEST`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `WF_REQUEST` (
+  `UUID` varchar(45) NOT NULL,
+  `CREATED_BY` varchar(255) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  `OPERATION_TYPE` varchar(50) DEFAULT NULL,
+  `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `UPDATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `STATUS` varchar(30) DEFAULT NULL,
+  `REQUEST` blob,
+  PRIMARY KEY (`UUID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `WF_REQUEST`
+--
+
+LOCK TABLES `WF_REQUEST` WRITE;
+/*!40000 ALTER TABLE `WF_REQUEST` DISABLE KEYS */;
+/*!40000 ALTER TABLE `WF_REQUEST` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `WF_REQUEST_ENTITY_RELATIONSHIP`
+--
+
+DROP TABLE IF EXISTS `WF_REQUEST_ENTITY_RELATIONSHIP`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `WF_REQUEST_ENTITY_RELATIONSHIP` (
+  `REQUEST_ID` varchar(45) NOT NULL,
+  `ENTITY_NAME` varchar(255) NOT NULL,
+  `ENTITY_TYPE` varchar(50) NOT NULL,
+  `TENANT_ID` int(11) NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`REQUEST_ID`,`ENTITY_NAME`,`ENTITY_TYPE`,`TENANT_ID`),
+  CONSTRAINT `WF_REQUEST_ENTITY_RELATIONSHIP_ibfk_1` FOREIGN KEY (`REQUEST_ID`) REFERENCES `WF_REQUEST` (`UUID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `WF_REQUEST_ENTITY_RELATIONSHIP`
+--
+
+LOCK TABLES `WF_REQUEST_ENTITY_RELATIONSHIP` WRITE;
+/*!40000 ALTER TABLE `WF_REQUEST_ENTITY_RELATIONSHIP` DISABLE KEYS */;
+/*!40000 ALTER TABLE `WF_REQUEST_ENTITY_RELATIONSHIP` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `WF_WORKFLOW`
+--
+
+DROP TABLE IF EXISTS `WF_WORKFLOW`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `WF_WORKFLOW` (
+  `ID` varchar(45) NOT NULL,
+  `WF_NAME` varchar(45) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `TEMPLATE_ID` varchar(45) DEFAULT NULL,
+  `IMPL_ID` varchar(45) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `WF_WORKFLOW`
+--
+
+LOCK TABLES `WF_WORKFLOW` WRITE;
+/*!40000 ALTER TABLE `WF_WORKFLOW` DISABLE KEYS */;
+/*!40000 ALTER TABLE `WF_WORKFLOW` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `WF_WORKFLOW_ASSOCIATION`
+--
+
+DROP TABLE IF EXISTS `WF_WORKFLOW_ASSOCIATION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `WF_WORKFLOW_ASSOCIATION` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ASSOC_NAME` varchar(45) DEFAULT NULL,
+  `EVENT_ID` varchar(45) DEFAULT NULL,
+  `ASSOC_CONDITION` varchar(2000) DEFAULT NULL,
+  `WORKFLOW_ID` varchar(45) DEFAULT NULL,
+  `IS_ENABLED` char(1) DEFAULT '1',
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`ID`),
+  KEY `WORKFLOW_ID` (`WORKFLOW_ID`),
+  CONSTRAINT `WF_WORKFLOW_ASSOCIATION_ibfk_1` FOREIGN KEY (`WORKFLOW_ID`) REFERENCES `WF_WORKFLOW` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `WF_WORKFLOW_ASSOCIATION`
+--
+
+LOCK TABLES `WF_WORKFLOW_ASSOCIATION` WRITE;
+/*!40000 ALTER TABLE `WF_WORKFLOW_ASSOCIATION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `WF_WORKFLOW_ASSOCIATION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `WF_WORKFLOW_CONFIG_PARAM`
+--
+
+DROP TABLE IF EXISTS `WF_WORKFLOW_CONFIG_PARAM`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `WF_WORKFLOW_CONFIG_PARAM` (
+  `WORKFLOW_ID` varchar(45) NOT NULL,
+  `PARAM_NAME` varchar(45) NOT NULL,
+  `PARAM_VALUE` varchar(1000) DEFAULT NULL,
+  `PARAM_QNAME` varchar(45) NOT NULL,
+  `PARAM_HOLDER` varchar(45) NOT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`WORKFLOW_ID`,`PARAM_NAME`,`PARAM_QNAME`,`PARAM_HOLDER`),
+  CONSTRAINT `WF_WORKFLOW_CONFIG_PARAM_ibfk_1` FOREIGN KEY (`WORKFLOW_ID`) REFERENCES `WF_WORKFLOW` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `WF_WORKFLOW_CONFIG_PARAM`
+--
+
+LOCK TABLES `WF_WORKFLOW_CONFIG_PARAM` WRITE;
+/*!40000 ALTER TABLE `WF_WORKFLOW_CONFIG_PARAM` DISABLE KEYS */;
+/*!40000 ALTER TABLE `WF_WORKFLOW_CONFIG_PARAM` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `WF_WORKFLOW_REQUEST_RELATION`
+--
+
+DROP TABLE IF EXISTS `WF_WORKFLOW_REQUEST_RELATION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `WF_WORKFLOW_REQUEST_RELATION` (
+  `RELATIONSHIP_ID` varchar(45) NOT NULL,
+  `WORKFLOW_ID` varchar(45) DEFAULT NULL,
+  `REQUEST_ID` varchar(45) DEFAULT NULL,
+  `UPDATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `STATUS` varchar(30) DEFAULT NULL,
+  `TENANT_ID` int(11) DEFAULT '-1',
+  PRIMARY KEY (`RELATIONSHIP_ID`),
+  KEY `WORKFLOW_ID` (`WORKFLOW_ID`),
+  KEY `REQUEST_ID` (`REQUEST_ID`),
+  CONSTRAINT `WF_WORKFLOW_REQUEST_RELATION_ibfk_1` FOREIGN KEY (`WORKFLOW_ID`) REFERENCES `WF_WORKFLOW` (`ID`) ON DELETE CASCADE,
+  CONSTRAINT `WF_WORKFLOW_REQUEST_RELATION_ibfk_2` FOREIGN KEY (`REQUEST_ID`) REFERENCES `WF_REQUEST` (`UUID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `WF_WORKFLOW_REQUEST_RELATION`
+--
+
+LOCK TABLES `WF_WORKFLOW_REQUEST_RELATION` WRITE;
+/*!40000 ALTER TABLE `WF_WORKFLOW_REQUEST_RELATION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `WF_WORKFLOW_REQUEST_RELATION` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-08-26 22:12:26
