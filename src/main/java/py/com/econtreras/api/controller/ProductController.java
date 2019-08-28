@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import py.com.econtreras.api.beans.Product;
+import py.com.econtreras.api.beans.ProductRequest;
+import py.com.econtreras.api.beans.ProductResponse;
 import py.com.econtreras.api.service.ProductService;
 
 @RestController
@@ -23,22 +24,22 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-    public List<Product> findAll() {
+    public List<ProductResponse> findAll() {
         return service.findAll();
     }
     
     @GetMapping(value="/{id}", produces= MediaType.APPLICATION_JSON_VALUE)
-    public Product findById(@PathVariable Integer id) {
+    public ProductResponse findById(@PathVariable Integer id) {
         return service.findById(id);
     }
     
     @PutMapping("/{id}")
-    public Product put(@PathVariable Integer id, @Valid @RequestBody Product product) {
+    public ProductResponse put(@PathVariable Integer id, @Valid @RequestBody ProductRequest product) {
         return service.update(id, product);
     }
     
     @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-    public Product save(@Valid @RequestBody Product product) {
+    public ProductResponse save(@Valid @RequestBody ProductRequest product) {
         return service.save(product);
     }
     

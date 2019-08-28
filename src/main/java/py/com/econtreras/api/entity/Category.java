@@ -41,7 +41,7 @@ public class Category implements Serializable {
     private Date modificationDate;
     @JoinColumn(name = "categoria_padre", referencedColumnName = "id")
     @ManyToOne
-    private Category category;
+    private Category superCategory;
     @JoinColumn(name = "usu_alta", referencedColumnName = "id")
     @ManyToOne
     private User creationUser;

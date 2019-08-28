@@ -1,22 +1,37 @@
 package py.com.econtreras.api.converter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import py.com.econtreras.api.entity.Category;
+import py.com.econtreras.api.repository.CategoryRepository;
 
 @Component
 public class CategoryConverter {
+    
+    @Autowired
+    CategoryRepository categoryRepository;
 
-    public Category buildEntity(py.com.econtreras.api.beans.Category bean) {
+    public Category buildEntity(py.com.econtreras.api.beans.CategoryRequest bean) {
         Category entity = new Category();
         entity.setId(bean.getId());
         entity.setDescription(bean.getDescription());
+        entity.setSuperCategory(categoryRepository.findById(bean.getSuperCategory()).get());
         return entity;
     }
 
-    public py.com.econtreras.api.beans.Category buildBean(Category entity) {
-        py.com.econtreras.api.beans.Category bean = new py.com.econtreras.api.beans.Category();
-        bean.setId(entity.getId());
+    public py.com.econtreras.api.beans.CategoryResponse buildBean(Category entity) {
+        py.com.econtreras.api.beans.CategoryResponse bean = new py.com.econtreras.api.beans.CategoryResponse();
+        bean.setCategoryId(entity.getId());
         bean.setDescription(entity.getDescription());
+        return bean;
+    }
+    
+    public py.com.econtreras.api.beans.CategoryResponse buildBean(Category entity, Link... links) {
+        py.com.econtreras.api.beans.CategoryResponse bean = new py.com.econtreras.api.beans.CategoryResponse();
+        bean.setCategoryId(entity.getId());
+        bean.setDescription(entity.getDescription());
+        bean.add(links);
         return bean;
     }
 }

@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import py.com.econtreras.api.beans.Category;
+import py.com.econtreras.api.beans.CategoryRequest;
+import py.com.econtreras.api.beans.CategoryResponse;
 import py.com.econtreras.api.service.CategoryService;
 
 @RestController
@@ -23,22 +24,22 @@ public class CategoryController {
     private CategoryService service;
     
     @GetMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-    public List<Category> findAll() {
+    public List<CategoryResponse> findAll() {
         return service.findAll();
     }
     
     @GetMapping(value="/{id}", produces= MediaType.APPLICATION_JSON_VALUE)
-    public Category findById(@PathVariable Integer id) {
+    public CategoryResponse findById(@PathVariable Integer id) {
         return service.findById(id);
     }
     
     @PutMapping("/{id}")
-    public Category put(@PathVariable Integer id, @Valid @RequestBody Category category) {
+    public CategoryResponse put(@PathVariable Integer id, @Valid @RequestBody CategoryRequest category) {
         return service.update(id, category);
     }
     
     @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-    public Category save(@Valid @RequestBody Category category) {
+    public CategoryResponse save(@Valid @RequestBody CategoryRequest category) {
         return service.save(category);
     }
     

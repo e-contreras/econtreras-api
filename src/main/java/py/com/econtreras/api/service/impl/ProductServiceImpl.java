@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import py.com.econtreras.api.beans.Product;
+import py.com.econtreras.api.beans.ProductRequest;
+import py.com.econtreras.api.beans.ProductResponse;
 import py.com.econtreras.api.converter.ProductConverter;
 import py.com.econtreras.api.exception.APIException;
 import py.com.econtreras.api.messages.ApiMessage;
@@ -26,12 +27,13 @@ public class ProductServiceImpl implements ProductService {
     private ProductConverter converter;
     @Autowired
     ApiMessage message;
-    private static final Logger LOGGER = LogManager.getLogger(ProductServiceImpl.class);
     private Link[] links;
-
+    
+    private static final Logger LOGGER = LogManager.getLogger(ProductServiceImpl.class);
+    
     
     @Override
-    public Product findById(Integer id) {
+    public ProductResponse findById(Integer id) {
         try {
             Optional<py.com.econtreras.api.entity.Product> optional = repo.findById(id);
             if (!optional.isPresent()) {
@@ -49,13 +51,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAll() {
+    public List<ProductResponse> findAll() {
         try {
             Iterable<py.com.econtreras.api.entity.Product> entityList = repo.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
-            List<Product> beans = new ArrayList<>();
+            List<ProductResponse> beans = new ArrayList<>();
             for (py.com.econtreras.api.entity.Product entity : entityList) {
                 beans.add(this.getBean(entity));
             }
@@ -69,9 +71,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product save(Product product) {
+    public ProductResponse save(ProductRequest product) {
         try {
-            return converter.buildBean(repo.save(converter.buildEntity(product)));
+            return this.getBean(repo.save(converter.buildEntity(product)));
         } catch (APIException e) {
             throw e;
         } catch (Exception e) {
@@ -81,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(Integer id, Product product) {
+    public ProductResponse update(Integer id, ProductRequest product) {
         try {
             Optional<py.com.econtreras.api.entity.Product> optionalEntity = repo.findById(id);
             if (!optionalEntity.isPresent()) {
@@ -110,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
     
-    private Product getBean(py.com.econtreras.api.entity.Product product){
+    private ProductResponse getBean(py.com.econtreras.api.entity.Product product){
         links = cargarEnlaces(product);
         if (links == null || links.length == 0){
             return converter.buildBean(product);

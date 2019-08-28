@@ -1,17 +1,18 @@
 package py.com.econtreras.api.service;
 
 import java.util.List;
-import py.com.econtreras.api.beans.Product;
+import py.com.econtreras.api.beans.ProductRequest;
+import py.com.econtreras.api.beans.ProductResponse;
 
 public interface ProductService {
 
-    Product findById(Integer id);
+    ProductResponse findById(Integer id);
 
-    List<Product> findAll();
+    List<ProductResponse> findAll();
 
-    Product save(Product product);
+    ProductResponse save(ProductRequest product);
 
-    Product update(Integer id, Product product);
+    ProductResponse update(Integer id, ProductRequest product);
 
     Boolean delete(Integer id);
 }

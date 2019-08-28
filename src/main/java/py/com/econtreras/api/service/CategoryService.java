@@ -1,17 +1,18 @@
 package py.com.econtreras.api.service;
 
 import java.util.List;
-import py.com.econtreras.api.beans.Category;
+import py.com.econtreras.api.beans.CategoryRequest;
+import py.com.econtreras.api.beans.CategoryResponse;
 
 public interface CategoryService {
 
-    Category findById(Integer id);
+    CategoryResponse findById(Integer id);
 
-    List<Category> findAll();
+    List<CategoryResponse> findAll();
 
-    Category save(Category category);
+    CategoryResponse save(CategoryRequest category);
     
-    Category update(Integer id, Category category);
+    CategoryResponse update(Integer id, CategoryRequest category);
 
     Boolean delete(Integer id);
 }
