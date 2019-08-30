@@ -1842,12 +1842,15 @@ DROP TABLE IF EXISTS `vehiculos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `vehiculos` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `marca` varchar(45) NOT NULL,
   `model` varchar(45) NOT NULL,
+  `anho` int(11) NOT NULL,
   `capacidad` varchar(45) NOT NULL,
   `num_documento` varchar(45) NOT NULL,
   `matricula` varchar(45) NOT NULL,
+  `chasis` varchar(45) NOT NULL,
+  `borrado` tinyint(4) NOT NULL DEFAULT '0',
   `usu_alta` int(11) DEFAULT NULL,
   `usu_modificacion` int(11) DEFAULT NULL,
   `fec_alta` datetime DEFAULT NULL,

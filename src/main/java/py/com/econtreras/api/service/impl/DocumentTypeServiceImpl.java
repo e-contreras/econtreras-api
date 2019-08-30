@@ -21,78 +21,79 @@ import py.com.econtreras.api.service.DocumentTypeService;
 @Service
 public class DocumentTypeServiceImpl implements DocumentTypeService {
 
-	@Autowired
-	private DocumentTypeRepository repo;
-	@Autowired
-	private DocumentTypeConverter converter;
-	@Autowired
-	ApiMessage message;
-	private static final Logger LOGGER = LogManager.getLogger(DocumentTypeServiceImpl.class);
+    @Autowired
+    private DocumentTypeRepository repo;
+    @Autowired
+    private DocumentTypeConverter converter;
+    @Autowired
+    ApiMessage message;
+    private static final Logger LOGGER = LogManager.getLogger(DocumentTypeServiceImpl.class);
 
-	@Override
-	public DocumentType findById(Integer id) {
-		try {
-			Optional<py.com.econtreras.api.entity.DocumentType> optional = repo.findById(id);
-			if (!optional.isPresent()) {
-				throw new APIException(HttpStatus.NO_CONTENT);
-			} else {
-				return converter.buildBean(optional.get());
-			}
+    @Override
+    public DocumentType findById(Integer id) {
+        try {
+            Optional<py.com.econtreras.api.entity.DocumentType> optional = repo.findById(id);
+            if (!optional.isPresent()) {
+                throw new APIException(HttpStatus.NO_CONTENT);
+            } else {
+                return converter.buildBean(optional.get());
+            }
 
-		} catch (APIException e) {
-			throw e;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
-		}
-	}
+        } catch (APIException e) {
+            throw e;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
+        }
+    }
 
-	@Override
-	public List<DocumentType> findAll() {
-		try {
+    @Override
+    public List<DocumentType> findAll() {
+        try {
 
-			Iterable<py.com.econtreras.api.entity.DocumentType> entityList = repo.findAll();
-			if (IterableUtils.isEmpty(entityList))
-				throw new APIException(HttpStatus.NO_CONTENT);
-			
-			List<DocumentType> beans = new ArrayList<>();
-			for (py.com.econtreras.api.entity.DocumentType entity : entityList) {
-				beans.add(converter.buildBean(entity));
-			}
+            Iterable<py.com.econtreras.api.entity.DocumentType> entityList = repo.findAll();
+            if (IterableUtils.isEmpty(entityList)) {
+                throw new APIException(HttpStatus.NO_CONTENT);
+            }
 
-			return beans;
+            List<DocumentType> beans = new ArrayList<>();
+            for (py.com.econtreras.api.entity.DocumentType entity : entityList) {
+                beans.add(converter.buildBean(entity));
+            }
 
-		} catch (APIException e) {
-			throw e;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
-		}
-	}
+            return beans;
 
-	@Override
-	public DocumentType save(DocumentType documentType) {
-		try {
-			return converter.buildBean(repo.save(converter.buildEntity(documentType)));
-		} catch (APIException e) {
-			throw e;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
-		}
-	}
+        } catch (APIException e) {
+            throw e;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
+        }
+    }
 
-	@Override
-	public Boolean delete(Integer id) {
-		try {
-			repo.deleteById(id);
-			return true;
-		} catch (APIException e) {
-			throw e;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
-		}
-	}
+    @Override
+    public DocumentType save(DocumentType documentType) {
+        try {
+            return converter.buildBean(repo.save(converter.buildEntity(documentType)));
+        } catch (APIException e) {
+            throw e;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
+        }
+    }
+
+    @Override
+    public Boolean delete(Integer id) {
+        try {
+            repo.deleteById(id);
+            return true;
+        } catch (APIException e) {
+            throw e;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
+        }
+    }
 
 }

@@ -35,7 +35,10 @@ public class Vehicle implements Serializable {
     @Column(name = "model", nullable = false, length = 45)
     private String model;
     @Basic(optional = false)
-    @Column(name = "capacidad", nullable = false, length = 45)
+    @Column(name = "anho", nullable = false, length = 45)
+    private Integer year;
+    @Basic(optional = false)
+    @Column(name = "capacidad", nullable = false)
     private String capacity;
     @Basic(optional = false)
     @Column(name = "num_documento", nullable = false, length = 45)
@@ -43,6 +46,12 @@ public class Vehicle implements Serializable {
     @Basic(optional = false)
     @Column(name = "matricula", nullable = false, length = 45)
     private String plate;
+    @Basic(optional = false)
+    @Column(name = "chasis", nullable = false, length = 45)
+    private String chassis;
+    @Basic(optional = false)
+    @Column(name = "borrado", nullable = false)
+    private short erased;
     @Column(name = "fec_alta")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
