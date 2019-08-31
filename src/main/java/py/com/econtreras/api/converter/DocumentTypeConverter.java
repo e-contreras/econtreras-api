@@ -9,15 +9,15 @@ public class DocumentTypeConverter {
 
     public DocumentType buildEntity(py.com.econtreras.api.beans.DocumentType bean) {
         DocumentType entity = new DocumentType();
-        entity.setDescription(bean.getDescription());
         entity.setId(bean.getId());
+        entity.setDescription(bean.getDescription());
         return entity;
     }
 
     public py.com.econtreras.api.beans.DocumentType buildBean(DocumentType entity) {
         py.com.econtreras.api.beans.DocumentType bean = new py.com.econtreras.api.beans.DocumentType();
-        bean.setDescription(entity.getDescription());
         bean.setId(entity.getId());
+        bean.setDescription(entity.getDescription());
         return bean;
     }
 

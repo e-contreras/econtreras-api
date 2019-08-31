@@ -9,6 +9,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,6 +27,7 @@ import lombok.Data;
 public class Vehicle implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
@@ -35,8 +38,11 @@ public class Vehicle implements Serializable {
     @Column(name = "model", nullable = false, length = 45)
     private String model;
     @Basic(optional = false)
-    @Column(name = "anho", nullable = false, length = 45)
+    @Column(name = "anho", nullable = false)
     private Integer year;
+    @Basic(optional = false)
+    @Column(name = "color", nullable = false, length = 45)
+    private String color;
     @Basic(optional = false)
     @Column(name = "capacidad", nullable = false)
     private String capacity;
@@ -47,7 +53,7 @@ public class Vehicle implements Serializable {
     @Column(name = "matricula", nullable = false, length = 45)
     private String plate;
     @Basic(optional = false)
-    @Column(name = "chasis", nullable = false, length = 45)
+    @Column(name = "chassis", nullable = false, length = 45)
     private String chassis;
     @Basic(optional = false)
     @Column(name = "borrado", nullable = false)

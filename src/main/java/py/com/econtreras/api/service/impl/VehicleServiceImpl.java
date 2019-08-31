@@ -20,7 +20,7 @@ import py.com.econtreras.api.service.VehicleService;
 public class VehicleServiceImpl  implements VehicleService {
 
     @Autowired
-    private VehicleRepository repo;
+    private VehicleRepository repository;
     @Autowired
     private VehicleConverter converter;
     @Autowired
@@ -30,7 +30,7 @@ public class VehicleServiceImpl  implements VehicleService {
     @Override
     public Vehicle findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Vehicle> optional = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.Vehicle> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -48,7 +48,7 @@ public class VehicleServiceImpl  implements VehicleService {
     @Override
     public List<Vehicle> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Vehicle> entityList = repo.findAll();
+            Iterable<py.com.econtreras.api.entity.Vehicle> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
@@ -71,7 +71,7 @@ public class VehicleServiceImpl  implements VehicleService {
     @Override
     public Vehicle save(Vehicle vehicle) {
         try {
-            return converter.buildBean(repo.save(converter.buildEntity(vehicle)));
+            return converter.buildBean(repository.save(converter.buildEntity(vehicle)));
         } catch (APIException e) {
             throw e;
         } catch (Exception e) {
@@ -83,11 +83,11 @@ public class VehicleServiceImpl  implements VehicleService {
     @Override
     public Vehicle update(Integer id, Vehicle vehicle) {
         try {
-            Optional<py.com.econtreras.api.entity.Vehicle> optionalEntity = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.Vehicle> optionalEntity = repository.findById(id);
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
-                return converter.buildBean(repo.save(converter.buildEntity(vehicle)));
+                return converter.buildBean(repository.save(converter.buildEntity(vehicle)));
             }
         } catch (APIException e) {
             throw e;
@@ -99,13 +99,13 @@ public class VehicleServiceImpl  implements VehicleService {
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Vehicle> optionalEntity = repo.findById(id);
+        Optional<py.com.econtreras.api.entity.Vehicle> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
             py.com.econtreras.api.entity.Vehicle vehicle = optionalEntity.get();
             vehicle.setErased(new Short("1"));
-            repo.save(vehicle);
+            repository.save(vehicle);
             return true;
         }
     }

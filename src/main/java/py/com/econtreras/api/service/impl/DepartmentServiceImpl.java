@@ -20,64 +20,80 @@ import py.com.econtreras.api.service.DepartmentService;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-	@Autowired
-	private ApiMessage message;
-	@Autowired
-	private DepartmentConverter converter;
-	@Autowired
-	private DepartmentRepository repository;
-	private static final Logger LOGGER = LogManager.getLogger(DepartmentServiceImpl.class);
+    @Autowired
+    private ApiMessage message;
+    @Autowired
+    private DepartmentConverter converter;
+    @Autowired
+    private DepartmentRepository repository;
+    private static final Logger LOGGER = LogManager.getLogger(DepartmentServiceImpl.class);
 
-	@Override
-	public Department findById(Integer id) {
-		try {
-			Optional<py.com.econtreras.api.entity.Department> optionalEntity = repository.findById(id);
-			if (!optionalEntity.isPresent()) {
-				throw new APIException(HttpStatus.NO_CONTENT);
-			}
-			return converter.buildBean(optionalEntity.get());
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
-		}
-	}
+    @Override
+    public Department findById(Integer id) {
+        try {
+            Optional<py.com.econtreras.api.entity.Department> optionalEntity = repository.findById(id);
+            if (!optionalEntity.isPresent()) {
+                throw new APIException(HttpStatus.NO_CONTENT);
+            }
+            return converter.buildBean(optionalEntity.get());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
+        }
+    }
 
-	@Override
-	public Iterable<Department> findAll() {
-		try {
+    @Override
+    public Iterable<Department> findAll() {
+        try {
 
-			Iterable<py.com.econtreras.api.entity.Department> iEntity = repository.findAll();
-			List<Department> departamentList = new ArrayList<>();
+            Iterable<py.com.econtreras.api.entity.Department> iEntity = repository.findAll();
+            List<Department> departamentList = new ArrayList<>();
 
-			for (py.com.econtreras.api.entity.Department department : iEntity) {
-				departamentList.add(converter.buildBean(department));
-			}
-			return departamentList;
+            for (py.com.econtreras.api.entity.Department department : iEntity) {
+                departamentList.add(converter.buildBean(department));
+            }
+            return departamentList;
 
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
-		}
-	}
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
+        }
+    }
 
-	@Override
-	public Department save(Department department) {
-		try {
-			if (department.getId() == null
-					&& repository.findByDepartamentName(department.getDepartmentName()) != null) {
-				throw new APIException(HttpStatus.UNPROCESSABLE_ENTITY, message.getAlreadyExistMessage());
-			}
+    @Override
+    public Department save(Department department) {
+        try {
+            if (department.getId() == null
+                    && repository.findByDepartamentName(department.getDepartmentName()) != null) {
+                throw new APIException(HttpStatus.UNPROCESSABLE_ENTITY, message.getAlreadyExistMessage());
+            }
 
-			py.com.econtreras.api.entity.Department entity = repository.save(converter.buildEntity(department));
+            py.com.econtreras.api.entity.Department entity = repository.save(converter.buildEntity(department));
 
-			return converter.buildBean(entity);
-		} catch (APIException e) {
-			throw e;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
-		}
+            return converter.buildBean(entity);
+        } catch (APIException e) {
+            throw e;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
+        }
 
-	}
-
+    }
+    
+    @Override
+    public Department update(Integer id, Department department) {
+        try {
+            Optional<py.com.econtreras.api.entity.Department> optionalEntity = repository.findById(id);
+            if (!optionalEntity.isPresent()) {
+                throw new APIException(HttpStatus.NO_CONTENT);
+            } else {
+                return converter.buildBean(repository.save(converter.buildEntity(department)));
+            }
+        } catch (APIException e) {
+            throw e;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
+        }
+    }
 }

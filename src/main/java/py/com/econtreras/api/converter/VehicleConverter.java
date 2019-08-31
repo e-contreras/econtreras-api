@@ -11,6 +11,7 @@ public class VehicleConverter {
         entity.setId(bean.getId());
         entity.setBrand(bean.getBrand());
         entity.setModel(bean.getModel());
+        entity.setColor(bean.getColor());
         entity.setYear(bean.getYear());
         entity.setDocumentNumber(bean.getDocumentNumber());
         entity.setCapacity(bean.getCapacity());

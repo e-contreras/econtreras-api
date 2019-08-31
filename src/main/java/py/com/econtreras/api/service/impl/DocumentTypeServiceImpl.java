@@ -22,7 +22,7 @@ import py.com.econtreras.api.service.DocumentTypeService;
 public class DocumentTypeServiceImpl implements DocumentTypeService {
 
     @Autowired
-    private DocumentTypeRepository repo;
+    private DocumentTypeRepository repository;
     @Autowired
     private DocumentTypeConverter converter;
     @Autowired
@@ -32,7 +32,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     @Override
     public DocumentType findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.DocumentType> optional = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.DocumentType> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -51,7 +51,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     public List<DocumentType> findAll() {
         try {
 
-            Iterable<py.com.econtreras.api.entity.DocumentType> entityList = repo.findAll();
+            Iterable<py.com.econtreras.api.entity.DocumentType> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
@@ -74,7 +74,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     @Override
     public DocumentType save(DocumentType documentType) {
         try {
-            return converter.buildBean(repo.save(converter.buildEntity(documentType)));
+            return converter.buildBean(repository.save(converter.buildEntity(documentType)));
         } catch (APIException e) {
             throw e;
         } catch (Exception e) {
@@ -84,9 +84,26 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     }
 
     @Override
+    public DocumentType update(Integer id, DocumentType documentType) {
+        try {
+            Optional<py.com.econtreras.api.entity.DocumentType> optionalEntity = repository.findById(id);
+            if (!optionalEntity.isPresent()) {
+                throw new APIException(HttpStatus.NO_CONTENT);
+            } else {
+                return converter.buildBean(repository.save(converter.buildEntity(documentType)));
+            }
+        } catch (APIException e) {
+            throw e;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
+        }
+    }
+    
+    @Override
     public Boolean delete(Integer id) {
         try {
-            repo.deleteById(id);
+            repository.deleteById(id);
             return true;
         } catch (APIException e) {
             throw e;

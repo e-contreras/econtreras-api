@@ -16,7 +16,7 @@ import py.com.econtreras.api.beans.PersonType;
 import py.com.econtreras.api.service.PersonTypeService;
 
 @RestController
-@RequestMapping("/personType")
+@RequestMapping("/person_types")
 public class PersonTypeController {
 
     @Autowired
@@ -39,8 +39,8 @@ public class PersonTypeController {
     }
     
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public PersonType save(@Valid @RequestBody PersonType documentType) {
-        return service.save(documentType);
+    public PersonType save(@Valid @RequestBody PersonType personType) {
+        return service.save(personType);
     }
 
     @DeleteMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)

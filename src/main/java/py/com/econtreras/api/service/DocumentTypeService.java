@@ -11,6 +11,8 @@ public interface DocumentTypeService {
     List<DocumentType> findAll();
 
     DocumentType save(DocumentType documentType);
+    
+    DocumentType update(Integer id, DocumentType documentType);
 
     Boolean delete(Integer id);
 }

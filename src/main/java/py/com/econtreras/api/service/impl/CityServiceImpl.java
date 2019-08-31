@@ -10,31 +10,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import py.com.econtreras.api.beans.CategoryRequest;
-import py.com.econtreras.api.beans.CategoryResponse;
-import py.com.econtreras.api.converter.CategoryConverter;
+import py.com.econtreras.api.beans.CityRequest;
+import py.com.econtreras.api.beans.CityResponse;
+import py.com.econtreras.api.converter.CityConverter;
 import py.com.econtreras.api.exception.APIException;
 import py.com.econtreras.api.messages.ApiMessage;
-import py.com.econtreras.api.repository.CategoryRepository;
-import py.com.econtreras.api.service.CategoryService;
+import py.com.econtreras.api.repository.CityRepository;
+import py.com.econtreras.api.service.CityService;
 
 @Service
-public class CategoryServceImpl implements CategoryService{
+public class CityServiceImpl implements CityService {
 
     @Autowired
-    private CategoryRepository repo;
+    private CityRepository repository;
     @Autowired
-    private CategoryConverter converter;
+    private CityConverter converter;
     @Autowired
     ApiMessage message;
     private Link[] links;
     
-    private static final Logger LOGGER = LogManager.getLogger(CategoryServceImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(CityServiceImpl.class);
 
     @Override
-    public CategoryResponse findById(Integer id) {
+    public CityResponse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Category> optional = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.City> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -50,15 +50,15 @@ public class CategoryServceImpl implements CategoryService{
     }
 
     @Override
-    public List<CategoryResponse> findAll() {
+    public List<CityResponse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Category> entityList = repo.findAll();
+            Iterable<py.com.econtreras.api.entity.City> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
-            List<CategoryResponse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Category entity : entityList) {
+            List<CityResponse> beans = new ArrayList<>();
+            for (py.com.econtreras.api.entity.City entity : entityList) {
                 beans.add(this.getBean(entity));
             }
             return beans;
@@ -71,9 +71,9 @@ public class CategoryServceImpl implements CategoryService{
     }
 
     @Override
-    public CategoryResponse save(CategoryRequest category) {
+    public CityResponse save(CityRequest city) {
         try {
-            return this.getBean(repo.save(converter.buildEntity(category)));
+            return this.getBean(repository.save(converter.buildEntity(city)));
         } catch (APIException e) {
             throw e;
         } catch (Exception e) {
@@ -83,13 +83,13 @@ public class CategoryServceImpl implements CategoryService{
     }
 
     @Override
-    public CategoryResponse update(Integer id, CategoryRequest category) {
+    public CityResponse update(Integer id, CityRequest city) {
         try {
-            Optional<py.com.econtreras.api.entity.Category> optionalEntity = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.City> optionalEntity = repository.findById(id);
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
-                return this.getBean(repo.save(converter.buildEntity(category)));
+                return this.getBean(repository.save(converter.buildEntity(city)));
             }
         } catch (APIException e) {
             throw e;
@@ -101,33 +101,31 @@ public class CategoryServceImpl implements CategoryService{
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Category> optionalEntity = repo.findById(id);
+        Optional<py.com.econtreras.api.entity.City> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Category category = optionalEntity.get();
-            category.setErased(new Short("1"));
-            repo.save(category);
+            py.com.econtreras.api.entity.City city = optionalEntity.get();
+            repository.delete(city);
             return true;
         }
     }
 
-    
-    private CategoryResponse getBean(py.com.econtreras.api.entity.Category category){
-        links = cargarEnlaces(category);
+    private CityResponse getBean(py.com.econtreras.api.entity.City city){
+        links = cargarEnlaces(city);
         if (links == null || links.length == 0){
-            return converter.buildBean(category);
+            return converter.buildBean(city);
         }else{
-            return converter.buildBean(category, links);
+            return converter.buildBean(city, links);
         }
     }
     
-    private Link[] cargarEnlaces(py.com.econtreras.api.entity.Category category){
+    private Link[] cargarEnlaces(py.com.econtreras.api.entity.City city){
         List<Link> l = new ArrayList<>();
         Link link;
-        l.add(new Link("http://localhost:8080/categories/" + category.getId()).withSelfRel());
-        if (category.getSuperCategory()!= null) {
-            link = new Link("http://localhost:8080/categories/" + category.getSuperCategory().getId()).withRel("super_category");
+        l.add(new Link("http://localhost:8080/cities/" + city.getId()).withSelfRel());
+        if (city.getDepartament() != null) {
+            link = new Link("http://localhost:8080/departments/" + city.getDepartament().getId()).withRel("department");
             l.add(link);
         }
         
@@ -139,3 +137,4 @@ public class CategoryServceImpl implements CategoryService{
         return linkArray;
     }
 }
+

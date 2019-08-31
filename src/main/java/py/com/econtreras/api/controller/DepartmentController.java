@@ -24,12 +24,12 @@ public class DepartmentController {
     private DepartmentService service;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Department> getById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Department> findById(@PathVariable("id") Integer id) {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Iterable<Department>> getAll() {
+    public ResponseEntity<Iterable<Department>> findAll() {
         Iterable<Department> iBeans = service.findAll();
         if (iBeans.iterator().hasNext()) {
             return new ResponseEntity<>(iBeans, HttpStatus.OK);

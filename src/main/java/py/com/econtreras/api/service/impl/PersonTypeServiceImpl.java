@@ -20,7 +20,7 @@ import py.com.econtreras.api.service.PersonTypeService;
 public class PersonTypeServiceImpl implements PersonTypeService {
 
     @Autowired
-    private PersonTypeRepository repo;
+    private PersonTypeRepository repository;
     @Autowired
     private PersonTypeConverter converter;
     @Autowired
@@ -30,7 +30,7 @@ public class PersonTypeServiceImpl implements PersonTypeService {
     @Override
     public PersonType findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.PersonType> optional = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.PersonType> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -49,7 +49,7 @@ public class PersonTypeServiceImpl implements PersonTypeService {
     public List<PersonType> findAll() {
         try {
 
-            Iterable<py.com.econtreras.api.entity.PersonType> entityList = repo.findAll();
+            Iterable<py.com.econtreras.api.entity.PersonType> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
@@ -72,7 +72,7 @@ public class PersonTypeServiceImpl implements PersonTypeService {
     @Override
     public PersonType save(PersonType personType) {
         try {
-            return converter.buildBean(repo.save(converter.buildEntity(personType)));
+            return converter.buildBean(repository.save(converter.buildEntity(personType)));
         } catch (APIException e) {
             throw e;
         } catch (Exception e) {
@@ -85,11 +85,11 @@ public class PersonTypeServiceImpl implements PersonTypeService {
     @Override
     public PersonType update(Integer id, PersonType personType) {
         try {
-            Optional<py.com.econtreras.api.entity.PersonType> optionalEntity = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.PersonType> optionalEntity = repository.findById(id);
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
-                return converter.buildBean(repo.save(converter.buildEntity(personType)));
+                return converter.buildBean(repository.save(converter.buildEntity(personType)));
             }
         } catch (APIException e) {
             throw e;
@@ -102,7 +102,7 @@ public class PersonTypeServiceImpl implements PersonTypeService {
     @Override
     public Boolean delete(Integer id) {
         try {
-            repo.deleteById(id);
+            repository.deleteById(id);
             return true;
         } catch (APIException e) {
             throw e;

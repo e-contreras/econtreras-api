@@ -20,7 +20,7 @@ import py.com.econtreras.api.service.BrandService;
 public class BrandServiceImpl implements BrandService {
 
     @Autowired
-    private BrandRepository repo;
+    private BrandRepository repository;
     @Autowired
     private BrandConverter converter;
     @Autowired
@@ -30,7 +30,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Brand findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Brand> optional = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.Brand> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -48,7 +48,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public List<Brand> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Brand> entityList = repo.findAll();
+            Iterable<py.com.econtreras.api.entity.Brand> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
@@ -71,7 +71,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Brand save(Brand brand) {
         try {
-            return converter.buildBean(repo.save(converter.buildEntity(brand)));
+            return converter.buildBean(repository.save(converter.buildEntity(brand)));
         } catch (APIException e) {
             throw e;
         } catch (Exception e) {
@@ -83,11 +83,11 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Brand update(Integer id, Brand brand) {
         try {
-            Optional<py.com.econtreras.api.entity.Brand> optionalEntity = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.Brand> optionalEntity = repository.findById(id);
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
-                return converter.buildBean(repo.save(converter.buildEntity(brand)));
+                return converter.buildBean(repository.save(converter.buildEntity(brand)));
             }
         } catch (APIException e) {
             throw e;
@@ -100,7 +100,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Boolean delete(Integer id) {
         try {
-            repo.deleteById(id);
+            repository.deleteById(id);
             return true;
         } catch (APIException e) {
             throw e;

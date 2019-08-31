@@ -51,7 +51,7 @@ DROP TABLE IF EXISTS `atributos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `atributos` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` text NOT NULL,
   `label` varchar(45) NOT NULL,
   `tip_dato` varchar(45) NOT NULL,
@@ -78,14 +78,14 @@ LOCK TABLES `atributos` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `barrio`
+-- Table structure for table `barrios`
 --
 
-DROP TABLE IF EXISTS `barrio`;
+DROP TABLE IF EXISTS `barrios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `barrio` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `barrios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) NOT NULL,
   `ciudad` int(11) NOT NULL,
   `usu_alta` int(11) DEFAULT NULL,
@@ -93,22 +93,22 @@ CREATE TABLE `barrio` (
   `fec_alta` datetime DEFAULT NULL,
   `fec_modificacion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_barrio_ciudades1_idx` (`ciudad`),
-  KEY `fk_barrio_usuarios1_idx` (`usu_alta`),
-  KEY `fk_barrio_usuarios2_idx` (`usu_modificacion`),
-  CONSTRAINT `fk_barrio_ciudades1` FOREIGN KEY (`ciudad`) REFERENCES `ciudades` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_barrio_usuarios1` FOREIGN KEY (`usu_alta`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_barrio_usuarios2` FOREIGN KEY (`usu_modificacion`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_barrios_ciudades1_idx` (`ciudad`),
+  KEY `fk_barrios_usuarios1_idx` (`usu_alta`),
+  KEY `fk_barrios_usuarios2_idx` (`usu_modificacion`),
+  CONSTRAINT `fk_barrios_ciudades1` FOREIGN KEY (`ciudad`) REFERENCES `ciudades` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_barrios_usuarios1` FOREIGN KEY (`usu_alta`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_barrios_usuarios2` FOREIGN KEY (`usu_modificacion`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `barrio`
+-- Dumping data for table `barrios`
 --
 
-LOCK TABLES `barrio` WRITE;
-/*!40000 ALTER TABLE `barrio` DISABLE KEYS */;
-/*!40000 ALTER TABLE `barrio` ENABLE KEYS */;
+LOCK TABLES `barrios` WRITE;
+/*!40000 ALTER TABLE `barrios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `barrios` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -437,7 +437,7 @@ CREATE TABLE `direcciones` (
   KEY `fk_direcciones_barrio1_idx` (`barrio`),
   KEY `fk_direcciones_usuarios1_idx` (`usu_alta`),
   KEY `fk_direcciones_usuarios2_idx` (`usu_modificacion`),
-  CONSTRAINT `fk_direcciones_barrio1` FOREIGN KEY (`barrio`) REFERENCES `barrio` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_direcciones_barrio1` FOREIGN KEY (`barrio`) REFERENCES `barrios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_direcciones_usuarios1` FOREIGN KEY (`usu_alta`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_direcciones_usuarios2` FOREIGN KEY (`usu_modificacion`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -745,7 +745,7 @@ DROP TABLE IF EXISTS `marcas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `marcas` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) NOT NULL,
   `usu_alta` int(11) DEFAULT NULL,
   `usu_modificacion` int(11) DEFAULT NULL,
@@ -1846,10 +1846,11 @@ CREATE TABLE `vehiculos` (
   `marca` varchar(45) NOT NULL,
   `model` varchar(45) NOT NULL,
   `anho` int(11) NOT NULL,
+  `color` varchar(45) NOT NULL,
   `capacidad` varchar(45) NOT NULL,
   `num_documento` varchar(45) NOT NULL,
   `matricula` varchar(45) NOT NULL,
-  `chasis` varchar(45) NOT NULL,
+  `chassis` varchar(45) NOT NULL,
   `borrado` tinyint(4) NOT NULL DEFAULT '0',
   `usu_alta` int(11) DEFAULT NULL,
   `usu_modificacion` int(11) DEFAULT NULL,

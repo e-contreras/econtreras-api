@@ -20,7 +20,7 @@ import py.com.econtreras.api.service.WarehouseService;
 public class WarehouseServiceImpl implements WarehouseService {
 
     @Autowired
-    private WarehouseRepository repo;
+    private WarehouseRepository repository;
     @Autowired
     private WarehouseConverter converter;
     @Autowired
@@ -30,7 +30,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public Warehouse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Warehouse> optional = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.Warehouse> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -48,7 +48,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public List<Warehouse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Warehouse> entityList = repo.findAll();
+            Iterable<py.com.econtreras.api.entity.Warehouse> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
@@ -71,7 +71,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public Warehouse save(Warehouse warehouse) {
         try {
-            return converter.buildBean(repo.save(converter.buildEntity(warehouse)));
+            return converter.buildBean(repository.save(converter.buildEntity(warehouse)));
         } catch (APIException e) {
             throw e;
         } catch (Exception e) {
@@ -83,11 +83,11 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public Warehouse update(Integer id, Warehouse warehouse) {
         try {
-            Optional<py.com.econtreras.api.entity.Warehouse> optionalEntity = repo.findById(id);
+            Optional<py.com.econtreras.api.entity.Warehouse> optionalEntity = repository.findById(id);
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
-                return converter.buildBean(repo.save(converter.buildEntity(warehouse)));
+                return converter.buildBean(repository.save(converter.buildEntity(warehouse)));
             }
         } catch (APIException e) {
             throw e;
@@ -99,13 +99,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Warehouse> optionalEntity = repo.findById(id);
+        Optional<py.com.econtreras.api.entity.Warehouse> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
             py.com.econtreras.api.entity.Warehouse warehouse = optionalEntity.get();
             warehouse.setErased(new Short("1"));
-            repo.save(warehouse);
+            repository.save(warehouse);
             return true;
         }
     }

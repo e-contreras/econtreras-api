@@ -10,31 +10,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import py.com.econtreras.api.beans.ProductRequest;
-import py.com.econtreras.api.beans.ProductResponse;
-import py.com.econtreras.api.converter.ProductConverter;
+import py.com.econtreras.api.beans.CategoryRequest;
+import py.com.econtreras.api.beans.CategoryResponse;
+import py.com.econtreras.api.converter.CategoryConverter;
 import py.com.econtreras.api.exception.APIException;
 import py.com.econtreras.api.messages.ApiMessage;
-import py.com.econtreras.api.repository.ProductRepository;
-import py.com.econtreras.api.service.ProductService;
+import py.com.econtreras.api.repository.CategoryRepository;
+import py.com.econtreras.api.service.CategoryService;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class CategoryServiceImpl implements CategoryService{
 
     @Autowired
-    private ProductRepository repository;
+    private CategoryRepository repository;
     @Autowired
-    private ProductConverter converter;
+    private CategoryConverter converter;
     @Autowired
     ApiMessage message;
     private Link[] links;
     
-    private static final Logger LOGGER = LogManager.getLogger(ProductServiceImpl.class);
-    
+    private static final Logger LOGGER = LogManager.getLogger(CategoryServiceImpl.class);
+
     @Override
-    public ProductResponse findById(Integer id) {
+    public CategoryResponse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Product> optional = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.Category> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -50,14 +50,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponse> findAll() {
+    public List<CategoryResponse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Product> entityList = repository.findAll();
+            Iterable<py.com.econtreras.api.entity.Category> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
-            List<ProductResponse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Product entity : entityList) {
+
+            List<CategoryResponse> beans = new ArrayList<>();
+            for (py.com.econtreras.api.entity.Category entity : entityList) {
                 beans.add(this.getBean(entity));
             }
             return beans;
@@ -70,9 +71,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse save(ProductRequest product) {
+    public CategoryResponse save(CategoryRequest category) {
         try {
-            return this.getBean(repository.save(converter.buildEntity(product)));
+            return this.getBean(repository.save(converter.buildEntity(category)));
         } catch (APIException e) {
             throw e;
         } catch (Exception e) {
@@ -82,13 +83,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse update(Integer id, ProductRequest product) {
+    public CategoryResponse update(Integer id, CategoryRequest category) {
         try {
-            Optional<py.com.econtreras.api.entity.Product> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.Category> optionalEntity = repository.findById(id);
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
-                return this.getBean(repository.save(converter.buildEntity(product)));
+                return this.getBean(repository.save(converter.buildEntity(category)));
             }
         } catch (APIException e) {
             throw e;
@@ -100,36 +101,32 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Product> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.api.entity.Category> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Product product = optionalEntity.get();
-            product.setErased(new Short("1"));
-            repository.save(product);
+            py.com.econtreras.api.entity.Category category = optionalEntity.get();
+            category.setErased(new Short("1"));
+            repository.save(category);
             return true;
         }
     }
-    
-    private ProductResponse getBean(py.com.econtreras.api.entity.Product product){
-        links = cargarEnlaces(product);
+
+    private CategoryResponse getBean(py.com.econtreras.api.entity.Category category){
+        links = cargarEnlaces(category);
         if (links == null || links.length == 0){
-            return converter.buildBean(product);
+            return converter.buildBean(category);
         }else{
-            return converter.buildBean(product, links);
+            return converter.buildBean(category, links);
         }
     }
-
-    private Link[] cargarEnlaces(py.com.econtreras.api.entity.Product product){
+    
+    private Link[] cargarEnlaces(py.com.econtreras.api.entity.Category category){
         List<Link> l = new ArrayList<>();
         Link link;
-        l.add(new Link("http://localhost:8080/products/" + product.getId()).withSelfRel());
-        if (product.getBrand() != null) {
-            link = new Link("http://localhost:8080/brands/" + product.getBrand().getId()).withRel("brand");
-            l.add(link);
-        }
-        if (product.getCategory() != null) {
-            link = new Link("http://localhost:8080/categories/" + product.getCategory().getId()).withRel("category");
+        l.add(new Link("http://localhost:8080/categories/" + category.getId()).withSelfRel());
+        if (category.getSuperCategory()!= null) {
+            link = new Link("http://localhost:8080/categories/" + category.getSuperCategory().getId()).withRel("super_category");
             l.add(link);
         }
         
