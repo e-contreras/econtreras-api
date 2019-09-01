@@ -41,7 +41,7 @@ public class Solicitude implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitude")
     private List<WorkOrder> workOrderList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitude")
-    private List<ProdcutSolicitude> prodcutSolicitudeList;
+    private List<ProductSolicitude> prodcutSolicitudeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "solicitude")
     private List<Payment> paymentList;
     @OneToMany(mappedBy = "solicitude")

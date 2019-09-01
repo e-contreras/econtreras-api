@@ -82,9 +82,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse update(Integer id, ProductRequest product) {
+    public ProductResponse update(ProductRequest product) {
         try {
-            Optional<py.com.econtreras.api.entity.Product> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.Product> optionalEntity = repository.findById(product.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

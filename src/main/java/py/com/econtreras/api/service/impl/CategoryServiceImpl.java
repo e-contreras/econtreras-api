@@ -83,9 +83,9 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public CategoryResponse update(Integer id, CategoryRequest category) {
+    public CategoryResponse update(CategoryRequest category) {
         try {
-            Optional<py.com.econtreras.api.entity.Category> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.Category> optionalEntity = repository.findById(category.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -125,7 +125,7 @@ public class CategoryServiceImpl implements CategoryService{
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/categories/" + category.getId()).withSelfRel());
-        if (category.getSuperCategory()!= null) {
+        if (category.getSuperCategory() != null && !category.getSuperCategory().equals(0)) {
             link = new Link("http://localhost:8080/categories/" + category.getSuperCategory().getId()).withRel("super_category");
             l.add(link);
         }

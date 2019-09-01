@@ -36,7 +36,7 @@ public class Person implements Serializable {
     @Column(name = "apellido", length = 100)
     private String lastname;
     @Column(name = "raz_social", length = 100)
-    private String socialReason;
+    private String businessName;
     @Basic(optional = false)
     @Column(name = "documento", nullable = false, length = 45)
     private String documentNumber;
@@ -48,6 +48,8 @@ public class Person implements Serializable {
     private String email;
     @Column(name = "telefono", length = 45)
     private String phone;
+    @Column(name = "celular", length = 45)
+    private String cellphone;
     @Column(name = "fec_alta")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
@@ -58,12 +60,12 @@ public class Person implements Serializable {
     private List<User> userList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private List<Provider> providerList;
-    @JoinColumn(name = "dir_particular", referencedColumnName = "id")
-    @ManyToOne
-    private Address homeAddress;
-    @JoinColumn(name = "dir_laboral", referencedColumnName = "id")
-    @ManyToOne
-    private Address workAddress;
+//    @JoinColumn(name = "dir_particular", referencedColumnName = "id")
+//    @ManyToOne
+//    private Address homeAddress;
+//    @JoinColumn(name = "dir_laboral", referencedColumnName = "id")
+//    @ManyToOne
+//    private Address workAddress;
     @JoinColumn(name = "tip_documento", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private DocumentType documentType;
@@ -76,5 +78,7 @@ public class Person implements Serializable {
     @JoinColumn(name = "usu_modificacion", referencedColumnName = "id")
     @ManyToOne
     private User modificationUser;
+    @OneToMany(mappedBy = "person")
+    private List<Address> addressList;
     
 }

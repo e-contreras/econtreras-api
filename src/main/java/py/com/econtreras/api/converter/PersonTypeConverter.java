@@ -10,6 +10,7 @@ public class PersonTypeConverter {
         PersonType entity = new PersonType();
         entity.setId(bean.getId());
         entity.setDescription(bean.getDescription());
+        entity.setAbbreviation(bean.getAbbreviation());
         return entity;
     }
 
@@ -17,6 +18,7 @@ public class PersonTypeConverter {
         py.com.econtreras.api.beans.PersonType bean = new py.com.econtreras.api.beans.PersonType();
         bean.setId(entity.getId());
         bean.setDescription(entity.getDescription());
+        bean.setAbbreviation(entity.getAbbreviation());
         return bean;
     }
 }

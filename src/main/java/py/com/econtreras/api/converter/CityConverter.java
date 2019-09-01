@@ -14,7 +14,7 @@ public class CityConverter {
 
     public City buildEntity(py.com.econtreras.api.beans.CityRequest bean) {
         City entity = new City();
-        entity.setId(bean.getCityId());
+        entity.setId(bean.getId());
         entity.setCityName(bean.getCityName());
         entity.setDepartament(departmentRepository.findById(bean.getDepartmentId()).get());
         return entity;

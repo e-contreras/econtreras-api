@@ -33,9 +33,9 @@ public class ProductController {
         return service.findById(id);
     }
     
-    @PutMapping("/{id}")
-    public ProductResponse put(@PathVariable Integer id, @Valid @RequestBody ProductRequest product) {
-        return service.update(id, product);
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
+    public ProductResponse put(@Valid @RequestBody ProductRequest product) {
+        return service.update(product);
     }
     
     @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)

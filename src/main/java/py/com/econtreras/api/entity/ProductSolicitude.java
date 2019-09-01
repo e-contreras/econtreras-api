@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "mer_solicitudes", catalog = "econtreras", schema = "")
-public class ProdcutSolicitude implements Serializable {
+public class ProductSolicitude implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ProductSolicitudePK merSolicitudesPK;

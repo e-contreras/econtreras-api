@@ -3,13 +3,11 @@ package py.com.econtreras.api.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import py.com.econtreras.api.beans.Department;
 import py.com.econtreras.api.converter.DepartmentConverter;
 import py.com.econtreras.api.exception.APIException;
@@ -36,6 +34,8 @@ public class DepartmentServiceImpl implements DepartmentService {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
             return converter.buildBean(optionalEntity.get());
+        } catch (APIException e) {
+            throw e;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
@@ -43,9 +43,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Iterable<Department> findAll() {
+    public List<Department> findAll() {
         try {
-
             Iterable<py.com.econtreras.api.entity.Department> iEntity = repository.findAll();
             List<Department> departamentList = new ArrayList<>();
 
@@ -53,7 +52,6 @@ public class DepartmentServiceImpl implements DepartmentService {
                 departamentList.add(converter.buildBean(department));
             }
             return departamentList;
-
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
@@ -79,11 +77,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
 
     }
-    
+
     @Override
-    public Department update(Integer id, Department department) {
+    public Department update(Department department) {
         try {
-            Optional<py.com.econtreras.api.entity.Department> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.Department> optionalEntity = repository.findById(department.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -95,5 +93,10 @@ public class DepartmentServiceImpl implements DepartmentService {
             LOGGER.error(e.getMessage(), e);
             throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, message.getInternalServerError());
         }
+    }
+
+    @Override
+    public Boolean delete(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

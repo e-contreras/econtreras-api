@@ -32,9 +32,9 @@ public class VehicleController {
         return service.findById(id);
     }
     
-    @PutMapping("/{id}")
-    public Vehicle put(@PathVariable Integer id, @Valid @RequestBody Vehicle vehicle) {
-        return service.update(id, vehicle);
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
+    public Vehicle put(@Valid @RequestBody Vehicle vehicle) {
+        return service.update(vehicle);
     }
     
     @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)

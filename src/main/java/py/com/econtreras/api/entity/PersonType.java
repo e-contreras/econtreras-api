@@ -31,6 +31,8 @@ public class PersonType implements Serializable {
     @Basic(optional = false)
     @Column(name = "descripcion", nullable = false, length = 45)
     private String description;
+    @Column(name = "abreviacion", nullable = false, length = 2)
+    private String abbreviation;
     @Column(name = "fec_alta")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;

@@ -32,9 +32,9 @@ public class WarehouseController {
         return service.findById(id);
     }
     
-    @PutMapping("/{id}")
-    public Warehouse put(@PathVariable Integer id, @Valid @RequestBody Warehouse warehouse) {
-        return service.update(id, warehouse);
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
+    public Warehouse put(@Valid @RequestBody Warehouse warehouse) {
+        return service.update(warehouse);
     }
     
     @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)

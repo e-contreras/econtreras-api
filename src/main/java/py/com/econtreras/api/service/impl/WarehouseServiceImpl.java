@@ -81,9 +81,9 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public Warehouse update(Integer id, Warehouse warehouse) {
+    public Warehouse update(Warehouse warehouse) {
         try {
-            Optional<py.com.econtreras.api.entity.Warehouse> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.Warehouse> optionalEntity = repository.findById(warehouse.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

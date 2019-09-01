@@ -32,9 +32,9 @@ public class BrandController {
         return service.findById(id);
     }
     
-    @PutMapping("/{id}")
-    public Brand put(@PathVariable Integer id, @Valid @RequestBody Brand brand) {
-        return service.update(id, brand);
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
+    public Brand put(@Valid @RequestBody Brand brand) {
+        return service.update(brand);
     }
     
     @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)

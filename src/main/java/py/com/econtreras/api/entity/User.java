@@ -75,5 +75,5 @@ public class User implements Serializable {
     private User modificationUser;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wareHousePersonal")
     private List<WorkOrder> ordTrabajosList;
-    
+
 }

@@ -34,9 +34,9 @@ public class NeighborhoodController {
         return service.findById(id);
     }
     
-    @PutMapping("/{id}")
-    public NeighborhoodResponse put(@PathVariable Integer id, @Valid @RequestBody NeighborhoodRequest neighborhood) {
-        return service.update(id, neighborhood);
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
+    public NeighborhoodResponse put(@Valid @RequestBody NeighborhoodRequest neighborhood) {
+        return service.update(neighborhood);
     }
     
     @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)

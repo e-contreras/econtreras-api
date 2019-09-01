@@ -16,7 +16,9 @@ public class CategoryConverter {
         Category entity = new Category();
         entity.setId(bean.getId());
         entity.setDescription(bean.getDescription());
-        entity.setSuperCategory(categoryRepository.findById(bean.getSuperCategory()).get());
+        if (bean.getSuperCategoryId() != null && !bean.getSuperCategoryId().equals(0)) {
+            entity.setSuperCategory(categoryRepository.findById(bean.getSuperCategoryId()).get());
+        }
         return entity;
     }
 

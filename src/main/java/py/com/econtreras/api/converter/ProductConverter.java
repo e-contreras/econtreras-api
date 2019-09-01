@@ -17,7 +17,7 @@ public class ProductConverter {
     
     public Product buildEntity(py.com.econtreras.api.beans.ProductRequest bean) {
         Product entity = new Product();
-        entity.setId(bean.getProductId());
+        entity.setId(bean.getId());
         entity.setCode(bean.getCode());
         entity.setBarCode(bean.getBarCode());
         entity.setProductName(bean.getProductName());

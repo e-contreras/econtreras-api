@@ -14,7 +14,7 @@ public class NeighborhoodConverter {
 
     public Neighborhood buildEntity(py.com.econtreras.api.beans.NeighborhoodRequest bean) {
         Neighborhood entity = new Neighborhood();
-        entity.setId(bean.getNeighborhoodId());
+        entity.setId(bean.getId());
         entity.setDescription(bean.getDescription());
         entity.setCity(cityRepository.findById(bean.getCityId()).get());
         return entity;

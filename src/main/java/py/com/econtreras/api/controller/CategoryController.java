@@ -33,9 +33,9 @@ public class CategoryController {
         return service.findById(id);
     }
     
-    @PutMapping("/{id}")
-    public CategoryResponse put(@PathVariable Integer id, @Valid @RequestBody CategoryRequest category) {
-        return service.update(id, category);
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
+    public CategoryResponse put(@Valid @RequestBody CategoryRequest category) {
+        return service.update(category);
     }
     
     @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)

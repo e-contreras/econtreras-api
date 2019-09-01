@@ -83,9 +83,9 @@ public class PersonTypeServiceImpl implements PersonTypeService {
     
     
     @Override
-    public PersonType update(Integer id, PersonType personType) {
+    public PersonType update(PersonType personType) {
         try {
-            Optional<py.com.econtreras.api.entity.PersonType> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.PersonType> optionalEntity = repository.findById(personType.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

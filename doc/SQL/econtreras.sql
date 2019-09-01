@@ -204,7 +204,7 @@ DROP TABLE IF EXISTS `categorias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `categorias` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(255) NOT NULL,
   `borrado` tinyint(4) NOT NULL DEFAULT '0',
   `usu_alta` int(11) DEFAULT NULL,
@@ -230,6 +230,44 @@ LOCK TABLES `categorias` WRITE;
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+
+
+--
+-- Table structure for table `cuotas`
+--
+
+DROP TABLE IF EXISTS `cuotas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+
+CREATE TABLE `cuotas` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `categoria_id` INT NULL,
+  `cuota` INT NULL,
+  `ponderador` DECIMAL(5,2) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_cuotas_categoria1_idx` (`categoria_id` ASC) INVISIBLE,
+  CONSTRAINT `fk_cuotas_categoria1` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cuotas`
+--
+
+LOCK TABLES `cuotas` WRITE;
+/*!40000 ALTER TABLE `cuotas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cuotas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+
+
+
+
+
 
 --
 -- Table structure for table `ciudades`
@@ -428,16 +466,20 @@ CREATE TABLE `direcciones` (
   `barrio` int(11) NOT NULL,
   `edificio` varchar(45) DEFAULT NULL,
   `piso` varchar(45) DEFAULT NULL,
-  `departamento` varchar(45) DEFAULT NULL,
+  `apartamento` varchar(45) DEFAULT NULL,
+  `tipo_dir` varchar(45) DEFAULT NULL,
+  `persona` int(11) NOT NULL,
   `usu_alta` int(11) DEFAULT NULL,
   `usu_modificacion` int(11) DEFAULT NULL,
   `fec_alta` datetime DEFAULT NULL,
   `fec_modificacion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_direcciones_barrio1_idx` (`barrio`),
-  KEY `fk_direcciones_usuarios1_idx` (`usu_alta`),
+  KEY `fk_direcciones_persona1_idx` (`persona`),
   KEY `fk_direcciones_usuarios2_idx` (`usu_modificacion`),
+  KEY `fk_direcciones_usuarios1_idx` (`usu_alta`),
   CONSTRAINT `fk_direcciones_barrio1` FOREIGN KEY (`barrio`) REFERENCES `barrios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_direcciones_persona1` FOREIGN KEY (`persona`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_direcciones_usuarios1` FOREIGN KEY (`usu_alta`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_direcciones_usuarios2` FOREIGN KEY (`usu_modificacion`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1246,10 +1288,9 @@ CREATE TABLE `personas` (
   `documento` varchar(45) NOT NULL,
   `tip_documento` int(11) NOT NULL,
   `fec_nac` date DEFAULT NULL,
-  `dir_particular` int(11) DEFAULT NULL,
-  `dir_laboral` int(11) DEFAULT NULL,
   `email` varchar(200) NOT NULL,
   `telefono` varchar(45) DEFAULT NULL,
+  `celular` varchar(45) DEFAULT NULL,
   `tip_persona` int(11) NOT NULL,
   `usu_alta` int(11) DEFAULT NULL,
   `usu_modificacion` int(11) DEFAULT NULL,
@@ -1257,13 +1298,9 @@ CREATE TABLE `personas` (
   `fec_modificacion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_personas_tip_documento1_idx` (`tip_documento`),
-  KEY `fk_personas_direcciones1_idx` (`dir_particular`),
-  KEY `fk_personas_direcciones2_idx` (`dir_laboral`),
   KEY `fk_personas_tip_personas1_idx` (`tip_persona`),
   KEY `fk_personas_usuarios1_idx` (`usu_alta`),
   KEY `fk_personas_usuarios2_idx` (`usu_modificacion`),
-  CONSTRAINT `fk_personas_direcciones1` FOREIGN KEY (`dir_particular`) REFERENCES `direcciones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_personas_direcciones2` FOREIGN KEY (`dir_laboral`) REFERENCES `direcciones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_personas_tip_documento1` FOREIGN KEY (`tip_documento`) REFERENCES `tip_documento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_personas_tip_personas1` FOREIGN KEY (`tip_persona`) REFERENCES `tip_personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_personas_usuarios1` FOREIGN KEY (`usu_alta`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -1710,6 +1747,7 @@ DROP TABLE IF EXISTS `tip_personas`;
 CREATE TABLE `tip_personas` (
   `id` int(11) NOT NULL,
   `descripcion` varchar(45) NOT NULL,
+  `abreviacion` varchar(2) NOT NULL,
   `usu_alta` int(11) DEFAULT NULL,
   `usu_modificacion` int(11) DEFAULT NULL,
   `fec_alta` datetime DEFAULT NULL,

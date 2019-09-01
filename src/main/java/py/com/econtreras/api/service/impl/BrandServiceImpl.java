@@ -81,9 +81,9 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Brand update(Integer id, Brand brand) {
+    public Brand update(Brand brand) {
         try {
-            Optional<py.com.econtreras.api.entity.Brand> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.Brand> optionalEntity = repository.findById(brand.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

@@ -83,9 +83,9 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityResponse update(Integer id, CityRequest city) {
+    public CityResponse update(CityRequest city) {
         try {
-            Optional<py.com.econtreras.api.entity.City> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.City> optionalEntity = repository.findById(city.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

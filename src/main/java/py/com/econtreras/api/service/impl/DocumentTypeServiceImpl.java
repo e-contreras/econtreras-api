@@ -50,7 +50,6 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     @Override
     public List<DocumentType> findAll() {
         try {
-
             Iterable<py.com.econtreras.api.entity.DocumentType> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
@@ -84,9 +83,9 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     }
 
     @Override
-    public DocumentType update(Integer id, DocumentType documentType) {
+    public DocumentType update(DocumentType documentType) {
         try {
-            Optional<py.com.econtreras.api.entity.DocumentType> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.DocumentType> optionalEntity = repository.findById(documentType.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

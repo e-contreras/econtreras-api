@@ -22,6 +22,11 @@ import lombok.Data;
 @Entity
 @Table(name = "categorias", catalog = "econtreras", schema = "")
 public class Category implements Serializable {
+
+    @OneToMany(mappedBy = "superCategory")
+    private List<Category> categoryList;
+    @OneToMany(mappedBy = "category")
+    private List<Fee> feeList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -50,5 +55,5 @@ public class Category implements Serializable {
     private User modificationUser;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private List<Product> productList;
-    
+
 }

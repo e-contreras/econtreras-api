@@ -83,9 +83,9 @@ public class NeighborhoodServiceImpl implements NeighborhoodService{
     }
 
     @Override
-    public NeighborhoodResponse update(Integer id, NeighborhoodRequest neighborhood) {
+    public NeighborhoodResponse update(NeighborhoodRequest neighborhood) {
         try {
-            Optional<py.com.econtreras.api.entity.Neighborhood> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.Neighborhood> optionalEntity = repository.findById(neighborhood.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -123,7 +123,7 @@ public class NeighborhoodServiceImpl implements NeighborhoodService{
     private Link[] cargarEnlaces(py.com.econtreras.api.entity.Neighborhood neighborhood){
         List<Link> l = new ArrayList<>();
         Link link;
-        l.add(new Link("http://localhost:8080/neighborhood/" + neighborhood.getId()).withSelfRel());
+        l.add(new Link("http://localhost:8080/neighborhoods/" + neighborhood.getId()).withSelfRel());
         if (neighborhood.getCity() != null) {
             link = new Link("http://localhost:8080/cities/" + neighborhood.getCity().getId()).withRel("city");
             l.add(link);

@@ -35,9 +35,9 @@ public class DocumentTypeController {
         return service.findAll();
     }
 
-    @PutMapping("/{id}")
-    public DocumentType put(@PathVariable Integer id, @Valid @RequestBody DocumentType documentType) {
-        return service.update(id, documentType);
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
+    public DocumentType put(@Valid @RequestBody DocumentType documentType) {
+        return service.update(documentType);
     }
     
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)

@@ -33,9 +33,9 @@ public class CityController {
         return service.findById(id);
     }
     
-    @PutMapping("/{id}")
-    public CityResponse put(@PathVariable Integer id, @Valid @RequestBody CityRequest city) {
-        return service.update(id, city);
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
+    public CityResponse put(@Valid @RequestBody CityRequest city) {
+        return service.update(city);
     }
     
     @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)

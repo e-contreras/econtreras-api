@@ -81,9 +81,9 @@ public class VehicleServiceImpl  implements VehicleService {
     }
 
     @Override
-    public Vehicle update(Integer id, Vehicle vehicle) {
+    public Vehicle update(Vehicle vehicle) {
         try {
-            Optional<py.com.econtreras.api.entity.Vehicle> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.api.entity.Vehicle> optionalEntity = repository.findById(vehicle.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

@@ -33,9 +33,9 @@ public class PersonTypeController {
     }
 
     
-    @PutMapping("/{id}")
-    public PersonType put(@PathVariable Integer id, @Valid @RequestBody PersonType personType) {
-        return service.update(id, personType);
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
+    public PersonType put(@Valid @RequestBody PersonType personType) {
+        return service.update(personType);
     }
     
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
