@@ -18,7 +18,7 @@ public class PersonConverter {
 
     public Person buildEntity(py.com.econtreras.api.beans.PersonRequest bean) {
         Person entity = new Person();
-        entity.setId(bean.getId());
+        entity.setId(bean.getPersonId());
         entity.setName(bean.getName());
         entity.setLastname(bean.getLastname());
         entity.setBusinessName(bean.getBusinessName());

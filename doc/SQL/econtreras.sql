@@ -211,6 +211,7 @@ CREATE TABLE `categorias` (
   `usu_modificacion` int(11) DEFAULT NULL,
   `fec_alta` datetime DEFAULT NULL,
   `fec_modificacion` datetime DEFAULT NULL,
+  `fec_eliminacion` datetime DEFAULT NULL,
   `categoria_padre` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_categorias_usuarios1_idx` (`usu_alta`),
@@ -1435,10 +1436,12 @@ DROP TABLE IF EXISTS `proveedores`;
 CREATE TABLE `proveedores` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `persona` int(11) NOT NULL,
+  `borrado` tinyint(4) NOT NULL DEFAULT '0',
   `usu_alta` int(11) DEFAULT NULL,
   `usu_modificacion` int(11) DEFAULT NULL,
   `fec_alta` datetime DEFAULT NULL,
   `fec_modificacion` datetime DEFAULT NULL,
+  `fec_eliminacion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_proveedores_personas1_idx` (`persona`),
   KEY `fk_proveedores_usuarios1_idx` (`usu_alta`),
@@ -1457,6 +1460,46 @@ LOCK TABLES `proveedores` WRITE;
 /*!40000 ALTER TABLE `proveedores` DISABLE KEYS */;
 /*!40000 ALTER TABLE `proveedores` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+--
+-- Table structure for table `clientes`
+--
+
+DROP TABLE IF EXISTS `clientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clientes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `persona` int(11) NOT NULL,
+  `borrado` tinyint(4) NOT NULL DEFAULT '0',
+  `usu_alta` int(11) DEFAULT NULL,
+  `usu_modificacion` int(11) DEFAULT NULL,
+  `usu_eliminacion` int(11) DEFAULT NULL,
+  `fec_alta` datetime DEFAULT NULL,
+  `fec_modificacion` datetime DEFAULT NULL,
+  `fec_eliminacion` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_clientes_personas1_idx` (`persona`),
+  KEY `fk_clientes_usuarios1_idx` (`usu_alta`),
+  KEY `fk_clientes_usuarios2_idx` (`usu_modificacion`),
+  KEY `fk_clientes_usuarios3_idx` (`usu_eliminacion`),
+  CONSTRAINT `fk_clientes_personas1` FOREIGN KEY (`persona`) REFERENCES `personas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_clientes_usuarios1` FOREIGN KEY (`usu_alta`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_clientes_usuarios2` FOREIGN KEY (`usu_modificacion`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_clientes_usuarios3` FOREIGN KEY (`usu_eliminacion`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientes`
+--
+
+LOCK TABLES `clientes` WRITE;
+/*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 --
 -- Table structure for table `rem_no_entregadas`
@@ -1745,7 +1788,7 @@ DROP TABLE IF EXISTS `tip_personas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tip_personas` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) NOT NULL,
   `abreviacion` varchar(2) NOT NULL,
   `usu_alta` int(11) DEFAULT NULL,

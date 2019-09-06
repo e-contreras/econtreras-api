@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import py.com.econtreras.api.beans.ProviderRequest;
 import py.com.econtreras.api.beans.ProviderResponse;
+import py.com.econtreras.api.converter.PersonConverter;
 import py.com.econtreras.api.converter.ProviderConverter;
 import py.com.econtreras.api.exception.APIException;
 import py.com.econtreras.api.messages.ApiMessage;
@@ -26,6 +28,8 @@ public class ProviderServiceImpl implements ProviderService {
     private PersonRepository personRepository;
     @Autowired
     private ProviderRepository repository;
+    @Autowired
+    private PersonConverter personConverter;
     @Autowired
     private ProviderConverter converter;
     @Autowired
@@ -74,8 +78,10 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
+    @Transactional
     public ProviderResponse save(ProviderRequest provider) {
         try {
+            provider.setPersonId(personConverter.buildBean(personRepository.save(personConverter.buildEntity(provider))).getPersonId());
             return this.getBean(repository.save(converter.buildEntity(provider)));
         } catch (APIException e) {
             throw e;
@@ -86,12 +92,14 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
+    @Transactional
     public ProviderResponse update(ProviderRequest provider) {
         try {
             Optional<py.com.econtreras.api.entity.Provider> optionalEntity = repository.findById(provider.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
+                provider.setPersonId(personConverter.buildBean(personRepository.save(personConverter.buildEntity(provider))).getPersonId());
                 return this.getBean(repository.save(converter.buildEntity(provider)));
             }
         } catch (APIException e) {
@@ -103,14 +111,15 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
+    @Transactional
     public Boolean delete(Integer id) {
         Optional<py.com.econtreras.api.entity.Provider> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
             py.com.econtreras.api.entity.Provider provider = optionalEntity.get();
-            repository.delete(provider);
-            personRepository.delete(provider.getPerson());
+            provider.setErased(new Short("1"));
+            personRepository.save(provider.getPerson());
             return true;
         }
     }
@@ -128,10 +137,10 @@ public class ProviderServiceImpl implements ProviderService {
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/providers/" + provider.getId()).withSelfRel());
-        if (provider.getPerson() != null) {
-            link = new Link("http://localhost:8080/persons/" + provider.getPerson().getId()).withRel("person");
-            l.add(link);
-        }
+//        if (provider.getPerson() != null) {
+//            link = new Link("http://localhost:8080/persons/" + provider.getPerson().getId()).withRel("person");
+//            l.add(link);
+//        }
         
         Link[] linkArray = new Link[l.size()];
         for (int i = 0; i < l.size(); i++) {

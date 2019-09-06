@@ -3,13 +3,13 @@ package py.com.econtreras.api.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
-import py.com.econtreras.api.entity.Provider;
+import py.com.econtreras.api.entity.Customer;
 import py.com.econtreras.api.repository.DocumentTypeRepository;
 import py.com.econtreras.api.repository.PersonRepository;
 import py.com.econtreras.api.repository.PersonTypeRepository;
 
 @Component
-public class ProviderConverter {
+public class CustomerConverter {
 
     @Autowired
     PersonTypeRepository personTypeRepository;
@@ -20,16 +20,16 @@ public class ProviderConverter {
     @Autowired
     DocumentTypeRepository documentTypeRepository;
 
-    public Provider buildEntity(py.com.econtreras.api.beans.ProviderRequest bean) {
-        Provider entity = new Provider();
+    public Customer buildEntity(py.com.econtreras.api.beans.CustomerRequest bean) {
+        Customer entity = new Customer();
         entity.setId(bean.getId());
         entity.setPerson(personRepository.findById(bean.getPersonId()).get());
         return entity;
     }
 
-    public py.com.econtreras.api.beans.ProviderResponse buildBean(Provider entity) {
-        py.com.econtreras.api.beans.ProviderResponse bean = new py.com.econtreras.api.beans.ProviderResponse();
-        bean.setProviderId(entity.getId());
+    public py.com.econtreras.api.beans.CustomerResponse buildBean(Customer entity) {
+        py.com.econtreras.api.beans.CustomerResponse bean = new py.com.econtreras.api.beans.CustomerResponse();
+        bean.setCustomerId(entity.getId());
         bean.setPersonId(entity.getPerson()!= null?entity.getPerson().getId():null);
         bean.setBusinessName(entity.getPerson()!= null?entity.getPerson().getBusinessName():null);
         bean.setName(entity.getPerson()!= null?entity.getPerson().getName():null);
@@ -42,9 +42,9 @@ public class ProviderConverter {
         return bean;
     }
     
-    public py.com.econtreras.api.beans.ProviderResponse buildBean(Provider entity, Link... links) {
-        py.com.econtreras.api.beans.ProviderResponse bean = new py.com.econtreras.api.beans.ProviderResponse();
-        bean.setProviderId(entity.getId());
+    public py.com.econtreras.api.beans.CustomerResponse buildBean(Customer entity, Link... links) {
+        py.com.econtreras.api.beans.CustomerResponse bean = new py.com.econtreras.api.beans.CustomerResponse();
+        bean.setCustomerId(entity.getId());
         bean.setPersonId(entity.getPerson()!= null?entity.getPerson().getId():null);
         bean.setBusinessName(entity.getPerson()!= null?entity.getPerson().getBusinessName():null);
         bean.setName(entity.getPerson()!= null?entity.getPerson().getName():null);
@@ -58,3 +58,4 @@ public class ProviderConverter {
         return bean;
     }
 }
+

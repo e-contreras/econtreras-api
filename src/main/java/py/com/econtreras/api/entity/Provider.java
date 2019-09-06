@@ -32,12 +32,18 @@ public class Provider implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
+    @Basic(optional = false)
+    @Column(name = "borrado", nullable = false)
+    private short erased;
     @Column(name = "fec_alta")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "fec_modificacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modificationDate;
+    @Column(name = "fec_eliminacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deletedDate;
     @ManyToMany(mappedBy = "providerList")
     private List<ProductCategory> ProductCategoryList;
     @JoinColumn(name = "persona", referencedColumnName = "id", nullable = false)

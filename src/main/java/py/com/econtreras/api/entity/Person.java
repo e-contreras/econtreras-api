@@ -60,6 +60,8 @@ public class Person implements Serializable {
     private List<User> userList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
     private List<Provider> providerList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
+    private List<Customer> customerList;
 //    @JoinColumn(name = "dir_particular", referencedColumnName = "id")
 //    @ManyToOne
 //    private Address homeAddress;

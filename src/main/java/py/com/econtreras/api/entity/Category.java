@@ -44,6 +44,9 @@ public class Category implements Serializable {
     @Column(name = "fec_modificacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modificationDate;
+    @Column(name = "fec_eliminacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deletedDate;
     @JoinColumn(name = "categoria_padre", referencedColumnName = "id")
     @ManyToOne
     private Category superCategory;
