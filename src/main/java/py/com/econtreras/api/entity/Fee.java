@@ -25,6 +25,8 @@ public class Fee implements Serializable {
     private Integer id;
     @Column(name = "cuota")
     private Integer feeNumber;
+    @Column(name = "poductos_id", nullable = true, length = 1000)
+    private String poductsId;
     @Column(name = "ponderador")
     private BigDecimal ponderator;
     @JoinColumn(name = "categoria_id", referencedColumnName = "id")

@@ -34,6 +34,9 @@ public class Role implements Serializable {
     @Basic(optional = false)
     @Column(name = "descripcion", nullable = false, length = 45)
     private String description;
+    @Basic(optional = false)
+    @Column(name = "borrado", nullable = false)
+    private short erased;
     @Column(name = "fec_alta")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
