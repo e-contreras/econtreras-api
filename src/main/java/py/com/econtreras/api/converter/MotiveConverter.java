@@ -2,7 +2,7 @@ package py.com.econtreras.api.converter;
 
 import org.springframework.stereotype.Component;
 
-import py.com.econtreras.api.entity.Motive;
+import py.com.econtreras.entity.Motive;
 
 @Component
 public class MotiveConverter {

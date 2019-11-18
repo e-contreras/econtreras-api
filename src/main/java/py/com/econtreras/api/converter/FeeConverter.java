@@ -18,7 +18,7 @@ public class FeeConverter {
         entity.setId(bean.getId());
         entity.setFeeNumber(bean.getFeeNumber());
         entity.setPonderator(new BigDecimal(bean.getPonderator()));
-        entity.setPoductsId(bean.getProductsId());
+//        entity.setPoductsId(bean.getProductsId());
         entity.setCategory(categoryRepository.findById(bean.getCategoryId()).get());
         return entity;
     }
@@ -26,7 +26,7 @@ public class FeeConverter {
     public py.com.econtreras.api.beans.FeeResponse buildBean(Fee entity) {
         py.com.econtreras.api.beans.FeeResponse bean = new py.com.econtreras.api.beans.FeeResponse();
         bean.setFeeId(entity.getId());
-        bean.setProductsId(entity.getPoductsId());
+//        bean.setProductsId(entity.getPoductsId());
         bean.setFeeNumber(entity.getFeeNumber());
         bean.setPonderator(entity.getPonderator().floatValue());
         return bean;
@@ -35,7 +35,7 @@ public class FeeConverter {
     public py.com.econtreras.api.beans.FeeResponse buildBean(Fee entity, Link... links) {
         py.com.econtreras.api.beans.FeeResponse bean = new py.com.econtreras.api.beans.FeeResponse();
         bean.setFeeId(entity.getId());
-        bean.setProductsId(entity.getPoductsId());
+//        bean.setProductsId(entity.getPoductsId());
         bean.setFeeNumber(entity.getFeeNumber());
         bean.setPonderator(entity.getPonderator().floatValue());
         bean.add(links);

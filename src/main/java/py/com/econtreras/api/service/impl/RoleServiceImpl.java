@@ -31,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleResponse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Role> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.Role> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -49,13 +49,13 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<RoleResponse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Role> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.Role> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<RoleResponse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Role entity : entityList) {
+            for (py.com.econtreras.entity.Role entity : entityList) {
                 beans.add(converter.buildBean(entity));
             }
 
@@ -84,7 +84,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleResponse update(RoleRequest role) {
         try {
-            Optional<py.com.econtreras.api.entity.Role> optionalEntity = repository.findById(role.getId());
+            Optional<py.com.econtreras.entity.Role> optionalEntity = repository.findById(role.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -100,12 +100,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Role> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.entity.Role> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Role role = optionalEntity.get();
-            role.setErased(new Short("1"));
+            py.com.econtreras.entity.Role role = optionalEntity.get();
+//            role.setErased(new Short("1"));
             repository.save(role);
             return true;
         }

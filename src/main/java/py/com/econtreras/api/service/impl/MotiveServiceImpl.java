@@ -29,7 +29,7 @@ public class MotiveServiceImpl implements MotiveService {
     @Override
     public Motive findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Motive> optionalEntity = repository.findById(id);
+            Optional<py.com.econtreras.entity.Motive> optionalEntity = repository.findById(id);
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
@@ -45,10 +45,10 @@ public class MotiveServiceImpl implements MotiveService {
     @Override
     public List<Motive> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Motive> iEntity = repository.findAll();
+            Iterable<py.com.econtreras.entity.Motive> iEntity = repository.findAll();
             List<Motive> departamentList = new ArrayList<>();
 
-            for (py.com.econtreras.api.entity.Motive motive : iEntity) {
+            for (py.com.econtreras.entity.Motive motive : iEntity) {
                 departamentList.add(converter.buildBean(motive));
             }
             return departamentList;
@@ -64,7 +64,7 @@ public class MotiveServiceImpl implements MotiveService {
             if (motive.getId() == null && repository.findByMotiveName(motive.getDescription()) != null) {
                 throw new APIException(HttpStatus.UNPROCESSABLE_ENTITY, message.getAlreadyExistMessage());
             }
-            py.com.econtreras.api.entity.Motive entity = repository.save(converter.buildEntity(motive));
+            py.com.econtreras.entity.Motive entity = repository.save(converter.buildEntity(motive));
             return converter.buildBean(entity);
         } catch (APIException e) {
             throw e;
@@ -78,7 +78,7 @@ public class MotiveServiceImpl implements MotiveService {
     @Override
     public Motive update(Motive motive) {
         try {
-            Optional<py.com.econtreras.api.entity.Motive> optionalEntity = repository.findById(motive.getId());
+            Optional<py.com.econtreras.entity.Motive> optionalEntity = repository.findById(motive.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

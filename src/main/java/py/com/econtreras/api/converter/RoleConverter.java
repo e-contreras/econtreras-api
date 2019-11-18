@@ -1,7 +1,7 @@
 package py.com.econtreras.api.converter;
 
 import org.springframework.stereotype.Component;
-import py.com.econtreras.api.entity.Role;
+import py.com.econtreras.entity.Role;
 
 @Component
 public class RoleConverter {
