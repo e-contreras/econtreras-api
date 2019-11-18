@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories("py.com.econtreras.api.repository")
 @EnableTransactionManagement
-@EntityScan(basePackages = { "py.com.econtreras.api.entity" })
+@EntityScan(basePackages = { "py.com.econtreras.entity" })
 public class DatasourceConfig {
 
 

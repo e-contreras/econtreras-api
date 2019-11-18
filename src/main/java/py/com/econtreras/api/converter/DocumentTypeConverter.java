@@ -2,7 +2,7 @@ package py.com.econtreras.api.converter;
 
 import org.springframework.stereotype.Component;
 
-import py.com.econtreras.api.entity.DocumentType;
+import py.com.econtreras.entity.DocumentType;
 
 @Component
 public class DocumentTypeConverter {

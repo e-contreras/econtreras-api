@@ -30,7 +30,7 @@ public class VehicleServiceImpl  implements VehicleService {
     @Override
     public Vehicle findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Vehicle> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.Vehicle> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -48,13 +48,13 @@ public class VehicleServiceImpl  implements VehicleService {
     @Override
     public List<Vehicle> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Vehicle> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.Vehicle> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<Vehicle> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Vehicle entity : entityList) {
+            for (py.com.econtreras.entity.Vehicle entity : entityList) {
                 beans.add(converter.buildBean(entity));
             }
 
@@ -83,7 +83,7 @@ public class VehicleServiceImpl  implements VehicleService {
     @Override
     public Vehicle update(Vehicle vehicle) {
         try {
-            Optional<py.com.econtreras.api.entity.Vehicle> optionalEntity = repository.findById(vehicle.getId());
+            Optional<py.com.econtreras.entity.Vehicle> optionalEntity = repository.findById(vehicle.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -99,11 +99,11 @@ public class VehicleServiceImpl  implements VehicleService {
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Vehicle> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.entity.Vehicle> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Vehicle vehicle = optionalEntity.get();
+            py.com.econtreras.entity.Vehicle vehicle = optionalEntity.get();
             vehicle.setErased(new Short("1"));
             repository.save(vehicle);
             return true;

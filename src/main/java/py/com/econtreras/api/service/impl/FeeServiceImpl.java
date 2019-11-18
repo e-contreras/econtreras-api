@@ -34,7 +34,7 @@ public class FeeServiceImpl implements FeeService {
     @Override
     public FeeResponse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Fee> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.Fee> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -52,13 +52,13 @@ public class FeeServiceImpl implements FeeService {
     @Override
     public List<FeeResponse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Fee> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.Fee> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<FeeResponse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Fee entity : entityList) {
+            for (py.com.econtreras.entity.Fee entity : entityList) {
                 beans.add(this.getBean(entity));
             }
             return beans;
@@ -85,7 +85,7 @@ public class FeeServiceImpl implements FeeService {
     @Override
     public FeeResponse update(FeeRequest fee) {
         try {
-            Optional<py.com.econtreras.api.entity.Fee> optionalEntity = repository.findById(fee.getId());
+            Optional<py.com.econtreras.entity.Fee> optionalEntity = repository.findById(fee.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -101,17 +101,17 @@ public class FeeServiceImpl implements FeeService {
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Fee> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.entity.Fee> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Fee fee = optionalEntity.get();
+            py.com.econtreras.entity.Fee fee = optionalEntity.get();
             repository.delete(fee);
             return true;
         }
     }
 
-    private FeeResponse getBean(py.com.econtreras.api.entity.Fee fee){
+    private FeeResponse getBean(py.com.econtreras.entity.Fee fee){
         links = cargarEnlaces(fee);
         if (links == null || links.length == 0){
             return converter.buildBean(fee);
@@ -120,7 +120,7 @@ public class FeeServiceImpl implements FeeService {
         }
     }
     
-    private Link[] cargarEnlaces(py.com.econtreras.api.entity.Fee fee){
+    private Link[] cargarEnlaces(py.com.econtreras.entity.Fee fee){
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/fees/" + fee.getId()).withSelfRel());

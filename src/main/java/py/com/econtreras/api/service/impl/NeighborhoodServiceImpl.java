@@ -34,7 +34,7 @@ public class NeighborhoodServiceImpl implements NeighborhoodService{
     @Override
     public NeighborhoodResponse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Neighborhood> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.Neighborhood> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -52,13 +52,13 @@ public class NeighborhoodServiceImpl implements NeighborhoodService{
     @Override
     public List<NeighborhoodResponse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Neighborhood> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.Neighborhood> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<NeighborhoodResponse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Neighborhood entity : entityList) {
+            for (py.com.econtreras.entity.Neighborhood entity : entityList) {
                 beans.add(this.getBean(entity));
             }
             return beans;
@@ -85,7 +85,7 @@ public class NeighborhoodServiceImpl implements NeighborhoodService{
     @Override
     public NeighborhoodResponse update(NeighborhoodRequest neighborhood) {
         try {
-            Optional<py.com.econtreras.api.entity.Neighborhood> optionalEntity = repository.findById(neighborhood.getId());
+            Optional<py.com.econtreras.entity.Neighborhood> optionalEntity = repository.findById(neighborhood.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -101,17 +101,17 @@ public class NeighborhoodServiceImpl implements NeighborhoodService{
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Neighborhood> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.entity.Neighborhood> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Neighborhood neighborhood = optionalEntity.get();
+            py.com.econtreras.entity.Neighborhood neighborhood = optionalEntity.get();
             repository.delete(neighborhood);
             return true;
         }
     }
 
-    private NeighborhoodResponse getBean(py.com.econtreras.api.entity.Neighborhood neighborhood){
+    private NeighborhoodResponse getBean(py.com.econtreras.entity.Neighborhood neighborhood){
         links = cargarEnlaces(neighborhood);
         if (links == null || links.length == 0){
             return converter.buildBean(neighborhood);
@@ -120,7 +120,7 @@ public class NeighborhoodServiceImpl implements NeighborhoodService{
         }
     }
     
-    private Link[] cargarEnlaces(py.com.econtreras.api.entity.Neighborhood neighborhood){
+    private Link[] cargarEnlaces(py.com.econtreras.entity.Neighborhood neighborhood){
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/neighborhoods/" + neighborhood.getId()).withSelfRel());

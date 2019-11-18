@@ -32,7 +32,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     @Override
     public DocumentType findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.DocumentType> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.DocumentType> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -50,13 +50,13 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     @Override
     public List<DocumentType> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.DocumentType> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.DocumentType> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<DocumentType> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.DocumentType entity : entityList) {
+            for (py.com.econtreras.entity.DocumentType entity : entityList) {
                 beans.add(converter.buildBean(entity));
             }
 
@@ -85,7 +85,7 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     @Override
     public DocumentType update(DocumentType documentType) {
         try {
-            Optional<py.com.econtreras.api.entity.DocumentType> optionalEntity = repository.findById(documentType.getId());
+            Optional<py.com.econtreras.entity.DocumentType> optionalEntity = repository.findById(documentType.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

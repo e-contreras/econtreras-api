@@ -34,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public CategoryResponse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Category> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.Category> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -52,13 +52,13 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public List<CategoryResponse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Category> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.Category> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<CategoryResponse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Category entity : entityList) {
+            for (py.com.econtreras.entity.Category entity : entityList) {
                 beans.add(this.getBean(entity));
             }
             return beans;
@@ -85,7 +85,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public CategoryResponse update(CategoryRequest category) {
         try {
-            Optional<py.com.econtreras.api.entity.Category> optionalEntity = repository.findById(category.getId());
+            Optional<py.com.econtreras.entity.Category> optionalEntity = repository.findById(category.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -101,18 +101,18 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Category> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.entity.Category> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Category category = optionalEntity.get();
+            py.com.econtreras.entity.Category category = optionalEntity.get();
             category.setErased(new Short("1"));
             repository.save(category);
             return true;
         }
     }
 
-    private CategoryResponse getBean(py.com.econtreras.api.entity.Category category){
+    private CategoryResponse getBean(py.com.econtreras.entity.Category category){
         links = cargarEnlaces(category);
         if (links == null || links.length == 0){
             return converter.buildBean(category);
@@ -121,7 +121,7 @@ public class CategoryServiceImpl implements CategoryService{
         }
     }
     
-    private Link[] cargarEnlaces(py.com.econtreras.api.entity.Category category){
+    private Link[] cargarEnlaces(py.com.econtreras.entity.Category category){
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/categories/" + category.getId()).withSelfRel());

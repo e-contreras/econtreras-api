@@ -41,7 +41,7 @@ public class ProviderServiceImpl implements ProviderService {
     @Override
     public ProviderResponse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Provider> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.Provider> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -59,13 +59,13 @@ public class ProviderServiceImpl implements ProviderService {
     @Override
     public List<ProviderResponse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Provider> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.Provider> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<ProviderResponse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Provider entity : entityList) {
+            for (py.com.econtreras.entity.Provider entity : entityList) {
                 beans.add(this.getBean(entity));
             }
             return beans;
@@ -95,7 +95,7 @@ public class ProviderServiceImpl implements ProviderService {
     @Transactional
     public ProviderResponse update(ProviderRequest provider) {
         try {
-            Optional<py.com.econtreras.api.entity.Provider> optionalEntity = repository.findById(provider.getId());
+            Optional<py.com.econtreras.entity.Provider> optionalEntity = repository.findById(provider.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -113,18 +113,18 @@ public class ProviderServiceImpl implements ProviderService {
     @Override
     @Transactional
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Provider> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.entity.Provider> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Provider provider = optionalEntity.get();
+            py.com.econtreras.entity.Provider provider = optionalEntity.get();
             provider.setErased(new Short("1"));
             personRepository.save(provider.getPerson());
             return true;
         }
     }
 
-    private ProviderResponse getBean(py.com.econtreras.api.entity.Provider provider){
+    private ProviderResponse getBean(py.com.econtreras.entity.Provider provider){
         links = cargarEnlaces(provider);
         if (links == null || links.length == 0){
             return converter.buildBean(provider);
@@ -133,7 +133,7 @@ public class ProviderServiceImpl implements ProviderService {
         }
     }
     
-    private Link[] cargarEnlaces(py.com.econtreras.api.entity.Provider provider){
+    private Link[] cargarEnlaces(py.com.econtreras.entity.Provider provider){
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/providers/" + provider.getId()).withSelfRel());

@@ -30,7 +30,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Brand findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Brand> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.Brand> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -48,13 +48,13 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public List<Brand> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Brand> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.Brand> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<Brand> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Brand entity : entityList) {
+            for (py.com.econtreras.entity.Brand entity : entityList) {
                 beans.add(converter.buildBean(entity));
             }
 
@@ -83,7 +83,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Brand update(Brand brand) {
         try {
-            Optional<py.com.econtreras.api.entity.Brand> optionalEntity = repository.findById(brand.getId());
+            Optional<py.com.econtreras.entity.Brand> optionalEntity = repository.findById(brand.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

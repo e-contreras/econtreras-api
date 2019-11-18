@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Product> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.Product> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -52,12 +52,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Product> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.Product> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
             List<ProductResponse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Product entity : entityList) {
+            for (py.com.econtreras.entity.Product entity : entityList) {
                 beans.add(this.getBean(entity));
             }
             return beans;
@@ -84,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse update(ProductRequest product) {
         try {
-            Optional<py.com.econtreras.api.entity.Product> optionalEntity = repository.findById(product.getId());
+            Optional<py.com.econtreras.entity.Product> optionalEntity = repository.findById(product.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -100,18 +100,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Product> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.entity.Product> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Product product = optionalEntity.get();
+            py.com.econtreras.entity.Product product = optionalEntity.get();
             product.setErased(new Short("1"));
             repository.save(product);
             return true;
         }
     }
     
-    private ProductResponse getBean(py.com.econtreras.api.entity.Product product){
+    private ProductResponse getBean(py.com.econtreras.entity.Product product){
         links = cargarEnlaces(product);
         if (links == null || links.length == 0){
             return converter.buildBean(product);
@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    private Link[] cargarEnlaces(py.com.econtreras.api.entity.Product product){
+    private Link[] cargarEnlaces(py.com.econtreras.entity.Product product){
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/products/" + product.getId()).withSelfRel());

@@ -34,7 +34,7 @@ public class CityServiceImpl implements CityService {
     @Override
     public CityResponse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.City> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.City> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -52,13 +52,13 @@ public class CityServiceImpl implements CityService {
     @Override
     public List<CityResponse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.City> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.City> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<CityResponse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.City entity : entityList) {
+            for (py.com.econtreras.entity.City entity : entityList) {
                 beans.add(this.getBean(entity));
             }
             return beans;
@@ -85,7 +85,7 @@ public class CityServiceImpl implements CityService {
     @Override
     public CityResponse update(CityRequest city) {
         try {
-            Optional<py.com.econtreras.api.entity.City> optionalEntity = repository.findById(city.getId());
+            Optional<py.com.econtreras.entity.City> optionalEntity = repository.findById(city.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -101,17 +101,17 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.City> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.entity.City> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.City city = optionalEntity.get();
+            py.com.econtreras.entity.City city = optionalEntity.get();
             repository.delete(city);
             return true;
         }
     }
 
-    private CityResponse getBean(py.com.econtreras.api.entity.City city){
+    private CityResponse getBean(py.com.econtreras.entity.City city){
         links = cargarEnlaces(city);
         if (links == null || links.length == 0){
             return converter.buildBean(city);
@@ -120,7 +120,7 @@ public class CityServiceImpl implements CityService {
         }
     }
     
-    private Link[] cargarEnlaces(py.com.econtreras.api.entity.City city){
+    private Link[] cargarEnlaces(py.com.econtreras.entity.City city){
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/cities/" + city.getId()).withSelfRel());

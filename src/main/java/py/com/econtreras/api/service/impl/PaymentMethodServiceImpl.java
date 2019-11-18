@@ -30,7 +30,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Override
     public PaymentMethod findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.PaymentMethod> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.PaymentMethod> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -48,13 +48,13 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Override
     public List<PaymentMethod> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.PaymentMethod> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.PaymentMethod> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<PaymentMethod> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.PaymentMethod entity : entityList) {
+            for (py.com.econtreras.entity.PaymentMethod entity : entityList) {
                 beans.add(converter.buildBean(entity));
             }
 
@@ -83,7 +83,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Override
     public PaymentMethod update(PaymentMethod paymentMethod) {
         try {
-            Optional<py.com.econtreras.api.entity.PaymentMethod> optionalEntity = repository.findById(paymentMethod.getId());
+            Optional<py.com.econtreras.entity.PaymentMethod> optionalEntity = repository.findById(paymentMethod.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

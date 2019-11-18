@@ -30,7 +30,7 @@ public class PersonTypeServiceImpl implements PersonTypeService {
     @Override
     public PersonType findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.PersonType> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.PersonType> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -49,13 +49,13 @@ public class PersonTypeServiceImpl implements PersonTypeService {
     public List<PersonType> findAll() {
         try {
 
-            Iterable<py.com.econtreras.api.entity.PersonType> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.PersonType> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<PersonType> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.PersonType entity : entityList) {
+            for (py.com.econtreras.entity.PersonType entity : entityList) {
                 beans.add(converter.buildBean(entity));
             }
 
@@ -85,7 +85,7 @@ public class PersonTypeServiceImpl implements PersonTypeService {
     @Override
     public PersonType update(PersonType personType) {
         try {
-            Optional<py.com.econtreras.api.entity.PersonType> optionalEntity = repository.findById(personType.getId());
+            Optional<py.com.econtreras.entity.PersonType> optionalEntity = repository.findById(personType.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {

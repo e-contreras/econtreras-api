@@ -3,7 +3,7 @@ package py.com.econtreras.api.converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
-import py.com.econtreras.api.entity.City;
+import py.com.econtreras.entity.City;
 import py.com.econtreras.api.repository.DepartmentRepository;
 
 @Component

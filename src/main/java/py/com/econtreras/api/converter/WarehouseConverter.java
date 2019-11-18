@@ -1,7 +1,7 @@
 package py.com.econtreras.api.converter;
 
 import org.springframework.stereotype.Component;
-import py.com.econtreras.api.entity.Warehouse;
+import py.com.econtreras.entity.Warehouse;
 
 @Component
 public class WarehouseConverter {

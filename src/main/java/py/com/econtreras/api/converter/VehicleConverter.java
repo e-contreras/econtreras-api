@@ -1,7 +1,7 @@
 package py.com.econtreras.api.converter;
 
 import org.springframework.stereotype.Component;
-import py.com.econtreras.api.entity.Vehicle;
+import py.com.econtreras.entity.Vehicle;
 
 @Component
 public class VehicleConverter {

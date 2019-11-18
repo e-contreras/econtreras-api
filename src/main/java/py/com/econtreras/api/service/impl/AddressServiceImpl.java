@@ -34,7 +34,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressResponse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Address> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.Address> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -52,13 +52,13 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public List<AddressResponse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Address> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.Address> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<AddressResponse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Address entity : entityList) {
+            for (py.com.econtreras.entity.Address entity : entityList) {
                 beans.add(this.getBean(entity));
             }
             return beans;
@@ -85,7 +85,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressResponse update(AddressRequest address) {
         try {
-            Optional<py.com.econtreras.api.entity.Address> optionalEntity = repository.findById(address.getId());
+            Optional<py.com.econtreras.entity.Address> optionalEntity = repository.findById(address.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -101,17 +101,17 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Address> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.entity.Address> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Address address = optionalEntity.get();
+            py.com.econtreras.entity.Address address = optionalEntity.get();
             repository.delete(address);
             return true;
         }
     }
 
-    private AddressResponse getBean(py.com.econtreras.api.entity.Address address){
+    private AddressResponse getBean(py.com.econtreras.entity.Address address){
         links = cargarEnlaces(address);
         if (links == null || links.length == 0){
             return converter.buildBean(address);
@@ -120,7 +120,7 @@ public class AddressServiceImpl implements AddressService {
         }
     }
     
-    private Link[] cargarEnlaces(py.com.econtreras.api.entity.Address address){
+    private Link[] cargarEnlaces(py.com.econtreras.entity.Address address){
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/addresses/" + address.getId()).withSelfRel());

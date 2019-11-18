@@ -1,9 +1,14 @@
 package py.com.econtreras.api.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
-import py.com.econtreras.api.entity.Product;
+
+import py.com.econtreras.entity.Image;
+import py.com.econtreras.entity.Product;
 import py.com.econtreras.api.repository.BrandRepository;
 import py.com.econtreras.api.repository.CategoryRepository;
 
@@ -14,14 +19,24 @@ public class ProductConverter {
     CategoryRepository categoryRepository;
     @Autowired
     BrandRepository brandRepository;
+   /* @Autowired
+    private ImageConverter imgConverter;*/
     
     public Product buildEntity(py.com.econtreras.api.beans.ProductRequest bean) {
         Product entity = new Product();
+        
+        /*List<Image> images = new ArrayList<>();
+        for (String src: bean.getPictures()) {
+        	Image imgEntity = new Image();
+        	imgEntity.setSrc(src);
+        	images.add(imgEntity);
+		}*/
         entity.setId(bean.getId());
         entity.setCode(bean.getCode());
         entity.setBarCode(bean.getBarCode());
         entity.setProductName(bean.getProductName());
         entity.setDescription(bean.getDescription());
+        
         entity.setCategory(categoryRepository.findById(bean.getCategoryId()).get());
         entity.setBrand(brandRepository.findById(bean.getBrandId()).get());
         return entity;

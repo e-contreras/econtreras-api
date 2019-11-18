@@ -30,7 +30,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public Warehouse findById(Integer id) {
         try {
-            Optional<py.com.econtreras.api.entity.Warehouse> optional = repository.findById(id);
+            Optional<py.com.econtreras.entity.Warehouse> optional = repository.findById(id);
             if (!optional.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -48,13 +48,13 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public List<Warehouse> findAll() {
         try {
-            Iterable<py.com.econtreras.api.entity.Warehouse> entityList = repository.findAll();
+            Iterable<py.com.econtreras.entity.Warehouse> entityList = repository.findAll();
             if (IterableUtils.isEmpty(entityList)) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             }
 
             List<Warehouse> beans = new ArrayList<>();
-            for (py.com.econtreras.api.entity.Warehouse entity : entityList) {
+            for (py.com.econtreras.entity.Warehouse entity : entityList) {
                 beans.add(converter.buildBean(entity));
             }
 
@@ -83,7 +83,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public Warehouse update(Warehouse warehouse) {
         try {
-            Optional<py.com.econtreras.api.entity.Warehouse> optionalEntity = repository.findById(warehouse.getId());
+            Optional<py.com.econtreras.entity.Warehouse> optionalEntity = repository.findById(warehouse.getId());
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
@@ -99,11 +99,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public Boolean delete(Integer id) {
-        Optional<py.com.econtreras.api.entity.Warehouse> optionalEntity = repository.findById(id);
+        Optional<py.com.econtreras.entity.Warehouse> optionalEntity = repository.findById(id);
         if (!optionalEntity.isPresent()) {
             throw new APIException(HttpStatus.NO_CONTENT);
         } else {
-            py.com.econtreras.api.entity.Warehouse warehouse = optionalEntity.get();
+            py.com.econtreras.entity.Warehouse warehouse = optionalEntity.get();
             warehouse.setErased(new Short("1"));
             repository.save(warehouse);
             return true;

@@ -10,7 +10,14 @@ spring:
     password: abcd.123
   jackson:
     default-property-inclusion: NON_NULL
-
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 200MB
+      file-size-threshold: 2KB
+      max-request-size: 215MB
+file:
+    upload-dir: /home/enrique/uploads
 api:
   messages:
     already-exist: El departamento que intenta agregar ya existe!

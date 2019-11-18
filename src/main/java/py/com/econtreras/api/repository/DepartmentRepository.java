@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import py.com.econtreras.api.entity.Department;
+import py.com.econtreras.entity.Department;
 
 public interface DepartmentRepository extends CrudRepository<Department, Integer> {
 
