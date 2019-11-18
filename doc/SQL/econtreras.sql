@@ -246,6 +246,7 @@ DROP TABLE IF EXISTS `cuotas`;
 CREATE TABLE `cuotas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `categoria_id` INT NULL,
+  `productos_id` varchar(1000) NULL,
   `cuota` INT NULL,
   `ponderador` DECIMAL(5,2) NULL,
   PRIMARY KEY (`id`),
@@ -1549,6 +1550,7 @@ DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) NOT NULL,
+  `borrado` tinyint(4) NOT NULL DEFAULT '0',
   `usu_alta` int(11) DEFAULT NULL,
   `usu_modificacion` int(11) DEFAULT NULL,
   `fec_alta` datetime DEFAULT NULL,
