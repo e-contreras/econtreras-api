@@ -17,7 +17,7 @@ spring:
       file-size-threshold: 2KB
       max-request-size: 215MB
 file:
-    upload-dir: /home/enrique/uploads
+    upload-dir: /tmp/uploads
 api:
   messages:
     already-exist: El departamento que intenta agregar ya existe!
