@@ -62,4 +62,14 @@ public class ProductConverter {
         bean.add(links);
         return bean;
     }
+
+    public Product buildEntity(py.com.econtreras.api.beans.ProductBean bean) {
+        Product entity = new Product();
+        entity.setId(bean.getId());
+        entity.setCode(bean.getCode());
+        entity.setProductName(bean.getProductName());
+        entity.setDescription(bean.getDescription());
+
+        return entity;
+    }
 }
