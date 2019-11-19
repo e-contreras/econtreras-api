@@ -6,8 +6,8 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect 
   datasource:
     url: jdbc:mysql://localhost:3306/econtreras?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-    username: econtreras_user
-    password: abcd.123
+    username: root
+    password: root
   jackson:
     default-property-inclusion: NON_NULL
   servlet:
@@ -17,7 +17,7 @@ spring:
       file-size-threshold: 2KB
       max-request-size: 215MB
 file:
-    upload-dir: /home/enrique/uploads
+    upload-dir: /home/user/uploads
 api:
   messages:
     already-exist: El departamento que intenta agregar ya existe!
