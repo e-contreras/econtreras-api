@@ -85,13 +85,15 @@ public class CartController {
             solicitude = solicitudeRepository.save(solicitude);
 
 
-            cartBean.setStatus("Ceado");
+            cartBean.setStatus(solicitude.getStatus().getStatusName());
             cartBean.setSolicitudeId(solicitude.getId());
             return  new ResponseEntity<>(cartBean, HttpStatus.OK);
 
         }
-
         return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+
 
 }

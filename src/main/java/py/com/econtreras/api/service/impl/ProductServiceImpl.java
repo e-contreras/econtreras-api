@@ -1,8 +1,11 @@
 package py.com.econtreras.api.service.impl;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,19 +15,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import py.com.econtreras.api.beans.ProductRequest;
 import py.com.econtreras.api.beans.ProductResponse;
+import py.com.econtreras.api.beans.Productstore;
 import py.com.econtreras.api.converter.ProductConverter;
 import py.com.econtreras.api.exception.APIException;
 import py.com.econtreras.api.messages.ApiMessage;
+import py.com.econtreras.api.repository.InventoryRepository;
+import py.com.econtreras.api.repository.ProductImageRepository;
 import py.com.econtreras.api.repository.ProductRepository;
+import py.com.econtreras.api.repository.WarehouseRepository;
 import py.com.econtreras.api.service.ProductService;
+import py.com.econtreras.entity.Inventory;
+import py.com.econtreras.entity.Product;
+import py.com.econtreras.entity.ProductImage;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+
+    private static final BigInteger PERCENTAGE_OF_PROFIT = new BigInteger("40");
 
     @Autowired
     private ProductRepository repository;
     @Autowired
     private ProductConverter converter;
+    @Autowired
+    private InventoryRepository inventoryRepository;
+    @Autowired
+    private ProductImageRepository productImageRepository;
     @Autowired
     ApiMessage message;
     private Link[] links;
@@ -139,5 +156,48 @@ public class ProductServiceImpl implements ProductService {
             linkArray[i] = lo;
         }
         return linkArray;
+    }
+
+
+    @Override
+    public List<Productstore> findAllProductStore() {
+        Iterable<Product> productIt = repository.findAll();
+        List<Productstore> productstores = new ArrayList<>();
+        productIt.forEach(product -> {
+            Long inCount = inventoryRepository.countByProductIdAndMotive(product.getId(), "IN");
+            inCount = inCount != null ? inCount : 0L;
+            Long outCount = inventoryRepository.countByProductIdAndMotive(product.getId(), "OUT");
+            outCount = outCount != null ? outCount : 0L;
+            Long availabe = inCount >= outCount ? inCount -outCount : 0L;
+            if(availabe > 0) {
+                Long average = getPriceAvg(product);
+                BigInteger salePrice = BigInteger.valueOf(average).multiply(PERCENTAGE_OF_PROFIT).divide(BigInteger.valueOf(100)).add(BigInteger.valueOf(average));
+                Productstore productstore = new Productstore();
+                productstore.setAvailable(availabe.intValue());
+                productstore.setId(product.getId());
+                productstore.setPurchasePrice(BigInteger.valueOf(average));
+                productstore.setSalePrice(salePrice);
+                productstore.setProductName(product.getProductName());
+                product.setDescription(product.getDescription());
+                List<ProductImage> productImages = productImageRepository.findByProduct(product);
+                List<byte[]> images = new ArrayList<>();
+                productImages.forEach(productImage -> {
+                    if(productImage.getImage() != null && productImage.getImage().getSrc() != null)
+                        images.add(productImage.getImage().getSrc());
+
+                });
+                productstore.setImages(images);
+                productstores.add(productstore);
+            }
+        });
+
+        return productstores;
+    }
+
+    private Long getPriceAvg(Product product){
+        List<Inventory> inventories = inventoryRepository.findByProduct(product);
+        Double sum = inventories.stream().map(inventory -> inventory.getPurchasePrice()).collect(Collectors.summingDouble(Double::doubleValue));
+        Double avg = sum / inventories.size();
+        return avg.longValue();
     }
 }

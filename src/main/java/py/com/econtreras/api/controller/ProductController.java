@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import py.com.econtreras.api.beans.ProductRequest;
 import py.com.econtreras.api.beans.ProductResponse;
+import py.com.econtreras.api.beans.Productstore;
 import py.com.econtreras.api.service.ProductService;
 
 @RestController
@@ -46,6 +47,12 @@ public class ProductController {
     @DeleteMapping(value = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
     public Boolean delete(@PathVariable Integer id) {
         return service.delete(id);
+    }
+
+
+    @GetMapping(value = "/store", produces= MediaType.APPLICATION_JSON_VALUE)
+    public List<Productstore>  store() {
+        return service.findAllProductStore();
     }
     
 }
