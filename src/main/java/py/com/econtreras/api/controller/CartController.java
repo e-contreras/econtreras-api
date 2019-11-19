@@ -10,20 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import py.com.econtreras.api.beans.CartBean;
 import py.com.econtreras.api.beans.CartProductBean;
-import py.com.econtreras.api.beans.ProductBean;
-import py.com.econtreras.api.beans.ProductResponse;
 import py.com.econtreras.api.converter.ProductConverter;
-import py.com.econtreras.api.repository.ProductRepository;
-import py.com.econtreras.api.repository.ProductSolicitudeRepository;
-import py.com.econtreras.api.repository.SolicitudeRepository;
-import py.com.econtreras.api.repository.SolicitudeStatusRepository;
+import py.com.econtreras.api.repository.*;
 import py.com.econtreras.api.service.ProductService;
 import py.com.econtreras.entity.*;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/carts")
@@ -41,6 +38,11 @@ public class CartController {
     private SolicitudeRepository solicitudeRepository;
     @Autowired
     private SolicitudeStatusRepository solicitudeStatusRepository;
+    @Autowired
+    private InventoryRepository inventoryRepository;
+    @Autowired
+    private MotiveRepository motiveRepository;
+    private static final String STATUS_CONFIRMATION = "CONFIRMADO";
 
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -76,21 +78,46 @@ public class CartController {
                     ProductSolicitude productSolicitude = optionalProductSolicitude.isPresent() ? optionalProductSolicitude.get() : new ProductSolicitude(pk);
                     productSolicitude.setQuantity(bean.getQuantity());
                     productSolicitude.setPrice(bean.getPrice());
+                    productSolicitude.setPurchasePrice(bean.getPurcharsePrice());
                     products.add(productSolicitude);
+
 
                 }
             }
 
             solicitude.setProdcutSolicitudeList(products);
             solicitude = solicitudeRepository.save(solicitude);
+            List<Inventory> inventoryList = new ArrayList<>();
 
+            if(solicitude.getStatus().getStatusName().equalsIgnoreCase(STATUS_CONFIRMATION)){
+                for (ProductSolicitude productSolicitude : solicitude.getProdcutSolicitudeList()) {
+                    Optional<Product> productOptional = productRepository.findById(productSolicitude.getMerSolicitudesPK().getProductId());
+                    if(productOptional.isPresent()){
+                        Product product = productOptional.get();
+                        List<Inventory> inventoriesByProduct = inventoryRepository.findByProduct(product);
+                        Inventory inventory = new Inventory();
+                        inventory.setProduct(productOptional.get());
+                        inventory.setCreationDate(new Date());
+                        inventory.setMotive(motiveRepository.findByMotiveName("OUT"));
+                        inventory.setOperationQuantity(productSolicitude.getQuantity());
+                        inventory.setPurchasePrice(calclulateProductInventory(inventoriesByProduct));
+                        inventoryList.add(inventory);
+                    }
+                }
 
+            }
             cartBean.setStatus(solicitude.getStatus().getStatusName());
             cartBean.setSolicitudeId(solicitude.getId());
+            inventoryRepository.saveAll(inventoryList);
             return  new ResponseEntity<>(cartBean, HttpStatus.OK);
 
         }
         return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private double calclulateProductInventory(List<Inventory> inventorylist){
+        Double sum = inventorylist.stream().map(inventory -> inventory.getPurchasePrice()).collect(Collectors.summingDouble(Double::doubleValue));
+        return BigInteger.valueOf(sum.longValue()).divide(BigInteger.valueOf(inventorylist.size())).doubleValue();
     }
 
 
