@@ -6,15 +6,9 @@ spring:
     database-platform: org.hibernate.dialect.MariaDBDialect
     show-sql: true
   datasource:
-<<<<<<< HEAD
     url: jdbc:mysql://localhost:3306/econtreras?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: root
-=======
-    url: jdbc:mysql://localhost:3306/econtreras
-    username: econtreras_user
-    password: abcd.123
->>>>>>> 360e3b6a9f46e99ba7ed072aeefc91d12283ee62
   jackson:
     default-property-inclusion: NON_NULL
   servlet:
@@ -24,11 +18,7 @@ spring:
       file-size-threshold: 2KB
       max-request-size: 215MB
 file:
-<<<<<<< HEAD
-    upload-dir: /home/user/uploads
-=======
     upload-dir: /tmp/uploads
->>>>>>> 360e3b6a9f46e99ba7ed072aeefc91d12283ee62
 api:
   messages:
     already-exist: El departamento que intenta agregar ya existe!
