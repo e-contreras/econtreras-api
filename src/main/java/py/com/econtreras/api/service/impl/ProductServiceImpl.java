@@ -19,14 +19,12 @@ import py.com.econtreras.api.beans.Productstore;
 import py.com.econtreras.api.converter.ProductConverter;
 import py.com.econtreras.api.exception.APIException;
 import py.com.econtreras.api.messages.ApiMessage;
-import py.com.econtreras.api.repository.InventoryRepository;
-import py.com.econtreras.api.repository.ProductImageRepository;
-import py.com.econtreras.api.repository.ProductRepository;
-import py.com.econtreras.api.repository.WarehouseRepository;
+import py.com.econtreras.api.repository.*;
 import py.com.econtreras.api.service.ProductService;
 import py.com.econtreras.entity.Inventory;
 import py.com.econtreras.entity.Product;
 import py.com.econtreras.entity.ProductImage;
+import py.com.econtreras.entity.SalesInvoice;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -200,4 +198,7 @@ public class ProductServiceImpl implements ProductService {
         Double avg = sum / inventories.size();
         return avg.longValue();
     }
+
+
+
 }

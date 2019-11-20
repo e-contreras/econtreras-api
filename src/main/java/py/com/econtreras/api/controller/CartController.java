@@ -12,6 +12,7 @@ import py.com.econtreras.api.beans.CartBean;
 import py.com.econtreras.api.beans.CartProductBean;
 import py.com.econtreras.api.converter.ProductConverter;
 import py.com.econtreras.api.repository.*;
+import py.com.econtreras.api.service.InvoiceService;
 import py.com.econtreras.api.service.ProductService;
 import py.com.econtreras.entity.*;
 
@@ -42,8 +43,11 @@ public class CartController {
     private InventoryRepository inventoryRepository;
     @Autowired
     private MotiveRepository motiveRepository;
+    @Autowired
+    private WarehouseRepository warehouseRepository;
     private static final String STATUS_CONFIRMATION = "CONFIRMADO";
-
+    private static final String MOTIVE_SALE = "VENTA";
+    private static final String OPERATION_TYPE_OUT = "OUT";
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CartBean> addCart(@RequestBody CartBean cartBean){
@@ -75,7 +79,8 @@ public class CartController {
                     pk.setProductId(p.getId());
                     pk.setSolicitudeId(solicitude.getId());
                     Optional<ProductSolicitude> optionalProductSolicitude = productSolicitudeRepository.findById(pk);
-                    ProductSolicitude productSolicitude = optionalProductSolicitude.isPresent() ? optionalProductSolicitude.get() : new ProductSolicitude(pk);
+                    ProductSolicitude productSolicitude = optionalProductSolicitude.isPresent() ? optionalProductSolicitude.get() : new ProductSolicitude();
+                    productSolicitude.setMerSolicitudesPK(pk);
                     productSolicitude.setQuantity(bean.getQuantity());
                     productSolicitude.setPrice(bean.getPrice());
                     productSolicitude.setPurchasePrice(bean.getPurcharsePrice());
@@ -85,12 +90,15 @@ public class CartController {
                 }
             }
 
+            Iterable<ProductSolicitude> pIterable = productSolicitudeRepository.saveAll(products);
             solicitude.setProdcutSolicitudeList(products);
             solicitude = solicitudeRepository.save(solicitude);
             List<Inventory> inventoryList = new ArrayList<>();
 
+            Optional<Warehouse> wh = warehouseRepository.findById(1);
+
             if(solicitude.getStatus().getStatusName().equalsIgnoreCase(STATUS_CONFIRMATION)){
-                for (ProductSolicitude productSolicitude : solicitude.getProdcutSolicitudeList()) {
+                for (ProductSolicitude productSolicitude : products) {
                     Optional<Product> productOptional = productRepository.findById(productSolicitude.getMerSolicitudesPK().getProductId());
                     if(productOptional.isPresent()){
                         Product product = productOptional.get();
@@ -98,9 +106,11 @@ public class CartController {
                         Inventory inventory = new Inventory();
                         inventory.setProduct(productOptional.get());
                         inventory.setCreationDate(new Date());
-                        inventory.setMotive(motiveRepository.findByMotiveName("OUT"));
+                        inventory.setMotive(motiveRepository.findByMotiveName(MOTIVE_SALE));
+                        inventory.setOperationType(OPERATION_TYPE_OUT);
                         inventory.setOperationQuantity(productSolicitude.getQuantity());
                         inventory.setPurchasePrice(calclulateProductInventory(inventoriesByProduct));
+                        inventory.setWarehouse(wh.get());
                         inventoryList.add(inventory);
                     }
                 }
@@ -108,6 +118,7 @@ public class CartController {
             }
             cartBean.setStatus(solicitude.getStatus().getStatusName());
             cartBean.setSolicitudeId(solicitude.getId());
+
             inventoryRepository.saveAll(inventoryList);
             return  new ResponseEntity<>(cartBean, HttpStatus.OK);
 
@@ -119,8 +130,6 @@ public class CartController {
         Double sum = inventorylist.stream().map(inventory -> inventory.getPurchasePrice()).collect(Collectors.summingDouble(Double::doubleValue));
         return BigInteger.valueOf(sum.longValue()).divide(BigInteger.valueOf(inventorylist.size())).doubleValue();
     }
-
-
 
 
 }

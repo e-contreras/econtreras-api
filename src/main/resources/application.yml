@@ -3,9 +3,10 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQLDialect 
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    show-sql: true
   datasource:
-    url: jdbc:mysql://localhost:3306/econtreras?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/econtreras
     username: econtreras_user
     password: abcd.123
   jackson:
@@ -17,7 +18,7 @@ spring:
       file-size-threshold: 2KB
       max-request-size: 215MB
 file:
-    upload-dir: /home/enrique/uploads
+    upload-dir: /tmp/uploads
 api:
   messages:
     already-exist: El departamento que intenta agregar ya existe!
