@@ -1,6 +1,7 @@
 package py.com.econtreras.api.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.collections4.IterableUtils;
@@ -35,7 +36,7 @@ public class ProviderServiceImpl implements ProviderService {
     @Autowired
     ApiMessage message;
     private Link[] links;
-    
+
     private static final Logger LOGGER = LogManager.getLogger(ProviderServiceImpl.class);
 
     @Override
@@ -81,7 +82,7 @@ public class ProviderServiceImpl implements ProviderService {
     @Transactional
     public ProviderResponse save(ProviderRequest provider) {
         try {
-            provider.setPersonId(personConverter.buildBean(personRepository.save(personConverter.buildEntity(provider))).getPersonId());
+            provider.setPersonId(personConverter.buildBean(personRepository.save(personConverter.buildEntity(provider.getPerson()))).getPersonId());
             return this.getBean(repository.save(converter.buildEntity(provider)));
         } catch (APIException e) {
             throw e;
@@ -99,8 +100,10 @@ public class ProviderServiceImpl implements ProviderService {
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
-                provider.setPersonId(personConverter.buildBean(personRepository.save(personConverter.buildEntity(provider))).getPersonId());
-                return this.getBean(repository.save(converter.buildEntity(provider)));
+                provider.setPersonId(personConverter.buildBean(personRepository.save(personConverter.buildEntity(provider.getPerson()))).getPersonId());
+                py.com.econtreras.entity.Provider providerAux = converter.buildEntity(provider);
+                providerAux.setCreationDate(optionalEntity.get().getCreationDate());
+                return this.getBean(repository.save(providerAux));
             }
         } catch (APIException e) {
             throw e;
@@ -119,21 +122,22 @@ public class ProviderServiceImpl implements ProviderService {
         } else {
             py.com.econtreras.entity.Provider provider = optionalEntity.get();
             provider.setErased(new Short("1"));
+            provider.setDeletedDate(new Date());
             personRepository.save(provider.getPerson());
             return true;
         }
     }
 
-    private ProviderResponse getBean(py.com.econtreras.entity.Provider provider){
+    private ProviderResponse getBean(py.com.econtreras.entity.Provider provider) {
         links = cargarEnlaces(provider);
-        if (links == null || links.length == 0){
+        if (links == null || links.length == 0) {
             return converter.buildBean(provider);
-        }else{
+        } else {
             return converter.buildBean(provider, links);
         }
     }
-    
-    private Link[] cargarEnlaces(py.com.econtreras.entity.Provider provider){
+
+    private Link[] cargarEnlaces(py.com.econtreras.entity.Provider provider) {
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/providers/" + provider.getId()).withSelfRel());
@@ -141,7 +145,7 @@ public class ProviderServiceImpl implements ProviderService {
 //            link = new Link("http://localhost:8080/persons/" + provider.getPerson().getId()).withRel("person");
 //            l.add(link);
 //        }
-        
+
         Link[] linkArray = new Link[l.size()];
         for (int i = 0; i < l.size(); i++) {
             Link lo = l.get(i);
@@ -150,4 +154,3 @@ public class ProviderServiceImpl implements ProviderService {
         return linkArray;
     }
 }
-
