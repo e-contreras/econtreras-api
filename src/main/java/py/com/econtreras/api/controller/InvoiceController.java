@@ -20,8 +20,7 @@ public class InvoiceController {
 
     @PostMapping(value = "/{solicitude_id}")
     public ResponseEntity<?> saveInvoice(@PathVariable("solicitude_id") Integer solicitudeId){
-        invoiceService.saveInvoice(solicitudeId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return  invoiceService.saveInvoice(solicitudeId);
     }
 
 }

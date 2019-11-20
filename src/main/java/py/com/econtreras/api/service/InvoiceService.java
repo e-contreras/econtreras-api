@@ -1,5 +1,7 @@
 package py.com.econtreras.api.service;
 
+import org.springframework.http.ResponseEntity;
+
 public interface InvoiceService {
-    void saveInvoice(Integer id);
+    ResponseEntity saveInvoice(Integer id);
 }

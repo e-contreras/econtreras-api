@@ -184,7 +184,7 @@ public class ProductServiceImpl implements ProductService {
                         images.add(productImage.getImage().getSrc());
 
                 });
-                productstore.setImages(images);
+//                productstore.setImages(images);
                 productstores.add(productstore);
             }
         });
