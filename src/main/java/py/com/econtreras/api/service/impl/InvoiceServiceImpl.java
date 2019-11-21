@@ -54,14 +54,16 @@ public class InvoiceServiceImpl implements InvoiceService {
     private WorkOrderStatusRepository workOrderStatusRepository;
     @Autowired
     private SaleInvoiceConverter saleInvoiceConverter;
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Override
-    public ResponseEntity saveInvoice(Integer id) {
+    public ResponseEntity saveInvoice(Integer solicitudeId, Integer userId) {
 
         Ringing ringing = ringingRepository.getMax(DOCUMENT_TYPE_INVOICE);
         validRinging(ringing);
-        Optional<Solicitude> solicitudeOptional = solicitudeRepository.findById(id);
+        Optional<Solicitude> solicitudeOptional = solicitudeRepository.findById(solicitudeId);
         Solicitude solicitude = solicitudeOptional.isPresent() ? solicitudeOptional.get() : null;
 
         if(solicitude == null || solicitude.getId() == null){
@@ -73,8 +75,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         SalesInvoice salesInvoice =  new SalesInvoice();
         salesInvoice.setRinging(ringing);
-        Optional<Client> clientOptional = clientRepository.findById(1);
-        salesInvoice.setClient(clientOptional.get());
+        Optional<User> userOptional = userRepository.findById(userId);
+        if(!userOptional.isPresent())
+            throw new APIException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al intentar guardar con el usuario: "+userId);
+
+        salesInvoice.setClient(userOptional.get());
         salesInvoice.setEmissionDate(LocalDateTime.now());
         ReceiptNumberPK rPk = new ReceiptNumberPK(BRANCH_NUMBER, SALE_POINT_NUMBER);
         Optional<ReceiptNumber> receiptNumberOptional = receiptNumberRepository.findById(rPk);

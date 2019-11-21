@@ -3,7 +3,6 @@ package py.com.econtreras.api.controller;
 
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +23,8 @@ public class InvoiceController {
     private InvoiceService invoiceService;
 
     @PostMapping(value = "/{solicitude_id}")
-    public ResponseEntity<?> saveInvoice(@PathVariable("solicitude_id") Integer solicitudeId){
-        return  invoiceService.saveInvoice(solicitudeId);
+    public ResponseEntity<?> saveInvoice(@PathVariable("solicitude_id") Integer solicitudeId, @RequestParam(value = "user_id", required = true) Integer userId){
+        return  invoiceService.saveInvoice(solicitudeId, userId);
     }
 
     @GetMapping(value = "/{invoice_id}")

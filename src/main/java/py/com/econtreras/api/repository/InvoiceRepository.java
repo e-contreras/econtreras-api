@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface InvoiceRepository extends CrudRepository<SalesInvoice, Integer> {
 
-    @Query(value = "select s from SalesInvoice s left join s.facVenDetallesList d left join s.client  where s.id = :id")
+    @Query(value = "select s from SalesInvoice s left join s.facVenDetallesList d left join s.client c  where s.id = :id")
     Optional<SalesInvoice> findById(@Param("id") Integer id);
 
 }
