@@ -24,7 +24,6 @@ import py.com.econtreras.api.service.ProductService;
 import py.com.econtreras.entity.Inventory;
 import py.com.econtreras.entity.Product;
 import py.com.econtreras.entity.ProductImage;
-import py.com.econtreras.entity.SalesInvoice;
 
 @Service
 public class ProductServiceImpl implements ProductService {

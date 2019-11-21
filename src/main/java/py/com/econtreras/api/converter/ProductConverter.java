@@ -1,13 +1,10 @@
 package py.com.econtreras.api.converter;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 
-import py.com.econtreras.entity.Image;
 import py.com.econtreras.entity.Product;
 import py.com.econtreras.api.repository.BrandRepository;
 import py.com.econtreras.api.repository.CategoryRepository;
@@ -36,6 +33,7 @@ public class ProductConverter {
         entity.setBarCode(bean.getBarCode());
         entity.setProductName(bean.getProductName());
         entity.setDescription(bean.getDescription());
+        entity.setTaxtType(bean.getTaxtType());
         
         entity.setCategory(categoryRepository.findById(bean.getCategoryId()).get());
         entity.setBrand(brandRepository.findById(bean.getBrandId()).get());
@@ -49,6 +47,7 @@ public class ProductConverter {
         bean.setBarCode(entity.getBarCode());
         bean.setProductName(entity.getProductName());
         bean.setDescription(entity.getDescription());
+        bean.setErased(entity.getErased());
         return bean;
     }
     
@@ -59,6 +58,7 @@ public class ProductConverter {
         bean.setBarCode(entity.getBarCode());
         bean.setProductName(entity.getProductName());
         bean.setDescription(entity.getDescription());
+        bean.setErased(entity.getErased());
         bean.add(links);
         return bean;
     }
@@ -69,7 +69,7 @@ public class ProductConverter {
         entity.setCode(bean.getCode());
         entity.setProductName(bean.getProductName());
         entity.setDescription(bean.getDescription());
-
+        entity.setTaxtType(bean.getTaxtType());
         return entity;
     }
 }
