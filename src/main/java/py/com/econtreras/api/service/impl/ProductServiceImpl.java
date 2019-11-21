@@ -2,6 +2,7 @@ package py.com.econtreras.api.service.impl;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -178,10 +179,10 @@ public class ProductServiceImpl implements ProductService {
                 productstore.setProductName(product.getProductName());
                 product.setDescription(product.getDescription());
                 List<ProductImage> productImages = productImageRepository.findByProduct(product);
-                List<byte[]> images = new ArrayList<>();
+                List<String> images = new ArrayList<>();
                 productImages.forEach(productImage -> {
                     if(productImage.getImage() != null && productImage.getImage().getSrc() != null)
-                        images.add(productImage.getImage().getSrc());
+                        images.add(Base64.getEncoder().encodeToString(productImage.getImage().getSrc()));
 
                 });
 //                productstore.setImages(images);
