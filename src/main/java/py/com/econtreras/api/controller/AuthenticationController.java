@@ -30,7 +30,7 @@ public class AuthenticationController {
             return new ResponseEntity(user, HttpStatus.OK);
         } catch (Exception ex) {
             Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity(ex, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     

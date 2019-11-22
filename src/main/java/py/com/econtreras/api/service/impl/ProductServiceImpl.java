@@ -176,7 +176,10 @@ public class ProductServiceImpl implements ProductService {
                 productstore.setPurchasePrice(BigInteger.valueOf(average));
                 productstore.setSalePrice(salePrice);
                 productstore.setProductName(product.getProductName());
-                product.setDescription(product.getDescription());
+                productstore.setBrand(product.getBrand().getDescription());
+                productstore.setDescription(product.getDescription());
+                productstore.setCategoryId(product.getCategory().getId());
+                productstore.setCategoryName(product.getCategory().getDescription());
                 List<ProductImage> productImages = productImageRepository.findByProduct(product);
                 List<String> images = new ArrayList<>();
                 productImages.forEach(productImage -> {
@@ -184,7 +187,7 @@ public class ProductServiceImpl implements ProductService {
                         images.add(Base64.getEncoder().encodeToString(productImage.getImage().getSrc()));
 
                 });
-//                productstore.setImages(images);
+                productstore.setImages(images);
                 productstores.add(productstore);
             }
         });
