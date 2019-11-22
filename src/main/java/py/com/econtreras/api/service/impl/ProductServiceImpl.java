@@ -187,7 +187,7 @@ public class ProductServiceImpl implements ProductService {
                         images.add(Base64.getEncoder().encodeToString(productImage.getImage().getSrc()));
 
                 });
-//                productstore.setImages(images);
+                productstore.setImages(images);
                 productstores.add(productstore);
             }
         });
