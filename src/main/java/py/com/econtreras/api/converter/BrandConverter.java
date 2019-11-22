@@ -19,4 +19,12 @@ public class BrandConverter {
         bean.setDescription(entity.getDescription());
         return bean;
     }
+
+    public py.com.econtreras.api.beans.BrandBean buildBeanBrand(Brand entity) {
+        py.com.econtreras.api.beans.BrandBean bean = new py.com.econtreras.api.beans.BrandBean();
+        bean.setId(entity.getId());
+        bean.setDescription(entity.getDescription());
+        return bean;
+    }
+
 }

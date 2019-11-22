@@ -14,10 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import py.com.econtreras.api.beans.ImageRequest;
+import py.com.econtreras.api.beans.ProductImageRequest;
 import py.com.econtreras.api.beans.ProductRequest;
 import py.com.econtreras.api.beans.ProductResponse;
 import py.com.econtreras.api.beans.Productstore;
+import py.com.econtreras.api.converter.ImageConverter;
 import py.com.econtreras.api.converter.ProductConverter;
+import py.com.econtreras.api.converter.ProductImageConverter;
 import py.com.econtreras.api.exception.APIException;
 import py.com.econtreras.api.messages.ApiMessage;
 import py.com.econtreras.api.repository.*;
@@ -39,6 +43,12 @@ public class ProductServiceImpl implements ProductService {
     private InventoryRepository inventoryRepository;
     @Autowired
     private ProductImageRepository productImageRepository;
+    @Autowired
+    private ImageConverter imageConverter;
+    @Autowired
+    private ImageRepository imageRepository;
+    @Autowired
+    private ProductImageConverter productImageConverter;
     @Autowired
     ApiMessage message;
     private Link[] links;
@@ -86,6 +96,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse save(ProductRequest product) {
         try {
+            if (!product.getFile().isEmpty()) {
+                for (int i = 0; i < product.getFile().size(); i++) {
+                    ImageRequest imageRequest = new ImageRequest();
+                    imageRequest.setOrder(i);
+                    imageRequest.setSrc(product.getFile().get(i));
+                    imageRepository.save(imageConverter.buildEntity(imageRequest));
+
+                    ProductImageRequest producImageRequest = new ProductImageRequest();
+                    producImageRequest.setImagen(imageRequest);
+                    producImageRequest.setProduct(product);
+                    productImageRepository.save(productImageConverter.buildEntity(producImageRequest));
+                }
+            }
             return this.getBean(repository.save(converter.buildEntity(product)));
         } catch (APIException e) {
             throw e;

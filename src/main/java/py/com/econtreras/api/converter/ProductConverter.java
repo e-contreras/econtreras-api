@@ -23,6 +23,8 @@ public class ProductConverter {
     @Autowired
     CategoryConverter categoriConverter;
     @Autowired
+    BrandConverter brandConverter;
+    @Autowired
     private ProductImageRepository productImageRepository;
 
     /* @Autowired
@@ -30,12 +32,6 @@ public class ProductConverter {
     public Product buildEntity(py.com.econtreras.api.beans.ProductRequest bean) {
         Product entity = new Product();
 
-        /*List<Image> images = new ArrayList<>();
-        for (String src: bean.getPictures()) {
-        	Image imgEntity = new Image();
-        	imgEntity.setSrc(src);
-        	images.add(imgEntity);
-		}*/
         entity.setId(bean.getId());
         entity.setCode(bean.getCode());
         entity.setBarCode(bean.getBarCode());
@@ -56,7 +52,7 @@ public class ProductConverter {
         bean.setProductName(entity.getProductName());
         bean.setDescription(entity.getDescription());
         bean.setErased(entity.getErased());
-        bean.setBrand(brandRepository.findById(entity.getBrand().getId()).get().getDescription());
+        bean.setBrand(brandConverter.buildBeanBrand(brandRepository.findById(entity.getBrand().getId()).get()));
         bean.setCategory(categoriConverter.buildBean(categoryRepository.findById(entity.getCategory().getId()).get()));
 
         List<ProductImage> productImages = productImageRepository.findByProduct(entity);
@@ -80,7 +76,7 @@ public class ProductConverter {
         bean.setProductName(entity.getProductName());
         bean.setDescription(entity.getDescription());
         bean.setErased(entity.getErased());
-        bean.setBrand(brandRepository.findById(entity.getBrand().getId()).get().getDescription());
+        bean.setBrand(brandConverter.buildBeanBrand(brandRepository.findById(entity.getBrand().getId()).get()));
         bean.setCategory(categoriConverter.buildBean(categoryRepository.findById(entity.getCategory().getId()).get()));
 
         List<ProductImage> productImages = productImageRepository.findByProduct(entity);
