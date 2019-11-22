@@ -12,7 +12,6 @@ import py.com.econtreras.api.beans.CartBean;
 import py.com.econtreras.api.beans.CartProductBean;
 import py.com.econtreras.api.converter.ProductConverter;
 import py.com.econtreras.api.repository.*;
-import py.com.econtreras.api.service.InvoiceService;
 import py.com.econtreras.api.service.ProductService;
 import py.com.econtreras.entity.*;
 
@@ -65,6 +64,9 @@ public class CartController {
                 solicitudeStatus = solicitudeStatusRepository.findSolicitudeStatusBy("creado");
             }
 
+            User user = new User();
+            user.setId(cartBean.getClient());
+            solicitude.setCliente(user);
             solicitude.setStatus(solicitudeStatus.get());
             solicitude.setCreationDate(solicitude.getConfirmationDate() != null ? solicitude.getConfirmationDate() : new Date());
             solicitude = solicitudeRepository.save(solicitude);
