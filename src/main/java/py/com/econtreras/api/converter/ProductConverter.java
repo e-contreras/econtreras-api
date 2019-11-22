@@ -1,5 +1,8 @@
 package py.com.econtreras.api.converter;
 
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
@@ -7,6 +10,8 @@ import org.springframework.stereotype.Component;
 import py.com.econtreras.entity.Product;
 import py.com.econtreras.api.repository.BrandRepository;
 import py.com.econtreras.api.repository.CategoryRepository;
+import py.com.econtreras.api.repository.ProductImageRepository;
+import py.com.econtreras.entity.ProductImage;
 
 @Component
 public class ProductConverter {
@@ -17,6 +22,8 @@ public class ProductConverter {
     BrandRepository brandRepository;
     @Autowired
     CategoryConverter categoriConverter;
+    @Autowired
+    private ProductImageRepository productImageRepository;
 
     /* @Autowired
     private ImageConverter imgConverter;*/
@@ -51,6 +58,17 @@ public class ProductConverter {
         bean.setErased(entity.getErased());
         bean.setBrand(brandRepository.findById(entity.getBrand().getId()).get().getDescription());
         bean.setCategory(categoriConverter.buildBean(categoryRepository.findById(entity.getCategory().getId()).get()));
+
+        List<ProductImage> productImages = productImageRepository.findByProduct(entity);
+        List<String> images = new ArrayList<>();
+        productImages.forEach(productImage -> {
+            if (productImage.getImage() != null && productImage.getImage().getSrc() != null) {
+                images.add(Base64.getEncoder().encodeToString(productImage.getImage().getSrc()));
+            }
+
+        });
+
+        bean.setImages(images);
         return bean;
     }
 
@@ -64,6 +82,17 @@ public class ProductConverter {
         bean.setErased(entity.getErased());
         bean.setBrand(brandRepository.findById(entity.getBrand().getId()).get().getDescription());
         bean.setCategory(categoriConverter.buildBean(categoryRepository.findById(entity.getCategory().getId()).get()));
+
+        List<ProductImage> productImages = productImageRepository.findByProduct(entity);
+        List<String> images = new ArrayList<>();
+        productImages.forEach(productImage -> {
+            if (productImage.getImage() != null && productImage.getImage().getSrc() != null) {
+                images.add(Base64.getEncoder().encodeToString(productImage.getImage().getSrc()));
+            }
+
+        });
+
+        bean.setImages(images);
         bean.add(links);
         return bean;
     }
