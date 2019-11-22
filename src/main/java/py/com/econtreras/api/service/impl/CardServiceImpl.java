@@ -58,7 +58,7 @@ public class CardServiceImpl implements CardService{
     @Override
     public void delete(Integer cardId) throws Exception {
         Tarjetas card = cardRepository.findById(cardId).get();
-        if(card != null){ cardRepository.delete(card); }
+        if(card != null){ cardRepository.delete(card); return; }
         throw new Exception("La tarjeta no existe");
     }
 
