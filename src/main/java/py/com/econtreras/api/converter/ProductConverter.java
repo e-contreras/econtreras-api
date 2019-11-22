@@ -56,10 +56,10 @@ public class ProductConverter {
         bean.setCategory(categoriConverter.buildBean(categoryRepository.findById(entity.getCategory().getId()).get()));
 
         List<ProductImage> productImages = productImageRepository.findByProduct(entity);
-        List<String> images = new ArrayList<>();
+        List<byte[]> images = new ArrayList<>();
         productImages.forEach(productImage -> {
             if (productImage.getImage() != null && productImage.getImage().getSrc() != null) {
-                images.add(Base64.getEncoder().encodeToString(productImage.getImage().getSrc()));
+                images.add(productImage.getImage().getSrc());
             }
 
         });
@@ -80,10 +80,10 @@ public class ProductConverter {
         bean.setCategory(categoriConverter.buildBean(categoryRepository.findById(entity.getCategory().getId()).get()));
 
         List<ProductImage> productImages = productImageRepository.findByProduct(entity);
-        List<String> images = new ArrayList<>();
+        List<byte[]> images = new ArrayList<>();
         productImages.forEach(productImage -> {
             if (productImage.getImage() != null && productImage.getImage().getSrc() != null) {
-                images.add(Base64.getEncoder().encodeToString(productImage.getImage().getSrc()));
+                images.add(productImage.getImage().getSrc());
             }
 
         });

@@ -110,6 +110,7 @@ public class ProductServiceImpl implements ProductService {
                     productImagePK.setImage(image.getId());
                     productImagePK.setProduct(produc.getId());
                     productImage.setMerImagenesPK(productImagePK);
+                    productImage.setPrincipal('S');
 
                     productImageRepository.save(productImage);
                 }
