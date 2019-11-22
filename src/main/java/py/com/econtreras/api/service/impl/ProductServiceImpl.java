@@ -15,7 +15,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import py.com.econtreras.api.beans.ImageRequest;
-import py.com.econtreras.api.beans.ProductImageRequest;
 import py.com.econtreras.api.beans.ProductRequest;
 import py.com.econtreras.api.beans.ProductResponse;
 import py.com.econtreras.api.beans.Productstore;
@@ -26,9 +25,11 @@ import py.com.econtreras.api.exception.APIException;
 import py.com.econtreras.api.messages.ApiMessage;
 import py.com.econtreras.api.repository.*;
 import py.com.econtreras.api.service.ProductService;
+import py.com.econtreras.entity.Image;
 import py.com.econtreras.entity.Inventory;
 import py.com.econtreras.entity.Product;
 import py.com.econtreras.entity.ProductImage;
+import py.com.econtreras.entity.ProductImagePK;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -96,17 +97,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse save(ProductRequest product) {
         try {
+            Product produc = repository.save(converter.buildEntity(product));
             if (!product.getFile().isEmpty()) {
                 for (int i = 0; i < product.getFile().size(); i++) {
                     ImageRequest imageRequest = new ImageRequest();
                     imageRequest.setOrder(i);
                     imageRequest.setSrc(product.getFile().get(i));
-                    imageRepository.save(imageConverter.buildEntity(imageRequest));
+                    Image image = imageRepository.save(imageConverter.buildEntity(imageRequest));
 
-                    ProductImageRequest producImageRequest = new ProductImageRequest();
-                    producImageRequest.setImagen(imageRequest);
-                    producImageRequest.setProduct(product);
-                    productImageRepository.save(productImageConverter.buildEntity(producImageRequest));
+                    ProductImage productImage = new ProductImage();
+                    ProductImagePK productImagePK = new ProductImagePK();
+                    productImagePK.setImage(image.getId());
+                    productImagePK.setProduct(produc.getId());
+                    productImage.setMerImagenesPK(productImagePK);
+
+                    productImageRepository.save(productImage);
                 }
             }
             return this.getBean(repository.save(converter.buildEntity(product)));
