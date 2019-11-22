@@ -131,6 +131,24 @@ public class ProductServiceImpl implements ProductService {
             if (!optionalEntity.isPresent()) {
                 throw new APIException(HttpStatus.NO_CONTENT);
             } else {
+                Product produc = repository.save(converter.buildEntity(product));
+                if (!product.getFile().isEmpty()) {
+                    for (int i = 0; i < product.getFile().size(); i++) {
+                        ImageRequest imageRequest = new ImageRequest();
+                        imageRequest.setOrder(i);
+                        imageRequest.setSrc(product.getFile().get(i));
+                        Image image = imageRepository.save(imageConverter.buildEntity(imageRequest));
+
+                        ProductImage productImage = new ProductImage();
+                        ProductImagePK productImagePK = new ProductImagePK();
+                        productImagePK.setImage(image.getId());
+                        productImagePK.setProduct(produc.getId());
+                        productImage.setMerImagenesPK(productImagePK);
+                        productImage.setPrincipal('S');
+
+                        productImageRepository.save(productImage);
+                    }
+                }
                 return this.getBean(repository.save(converter.buildEntity(product)));
             }
         } catch (APIException e) {
