@@ -14,21 +14,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import py.com.econtreras.api.beans.ImageRequest;
 import py.com.econtreras.api.beans.ProductRequest;
 import py.com.econtreras.api.beans.ProductResponse;
 import py.com.econtreras.api.beans.Productstore;
+import py.com.econtreras.api.converter.ImageConverter;
 import py.com.econtreras.api.converter.ProductConverter;
+import py.com.econtreras.api.converter.ProductImageConverter;
 import py.com.econtreras.api.exception.APIException;
 import py.com.econtreras.api.messages.ApiMessage;
 import py.com.econtreras.api.repository.*;
 import py.com.econtreras.api.service.ProductService;
+import py.com.econtreras.entity.Image;
 import py.com.econtreras.entity.Inventory;
 import py.com.econtreras.entity.Product;
 import py.com.econtreras.entity.ProductImage;
+import py.com.econtreras.entity.ProductImagePK;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-
 
     private static final BigInteger PERCENTAGE_OF_PROFIT = new BigInteger("40");
 
@@ -41,11 +45,17 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductImageRepository productImageRepository;
     @Autowired
+    private ImageConverter imageConverter;
+    @Autowired
+    private ImageRepository imageRepository;
+    @Autowired
+    private ProductImageConverter productImageConverter;
+    @Autowired
     ApiMessage message;
     private Link[] links;
-    
+
     private static final Logger LOGGER = LogManager.getLogger(ProductServiceImpl.class);
-    
+
     @Override
     public ProductResponse findById(Integer id) {
         try {
@@ -87,6 +97,23 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse save(ProductRequest product) {
         try {
+            Product produc = repository.save(converter.buildEntity(product));
+            if (!product.getFile().isEmpty()) {
+                for (int i = 0; i < product.getFile().size(); i++) {
+                    ImageRequest imageRequest = new ImageRequest();
+                    imageRequest.setOrder(i);
+                    imageRequest.setSrc(product.getFile().get(i));
+                    Image image = imageRepository.save(imageConverter.buildEntity(imageRequest));
+
+                    ProductImage productImage = new ProductImage();
+                    ProductImagePK productImagePK = new ProductImagePK();
+                    productImagePK.setImage(image.getId());
+                    productImagePK.setProduct(produc.getId());
+                    productImage.setMerImagenesPK(productImagePK);
+
+                    productImageRepository.save(productImage);
+                }
+            }
             return this.getBean(repository.save(converter.buildEntity(product)));
         } catch (APIException e) {
             throw e;
@@ -125,17 +152,17 @@ public class ProductServiceImpl implements ProductService {
             return true;
         }
     }
-    
-    private ProductResponse getBean(py.com.econtreras.entity.Product product){
+
+    private ProductResponse getBean(py.com.econtreras.entity.Product product) {
         links = cargarEnlaces(product);
-        if (links == null || links.length == 0){
+        if (links == null || links.length == 0) {
             return converter.buildBean(product);
-        }else{
+        } else {
             return converter.buildBean(product, links);
         }
     }
 
-    private Link[] cargarEnlaces(py.com.econtreras.entity.Product product){
+    private Link[] cargarEnlaces(py.com.econtreras.entity.Product product) {
         List<Link> l = new ArrayList<>();
         Link link;
         l.add(new Link("http://localhost:8080/products/" + product.getId()).withSelfRel());
@@ -147,7 +174,7 @@ public class ProductServiceImpl implements ProductService {
             link = new Link("http://localhost:8080/categories/" + product.getCategory().getId()).withRel("category");
             l.add(link);
         }
-        
+
         Link[] linkArray = new Link[l.size()];
         for (int i = 0; i < l.size(); i++) {
             Link lo = l.get(i);
@@ -155,7 +182,6 @@ public class ProductServiceImpl implements ProductService {
         }
         return linkArray;
     }
-
 
     @Override
     public List<Productstore> findAllProductStore() {
@@ -166,8 +192,8 @@ public class ProductServiceImpl implements ProductService {
             inCount = inCount != null ? inCount : 0L;
             Long outCount = inventoryRepository.countByProductIdAndMotive(product.getId(), "OUT");
             outCount = outCount != null ? outCount : 0L;
-            Long availabe = inCount >= outCount ? inCount -outCount : 0L;
-            if(availabe > 0) {
+            Long availabe = inCount >= outCount ? inCount - outCount : 0L;
+            if (availabe > 0) {
                 Long average = getPriceAvg(product);
                 BigInteger salePrice = BigInteger.valueOf(average).multiply(PERCENTAGE_OF_PROFIT).divide(BigInteger.valueOf(100)).add(BigInteger.valueOf(average));
                 Productstore productstore = new Productstore();
@@ -183,8 +209,9 @@ public class ProductServiceImpl implements ProductService {
                 List<ProductImage> productImages = productImageRepository.findByProduct(product);
                 List<String> images = new ArrayList<>();
                 productImages.forEach(productImage -> {
-                    if(productImage.getImage() != null && productImage.getImage().getSrc() != null)
+                    if (productImage.getImage() != null && productImage.getImage().getSrc() != null) {
                         images.add(Base64.getEncoder().encodeToString(productImage.getImage().getSrc()));
+                    }
 
                 });
                 productstore.setImages(images);
@@ -195,13 +222,11 @@ public class ProductServiceImpl implements ProductService {
         return productstores;
     }
 
-    private Long getPriceAvg(Product product){
+    private Long getPriceAvg(Product product) {
         List<Inventory> inventories = inventoryRepository.findByProduct(product);
         Double sum = inventories.stream().map(inventory -> inventory.getPurchasePrice()).collect(Collectors.summingDouble(Double::doubleValue));
         Double avg = sum / inventories.size();
         return avg.longValue();
     }
-
-
 
 }
