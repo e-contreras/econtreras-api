@@ -27,9 +27,26 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     public UserBean login(UserBean request) throws Exception {
         User user = userRepository.findByUsername(request.getUsername());
         if(user != null){
-            if( BCrypt.checkpw(request.getPassword(), user.getPassword())){
+            if(user.getActive() == 0){
+                throw new Exception("Su usuario está bloqueado");
+            }
+            if( BCrypt.checkpw(request.getPassword(), user.getPassword()) ){
+                user.setLoginFailed(0);
+                userRepository.save(user);
                 return userConverter.buildBean(user);
-            }            
+            }
+            else{
+                if(user.getLoginFailed() < 3 ){
+                    user.setLoginFailed(user.getLoginFailed()+1);
+                    userRepository.save(user);
+                    throw new Exception("Usuario o contraseña inválidos");                    
+                }
+                else {
+                    user.setActive((short)0);
+                    userRepository.save(user);
+                    throw new Exception("Su usuario ha sido bloqueado");
+                }                
+            }
         }
         throw new Exception("Usuario o contraseña inválidos");
     }
@@ -39,7 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         User user = userConverter.buildEntity(request);
         try {
             user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-           return userConverter.buildBean(userRepository.save(user)); 
+            return userConverter.buildBean(userRepository.save(user)); 
         }
         catch(Exception ex){
             throw new Exception("Ha ocurrido un error al registrar al usuario");

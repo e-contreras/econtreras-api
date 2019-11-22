@@ -59,7 +59,7 @@ public class UserConverter {
         entity.setActive((short)1);
         entity.setPerson(person);
         entity.setRole(role);
-        entity.setLoginFailed(1);
+        entity.setLoginFailed(0);
         
         return entity;
         
