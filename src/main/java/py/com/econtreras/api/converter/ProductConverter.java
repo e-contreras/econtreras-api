@@ -1,6 +1,5 @@
 package py.com.econtreras.api.converter;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
@@ -16,12 +15,14 @@ public class ProductConverter {
     CategoryRepository categoryRepository;
     @Autowired
     BrandRepository brandRepository;
-   /* @Autowired
+    @Autowired
+    CategoryConverter categoriConverter;
+
+    /* @Autowired
     private ImageConverter imgConverter;*/
-    
     public Product buildEntity(py.com.econtreras.api.beans.ProductRequest bean) {
         Product entity = new Product();
-        
+
         /*List<Image> images = new ArrayList<>();
         for (String src: bean.getPictures()) {
         	Image imgEntity = new Image();
@@ -34,7 +35,7 @@ public class ProductConverter {
         entity.setProductName(bean.getProductName());
         entity.setDescription(bean.getDescription());
         entity.setTaxtType(bean.getTaxtType());
-        
+
         entity.setCategory(categoryRepository.findById(bean.getCategoryId()).get());
         entity.setBrand(brandRepository.findById(bean.getBrandId()).get());
         return entity;
@@ -48,9 +49,11 @@ public class ProductConverter {
         bean.setProductName(entity.getProductName());
         bean.setDescription(entity.getDescription());
         bean.setErased(entity.getErased());
+        bean.setBrand(brandRepository.findById(entity.getBrand().getId()).get().getDescription());
+        bean.setCategory(categoriConverter.buildBean(categoryRepository.findById(entity.getCategory().getId()).get()));
         return bean;
     }
-    
+
     public py.com.econtreras.api.beans.ProductResponse buildBean(Product entity, Link... links) {
         py.com.econtreras.api.beans.ProductResponse bean = new py.com.econtreras.api.beans.ProductResponse();
         bean.setIdProduct(entity.getId());
@@ -59,6 +62,8 @@ public class ProductConverter {
         bean.setProductName(entity.getProductName());
         bean.setDescription(entity.getDescription());
         bean.setErased(entity.getErased());
+        bean.setBrand(brandRepository.findById(entity.getBrand().getId()).get().getDescription());
+        bean.setCategory(categoriConverter.buildBean(categoryRepository.findById(entity.getCategory().getId()).get()));
         bean.add(links);
         return bean;
     }
