@@ -38,11 +38,9 @@ public class BugetSolicitudeServiceImpl implements BugetSolicitudeService {
     public List<BugetSolicitudeResponse> findAll() {
         List<BugetSolicitudeResponse> list = new ArrayList<>();
         Iterable<BugetSolicitude> iterable = bugetSolicitudeRepository.findAll();
-
         if(!IterableUtils.isEmpty(iterable)){
             List<BugetSolicitude>  bugetSolicitudes = IterableUtils.toList(iterable);
             for (BugetSolicitude bugetSolicitude : bugetSolicitudes) {
-//                Hibernate.initialize(bugetSolicitude.getProductCategoryList());
                 list.add(bugetSolicitudeConverter.build(bugetSolicitude));
             }
         }
@@ -51,6 +49,9 @@ public class BugetSolicitudeServiceImpl implements BugetSolicitudeService {
 
     @Override
     public BugetSolicitudeResponse save(BugetSolicitudeResponse response) {
-        return null;
+
+        BugetSolicitude entity = bugetSolicitudeConverter.build(response);
+        entity = bugetSolicitudeRepository.save(entity);
+        return bugetSolicitudeConverter.build(entity);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import py.com.econtreras.api.beans.BugetSolicitudeResponse;
 import py.com.econtreras.api.service.BugetSolicitudeService;
 
+import javax.validation.Valid;
 import javax.xml.ws.Response;
 import java.util.List;
 
@@ -36,5 +37,14 @@ public class BugetSolicitudeController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> save(@Valid @RequestBody BugetSolicitudeResponse bugetSolicitudeResponse){
+        BugetSolicitudeResponse response = bugetSolicitudeService.save(bugetSolicitudeResponse);
+        if(response != null){
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }
