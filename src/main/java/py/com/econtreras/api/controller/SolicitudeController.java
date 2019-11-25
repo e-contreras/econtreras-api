@@ -37,4 +37,18 @@ public class SolicitudeController {
         }
     }
     
+    @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> findAll(){
+        try {
+            List<SolicitudeResponse> solicitudes = solicitudeService.findAll();
+            if(solicitudes == null || solicitudes.isEmpty()){
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity(solicitudes, HttpStatus.OK);
+        } catch (Exception ex) {
+            Logger.getLogger(SolicitudeController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
 }

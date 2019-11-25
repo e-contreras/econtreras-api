@@ -26,6 +26,9 @@ public class SolicitudeConverter {
     @Autowired
     private InventoryRepository inventoryRepository;
     
+    @Autowired
+    private UserConverter userConverter;
+    
     private static final BigInteger PERCENTAGE_OF_PROFIT = new BigInteger("40");    
 
     public SolicitudeResponse entityToModel(Solicitude entity) {
@@ -34,6 +37,7 @@ public class SolicitudeConverter {
         model.setConfirmationDate(entity.getConfirmationDate());
         model.setCreationDate(entity.getCreationDate());
         model.setStatus(entity.getStatus().getStatusName());
+        model.setCliente(userConverter.buildBean(entity.getCliente()));
         List<ProductSolicitude> products = entity.getProdcutSolicitudeList();
         if (products != null && !products.isEmpty()) {
 

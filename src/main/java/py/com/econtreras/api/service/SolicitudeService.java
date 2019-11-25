@@ -5,4 +5,5 @@ import py.com.econtreras.api.beans.SolicitudeResponse;
 
 public interface SolicitudeService {
     public List<SolicitudeResponse> findByClientId(Integer id) throws Exception;
+    public List<SolicitudeResponse> findAll() throws Exception;
 }

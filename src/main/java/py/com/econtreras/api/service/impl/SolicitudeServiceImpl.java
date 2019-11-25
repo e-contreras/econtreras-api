@@ -36,5 +36,10 @@ public class SolicitudeServiceImpl implements SolicitudeService{
         if(solicitudes == null || solicitudes.isEmpty()) { return new ArrayList<>(); }
         return solicitudeConverter.entitiesToModels(solicitudes);
     }
+
+    @Override
+    public List<SolicitudeResponse> findAll() throws Exception {
+        return solicitudeConverter.entitiesToModels((List<Solicitude>) solicitudeRepository.findAll());
+    }
     
 }
