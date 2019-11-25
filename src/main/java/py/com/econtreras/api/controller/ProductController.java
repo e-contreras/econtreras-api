@@ -3,7 +3,10 @@ package py.com.econtreras.api.controller;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,14 +39,22 @@ public class ProductController {
         return service.findById(id);
     }
     
-    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-    public ProductResponse put(@Valid @RequestBody ProductRequest product) {
-        return service.update(product);
+    @PutMapping(produces= MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductResponse>  put(@Valid @RequestBody ProductRequest product, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        ProductResponse response = service.update(product);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
     @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
-    public ProductResponse save(@Valid @RequestBody ProductRequest product) {
-        return service.save(product);
+    public ResponseEntity<ProductResponse> save(@Valid @RequestBody ProductRequest product, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        ProductResponse response = service.save(product);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
     @DeleteMapping(value = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
