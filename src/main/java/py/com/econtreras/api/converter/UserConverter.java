@@ -1,5 +1,7 @@
 package py.com.econtreras.api.converter;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Component;
 import py.com.econtreras.api.beans.RegisterRequest;
 import py.com.econtreras.api.beans.UserBean;
@@ -21,6 +23,15 @@ public class UserConverter {
         bean.setLastName(entity.getPerson() != null ? entity.getPerson().getLastname() : null);
         return bean;
     }    
+    
+    public List<UserBean> buildBeans(List<User> entities){
+        List<UserBean> beans = new ArrayList<>();
+        if(entities == null || entities.isEmpty()){ return beans; }
+        for(User entity : entities){
+            beans.add(this.buildBean(entity));
+        }
+        return beans;
+    }
     
     public User buildEntity(UserBean bean){
         User entity = new User();
