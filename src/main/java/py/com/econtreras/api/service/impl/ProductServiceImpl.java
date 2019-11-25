@@ -206,10 +206,12 @@ public class ProductServiceImpl implements ProductService {
     public List<Productstore> findAllProductStore() {
         Iterable<Product> productIt = repository.findAll();
         List<Productstore> productstores = new ArrayList<>();
-        productIt.forEach(product -> {
-            Long inCount = inventoryRepository.countByProductIdAndMotive(product.getId(), "IN");
+        List<Inventory> inventories = (List<Inventory>) inventoryRepository.findAll();
+        for (Product product : productIt) {
+
+            Long inCount = inventoryRepository.countByProductIdAndMotive(product.getId().intValue(), "IN");
             inCount = inCount != null ? inCount : 0L;
-            Long outCount = inventoryRepository.countByProductIdAndMotive(product.getId(), "OUT");
+            Long outCount = inventoryRepository.countByProductIdAndMotive(product.getId().intValue(), "OUT");
             outCount = outCount != null ? outCount : 0L;
             Long availabe = inCount >= outCount ? inCount - outCount : 0L;
             if (availabe > 0) {
@@ -236,7 +238,7 @@ public class ProductServiceImpl implements ProductService {
                 productstore.setImages(images);
                 productstores.add(productstore);
             }
-        });
+        }
 
         return productstores;
     }
