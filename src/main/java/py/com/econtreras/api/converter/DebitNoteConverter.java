@@ -10,6 +10,9 @@ public class DebitNoteConverter {
 
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    UserConverter userConverter;
 
     public DebitNote buildEntity(py.com.econtreras.api.beans.DebitNote bean) {
         DebitNote entity = new DebitNote();
@@ -17,7 +20,7 @@ public class DebitNoteConverter {
         entity.setComment(bean.getComment());
         entity.setDocumentNumber(bean.getDocumentNumber());
         entity.setRelatedDocument(bean.getRelatedDocument());
-        entity.setSender(userRepository.findById(bean.getSender()).get());
+        entity.setSender(userRepository.findById(bean.getSender().getId()).get());
         return entity;
     }
 
@@ -27,7 +30,7 @@ public class DebitNoteConverter {
         bean.setComment(entity.getComment());
         bean.setDocumentNumber(entity.getDocumentNumber());
         bean.setRelatedDocument(entity.getRelatedDocument());
-        bean.setSender(entity.getSender().getId());
+        bean.setSender(userConverter.buildBean(entity.getSender()));
         return bean;
     }
 }

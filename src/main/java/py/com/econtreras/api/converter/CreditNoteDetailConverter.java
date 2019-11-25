@@ -1,5 +1,7 @@
 package py.com.econtreras.api.converter;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import py.com.econtreras.api.repository.CreditNoteRepository;
@@ -32,4 +34,14 @@ public class CreditNoteDetailConverter {
         bean.setTaxeTaype(entity.getTaxeTaype());
         return bean;
     }
+    
+    public List<py.com.econtreras.api.beans.CreditNoteDetail> buildBeans(List<CreditNoteDetail> entities) {
+        List<py.com.econtreras.api.beans.CreditNoteDetail> beans = new ArrayList<>();
+        if(entities == null || entities.isEmpty()) { return beans; }
+        for(CreditNoteDetail entity : entities){ beans.add(this.buildBean(entity)); }
+        return beans;
+    }    
+    
+    
+    
 }

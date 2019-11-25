@@ -1,5 +1,7 @@
 package py.com.econtreras.api.converter;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import py.com.econtreras.api.repository.DebitNoteRepository;
@@ -31,5 +33,13 @@ public class DebitNoteDetailConverter {
         bean.setDebitNote(entity.getDebitNote().getId());
         return bean;
     }
+    
+    public List<py.com.econtreras.api.beans.DebitNoteDetail> buildBeans(List<DebitNoteDetail> entities) {
+        List<py.com.econtreras.api.beans.DebitNoteDetail> beans = new ArrayList<>();
+        if(entities == null || entities.isEmpty()) { return beans; }
+        for(DebitNoteDetail entity : entities){ beans.add(this.buildBean(entity)); }
+        return beans;
+    }        
+    
     
 }

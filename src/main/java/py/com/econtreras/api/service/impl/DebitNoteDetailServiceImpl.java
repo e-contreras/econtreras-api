@@ -47,6 +47,10 @@ public class DebitNoteDetailServiceImpl implements NoteDebitDetailService {
         }
     }
 
+    public List<DebitNoteDetail> findByDebitId(Integer id) {
+        return converter.buildBeans(repository.findByDebitId(id));
+    }
+
     @Override
     public List<DebitNoteDetail> findAll() {
         try {

@@ -16,18 +16,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import py.com.econtreras.api.beans.DebitNoteDetail;
-import py.com.econtreras.api.service.NoteDebitDetailService;
+import py.com.econtreras.api.service.impl.DebitNoteDetailServiceImpl;
 
 @RestController
 @RequestMapping("/debit_note_detail")
 public class DebitNoteDetailController {
 
     @Autowired
-    private NoteDebitDetailService service;
+    private DebitNoteDetailServiceImpl  service;
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public DebitNoteDetail findById(@PathVariable Integer id) {
         return service.findById(id);
+    }
+    
+    @GetMapping(value = "/debit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<DebitNoteDetail> findByCreditId(@PathVariable("id") Integer id) {
+        return service.findByDebitId(id);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

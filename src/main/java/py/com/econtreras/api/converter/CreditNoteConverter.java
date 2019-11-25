@@ -15,17 +15,23 @@ public class CreditNoteConverter {
 
     @Autowired
     RingingRepository ringingRepository;
+    
+    @Autowired
+    UserConverter userConverter;
+    
+    @Autowired
+    RingingConverter ringingConverter;
 
     public CreditNote buildEntity(py.com.econtreras.api.beans.CreditNote bean) {
         CreditNote entity = new CreditNote();
         entity.setId(bean.getId());
         entity.setComment(bean.getComment());
         entity.setCreationDate(bean.getId() == null ? new Date() : null);
-        entity.setDestiny(userRepository.findById(bean.getIdDestinatario()).get());
+        entity.setDestiny(userRepository.findById(bean.getDestinatario().getId()).get());
         entity.setModificationDate(bean.getId() != null ? new Date() : null);
         entity.setRelatedDocument(bean.getRelatedDocument());
         entity.setEmisionDate(bean.getEmisionDate());
-        entity.setRinging(ringingRepository.findById(bean.getIdTimbrado()).get());
+        entity.setRinging(ringingRepository.findById(bean.getRinging().getId()).get());
         return entity;
     }
 
@@ -34,8 +40,8 @@ public class CreditNoteConverter {
         bean.setId(entity.getId());
         bean.setComment(entity.getComment());
         bean.setEmisionDate(entity.getEmisionDate());
-        bean.setIdDestinatario(entity.getDestiny().getId());
-        bean.setIdTimbrado(entity.getRinging().getId());
+        bean.setDestinatario(userConverter.buildBean(entity.getDestiny()));
+        bean.setRinging(ringingConverter.buildBean(entity.getRinging()));
         bean.setRelatedDocument(entity.getRelatedDocument());
         return bean;
     }

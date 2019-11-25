@@ -30,6 +30,10 @@ public class CreditNoteDetailServiceImpl implements CreditNoteDetailService {
     ApiMessage message;
 
     private static final Logger LOGGER = LogManager.getLogger(CreditNoteDetailServiceImpl.class);
+    
+    public List<CreditNoteDetail> findByCreditId(Integer id){
+        return creditNoteDetailConverter.buildBeans(creditNoteDetailRepository.findByCreditId(id));
+    }
 
     @Override
     public CreditNoteDetail findById(Integer id) {

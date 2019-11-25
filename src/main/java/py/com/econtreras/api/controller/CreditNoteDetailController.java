@@ -29,6 +29,11 @@ public class CreditNoteDetailController {
     public CreditNoteDetail findById(@PathVariable Integer id) {
         return service.findById(id);
     }
+    
+    @GetMapping(value = "/credit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CreditNoteDetail> findByCreditId(@PathVariable("id") Integer id) {
+        return service.findByCreditId(id);
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CreditNoteDetail> findAll() {
